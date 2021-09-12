@@ -1,0 +1,15 @@
+/.vs
+/Binaries
+/DerivedDataCache
+/Intermediate
+/Saved/Autosaves
+/Saved/Backup
+/Saved/Config/CrashReportClient
+/Saved/Crashes
+/Saved/Logs
+/Saved/Cooked
+/Saved/StagedBuilds
+/Saved/Temp
+
+.idea/
+Packages/
