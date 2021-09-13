@@ -14,9 +14,15 @@ class PASTAWATER_API APastaWaterPlayerControllerBase : public APlayerController
 {
 	GENERATED_BODY()
 
-private:
-	bool PrimaryActionEnabled;
-	bool JumpActionEnabled;
+public:
+	UPROPERTY(BlueprintReadWrite)
+	bool LookingEnabled = true;
+	UPROPERTY(BlueprintReadWrite)
+	bool MovementEnabled = true;
+	UPROPERTY(BlueprintReadWrite)
+	bool PrimaryActionEnabled = true;
+	UPROPERTY(BlueprintReadWrite)
+	bool JumpActionEnabled = true;
 
 public:
 	// Sets default values for this character's properties

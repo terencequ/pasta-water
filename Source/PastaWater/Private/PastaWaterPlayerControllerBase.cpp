@@ -13,18 +13,16 @@ APastaWaterPlayerControllerBase::APastaWaterPlayerControllerBase()
 void APastaWaterPlayerControllerBase::BeginPlay()
 {
 	Super::BeginPlay();
-	PrimaryActionEnabled = true;
-	JumpActionEnabled = true;
 
 	// Input binds
 	if(InputComponent)
 	{
-		InputComponent->BindAction("JumpAction", IE_Pressed, this, &APastaWaterPlayerControllerBase::PerformJumpAction);
-		InputComponent->BindAction("PrimaryAction", IE_Pressed, this, &APastaWaterPlayerControllerBase::PerformPrimaryAction);
+		InputComponent->BindAction("Jump", IE_Pressed, this, &APastaWaterPlayerControllerBase::PerformJumpAction);
+		InputComponent->BindAction("Primary", IE_Pressed, this, &APastaWaterPlayerControllerBase::PerformPrimaryAction);
 		InputComponent->BindAxis("MoveForwardBackward", this, &APastaWaterPlayerControllerBase::PerformMoveForwardBackward);
 		InputComponent->BindAxis("MoveRightLeft", this, &APastaWaterPlayerControllerBase::PerformMoveRightLeft);
-		InputComponent->BindAxis("PerformLookPitch", this, &APastaWaterPlayerControllerBase::PerformLookPitch);
-		InputComponent->BindAxis("PerformLookYaw", this, &APastaWaterPlayerControllerBase::PerformLookYaw);
+		InputComponent->BindAxis("LookPitch", this, &APastaWaterPlayerControllerBase::PerformLookPitch);
+		InputComponent->BindAxis("LookYaw", this, &APastaWaterPlayerControllerBase::PerformLookYaw);
 	}
 }
 
@@ -35,35 +33,43 @@ void APastaWaterPlayerControllerBase::Tick(float DeltaTime)
 
 void APastaWaterPlayerControllerBase::PerformJumpAction()
 {
+	if(!JumpActionEnabled) { return; }
 	APastaWaterCharacterBase* PastaWaterCharacter = Cast<APastaWaterCharacterBase>(GetCharacter());
 	UPlayerMovableAC::Execute_PerformJumpAction(PastaWaterCharacter->PlayerMovableAC);
 }
 
 void APastaWaterPlayerControllerBase::PerformPrimaryAction()
 {
+	if(!PrimaryActionEnabled) { return; }
 	APastaWaterCharacterBase* PastaWaterCharacter = Cast<APastaWaterCharacterBase>(GetCharacter());
+	if(GEngine)
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Primary action pressed."));    
 }
 
 void APastaWaterPlayerControllerBase::PerformMoveRightLeft(float AxisValue)
 {
+	if(!MovementEnabled) { return; }
 	APastaWaterCharacterBase* PastaWaterCharacter = Cast<APastaWaterCharacterBase>(GetCharacter());
 	UPlayerMovableAC::Execute_PerformMoveRightLeft(PastaWaterCharacter->PlayerMovableAC, AxisValue);
 }
 
 void APastaWaterPlayerControllerBase::PerformMoveForwardBackward(float AxisValue)
 {
+	if(!MovementEnabled) { return; }
 	APastaWaterCharacterBase* PastaWaterCharacter = Cast<APastaWaterCharacterBase>(GetCharacter());
 	UPlayerMovableAC::Execute_PerformMoveForwardBackward(PastaWaterCharacter->PlayerMovableAC, AxisValue);
 }
 
 void APastaWaterPlayerControllerBase::PerformLookPitch(float AxisValue)
 {
+	if(!LookingEnabled) { return; }
 	APastaWaterCharacterBase* PastaWaterCharacter = Cast<APastaWaterCharacterBase>(GetCharacter());
 	UPlayerMovableAC::Execute_PerformLookPitch(PastaWaterCharacter->PlayerMovableAC, AxisValue);
 }
 
 void APastaWaterPlayerControllerBase::PerformLookYaw(float AxisValue)
 {
+	if(!LookingEnabled) { return; }
 	APastaWaterCharacterBase* PastaWaterCharacter = Cast<APastaWaterCharacterBase>(GetCharacter());
 	UPlayerMovableAC::Execute_PerformLookYaw(PastaWaterCharacter->PlayerMovableAC, AxisValue);
 }

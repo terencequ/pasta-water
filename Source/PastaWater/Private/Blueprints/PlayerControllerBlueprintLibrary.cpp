@@ -7,17 +7,30 @@
 
 void UPlayerControllerBlueprintLibrary::FlushInputs(APastaWaterPlayerControllerBase* PlayerController)
 {
-	PlayerController->PlayerInput->FlushPressedKeys();
+	if(PlayerController)
+	{
+		PlayerController->PlayerInput->FlushPressedKeys();
+	}
 }
 
 void UPlayerControllerBlueprintLibrary::DisableAllInputs(APastaWaterPlayerControllerBase* PlayerController)
 {
-	PlayerController->SetIgnoreMoveInput(true);
-	PlayerController->SetIgnoreLookInput(true);
+	if(PlayerController)
+	{
+		PlayerController->LookingEnabled = false;
+		PlayerController->MovementEnabled = false;
+		PlayerController->JumpActionEnabled = false;
+		PlayerController->PrimaryActionEnabled = false;
+	}
 }
 
 void UPlayerControllerBlueprintLibrary::EnableAllInputs(APastaWaterPlayerControllerBase* PlayerController)
 {
-	PlayerController->SetIgnoreMoveInput(false);
-	PlayerController->SetIgnoreLookInput(false);
+	if(PlayerController)
+	{
+		PlayerController->LookingEnabled = true;
+		PlayerController->MovementEnabled = true;
+		PlayerController->JumpActionEnabled = true;
+		PlayerController->PrimaryActionEnabled = true;
+	}
 }
