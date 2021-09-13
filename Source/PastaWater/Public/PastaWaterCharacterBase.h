@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "Movement/ActorComponents/PlayerMovableAC.h"
+
 #include "PastaWaterCharacterBase.generated.h"
 
 UCLASS()
@@ -12,6 +14,9 @@ class PASTAWATER_API APastaWaterCharacterBase : public ACharacter
 	GENERATED_BODY()
 
 public:
+	UPROPERTY(EditAnywhere, Category="Actor Components")
+	UPlayerMovableAC* PlayerMovableAC;
+	
 	// Sets default values for this character's properties
 	APastaWaterCharacterBase();
 
