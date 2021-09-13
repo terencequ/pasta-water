@@ -13,7 +13,7 @@ APastaWaterPlayerControllerBase::APastaWaterPlayerControllerBase()
 void APastaWaterPlayerControllerBase::BeginPlay()
 {
 	Super::BeginPlay();
-
+	
 	// Input binds
 	if(InputComponent)
 	{
@@ -43,31 +43,31 @@ void APastaWaterPlayerControllerBase::PerformPrimaryAction()
 	if(!PrimaryActionEnabled) { return; }
 	APastaWaterCharacterBase* PastaWaterCharacter = Cast<APastaWaterCharacterBase>(GetCharacter());
 	if(GEngine)
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Primary action pressed."));    
+		GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Yellow, TEXT("Primary action pressed."));    
 }
 
-void APastaWaterPlayerControllerBase::PerformMoveRightLeft(float AxisValue)
+void APastaWaterPlayerControllerBase::PerformMoveRightLeft(const float AxisValue)
 {
 	if(!MovementEnabled) { return; }
 	APastaWaterCharacterBase* PastaWaterCharacter = Cast<APastaWaterCharacterBase>(GetCharacter());
 	UPlayerMovableAC::Execute_PerformMoveRightLeft(PastaWaterCharacter->PlayerMovableAC, AxisValue);
 }
 
-void APastaWaterPlayerControllerBase::PerformMoveForwardBackward(float AxisValue)
+void APastaWaterPlayerControllerBase::PerformMoveForwardBackward(const float AxisValue)
 {
 	if(!MovementEnabled) { return; }
 	APastaWaterCharacterBase* PastaWaterCharacter = Cast<APastaWaterCharacterBase>(GetCharacter());
 	UPlayerMovableAC::Execute_PerformMoveForwardBackward(PastaWaterCharacter->PlayerMovableAC, AxisValue);
 }
 
-void APastaWaterPlayerControllerBase::PerformLookPitch(float AxisValue)
+void APastaWaterPlayerControllerBase::PerformLookPitch(const float AxisValue)
 {
 	if(!LookingEnabled) { return; }
 	APastaWaterCharacterBase* PastaWaterCharacter = Cast<APastaWaterCharacterBase>(GetCharacter());
 	UPlayerMovableAC::Execute_PerformLookPitch(PastaWaterCharacter->PlayerMovableAC, AxisValue);
 }
 
-void APastaWaterPlayerControllerBase::PerformLookYaw(float AxisValue)
+void APastaWaterPlayerControllerBase::PerformLookYaw(const float AxisValue)
 {
 	if(!LookingEnabled) { return; }
 	APastaWaterCharacterBase* PastaWaterCharacter = Cast<APastaWaterCharacterBase>(GetCharacter());
