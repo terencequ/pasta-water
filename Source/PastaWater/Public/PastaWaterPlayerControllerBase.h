@@ -4,6 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
+#include "Inventory/ActorComponents/PlayerInventoryAC.h"
+#include "Movement/ActorComponents/PlayerMovableAC.h"
+
 #include "PastaWaterPlayerControllerBase.generated.h"
 
 /**
@@ -16,6 +19,9 @@ class PASTAWATER_API APastaWaterPlayerControllerBase : public APlayerController
 
 public:
 	UPROPERTY(BlueprintReadWrite)
+	UPlayerInventoryAC* PlayerInventoryAC;
+	
+	UPROPERTY(BlueprintReadWrite)
 	bool LookingEnabled = true;
 	UPROPERTY(BlueprintReadWrite)
 	bool MovementEnabled = true;
@@ -23,6 +29,7 @@ public:
 	bool PrimaryActionEnabled = true;
 	UPROPERTY(BlueprintReadWrite)
 	bool JumpActionEnabled = true;
+
 
 public:
 	// Sets default values for this character's properties
