@@ -4,6 +4,7 @@
 #include "PastaWaterPlayerControllerBase.h"
 
 #include "PastaWaterCharacterBase.h"
+#include "Helpers/DebugHelpers.h"
 
 APastaWaterPlayerControllerBase::APastaWaterPlayerControllerBase()
 {
@@ -72,6 +73,16 @@ void APastaWaterPlayerControllerBase::PerformLookYaw(const float AxisValue)
 	if(!LookingEnabled) { return; }
 	APastaWaterCharacterBase* PastaWaterCharacter = Cast<APastaWaterCharacterBase>(GetCharacter());
 	UPlayerMovableAC::Execute_PerformLookYaw(PastaWaterCharacter->PlayerMovableAC, AxisValue);
+}
+
+UPlayerInventoryAC* APastaWaterPlayerControllerBase::GetInventoryAC() const
+{
+	if(!IsValid(PlayerInventoryAC))
+	{
+		UDebugHelpers::ScreenLogError("Player needs to have an Inventory!");
+		return nullptr;
+	}
+	return PlayerInventoryAC;
 }
 
 

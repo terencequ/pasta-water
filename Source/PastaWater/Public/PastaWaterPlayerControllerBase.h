@@ -54,4 +54,6 @@ public:
 	void PerformLookPitch(float AxisValue);
 
 	void PerformLookYaw(float AxisValue);
+
+	UPlayerInventoryAC* GetInventoryAC() const;
 };

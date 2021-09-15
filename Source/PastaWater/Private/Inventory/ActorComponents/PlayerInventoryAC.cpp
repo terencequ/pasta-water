@@ -42,6 +42,11 @@ void UPlayerInventoryAC::SetItemStackAtIndex_Implementation(const int Index, con
 	return IItemStackContainerInterface::Execute_SetItemStackAtIndex(Inventory.GetObject(), Index, ItemStack);
 }
 
+int UPlayerInventoryAC::GetContainerSize_Implementation() const
+{
+	return IItemStackContainerInterface::Execute_GetContainerSize(Inventory.GetObject());
+}
+
 void UPlayerInventoryAC::SwapItemStacks_Implementation(const int FirstIndex, const int SecondIndex)
 {
 	return IItemStackContainerInterface::Execute_SwapItemStacks(Inventory.GetObject(), FirstIndex, SecondIndex);
