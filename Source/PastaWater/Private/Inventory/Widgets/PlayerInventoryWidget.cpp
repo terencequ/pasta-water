@@ -5,12 +5,6 @@
 #include "Helpers/DebugHelpers.h"
 #include "Inventory/Widgets/ItemStackSlotWidget.h"
 
-bool UPlayerInventoryWidget::Initialize()
-{
-	const bool Success = Super::Initialize();
-	return Success;
-}
-
 bool UPlayerInventoryWidget::CreateInventorySlots()
 {
 	APastaWaterPlayerControllerBase* PlayerController = GetOwningPastaPlayerController();
@@ -20,11 +14,9 @@ bool UPlayerInventoryWidget::CreateInventorySlots()
 	{
 		return false;
 	}
-
-	UDebugHelpers::ScreenLogInfo("Creating slots: Total "+IInventoryACInterface::Execute_GetContainerSize(PlayerInventoryAC));
-	PlayerItemsGridPanel->ClearChildren();
+	
 	// Add each item slot in inventory
-	for(int Index = 0; Index < IInventoryACInterface::Execute_GetContainerSize(PlayerInventoryAC); Index++)
+	for(int Index = 0; Index < Columns*Rows; Index++)
 	{
 		UItemStackSlotWidget* Widget = CreateWidget<UItemStackSlotWidget>(PlayerController, ItemStackSlotClass, "Item Stack Slot "+Index);
 		if(IsValid(Widget))

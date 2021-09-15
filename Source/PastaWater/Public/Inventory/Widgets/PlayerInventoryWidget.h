@@ -18,10 +18,6 @@ class PASTAWATER_API UPlayerInventoryWidget : public UUserWidget
 {
 	GENERATED_BODY()
 
-	virtual bool Initialize() override;
-
-	
-
 private:
 	int Columns = 10;
 	int Rows = 5;
