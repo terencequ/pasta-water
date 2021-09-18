@@ -88,10 +88,6 @@ void APastaWaterPlayerControllerBase::PerformPrimaryAction()
 {
 	if(!PrimaryActionEnabled) { return; }
 	IInteractorInterface::Execute_Interact(PlayerInteractorAC, nullptr);
-
-	UDebugHelpers::ScreenLogInfo("Adding test items to inventory.");
-	const FItem TestItem = *PlayerInventoryAC->ItemDefinitions->FindRow<FItem>("Test", "");
-	IInventoryACInterface::Execute_InsertItemStack(PlayerInventoryAC, FItemStack(TestItem, 3));
 }
 
 void APastaWaterPlayerControllerBase::PerformMoveRightLeft(const float AxisValue)

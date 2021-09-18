@@ -1,5 +1,9 @@
 ﻿#include "Inventory/Models/ItemStackContainerBase.h"
 
+#include <string>
+
+#include "Helpers/DebugHelpers.h"
+
 void UItemStackContainerBase::Init(const int Size)
 {
 	this->MaxInventorySize = Size;
@@ -114,6 +118,7 @@ FItemStack UItemStackContainerBase::InsertItemStack_Implementation(const FItemSt
 
 	// Create stack containing overflow quantity
 	FItemStack OverflowItemStack = FItemStack(ItemStack.Item, QuantityToAdd);
+	UDebugHelpers::ScreenLogInfo("An overload of "+OverflowItemStack.Item.Name+" (id: "+OverflowItemStack.Item.Id+") has been made of quantity "+FString::FromInt(OverflowItemStack.Quantity)+"");
 	return OverflowItemStack;
 }
 
