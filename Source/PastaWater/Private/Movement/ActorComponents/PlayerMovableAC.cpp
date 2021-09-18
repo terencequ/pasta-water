@@ -1,7 +1,4 @@
-﻿// Fill out your copyright notice in the Description page of Project Settings.
-
-
-#include "Movement/ActorComponents/PlayerMovableAC.h"
+﻿#include "Movement/ActorComponents/PlayerMovableAC.h"
 
 #include "GameFramework/Character.h"
 #include "Kismet/KismetMathLibrary.h"
