@@ -41,6 +41,7 @@ void UPlayerInventoryDisplayAC::TickComponent(float DeltaTime, ELevelTick TickTy
 
 void UPlayerInventoryDisplayAC::ToggleInventory()
 {
+	PlayerInventoryWidget->UpdateInventorySlots();
 	if(!IsValid(PlayerInventoryWidget))
 	{
 		UDebugHelpers::ScreenLogError("Player Inventory Widget was not set up properly!");

@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
+#include "Interact/ActorComponents/PlayerInteractorAC.h"
 #include "Inventory/ActorComponents/PlayerInventoryAC.h"
 #include "Inventory/ActorComponents/PlayerInventoryDisplayAC.h"
 #include "PastaWaterPlayerControllerBase.generated.h"
@@ -17,10 +18,13 @@ class PASTAWATER_API APastaWaterPlayerControllerBase : public APlayerController
 	GENERATED_BODY()
 
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Actor Components")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Inventory Actor Components")
 	UPlayerInventoryAC* PlayerInventoryAC;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Actor Components")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Inventory Actor Components")
 	UPlayerInventoryDisplayAC* PlayerInventoryDisplayAC;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Interaction Actor Components")
+	UPlayerInteractorAC* PlayerInteractorAC;
 	
 	UPROPERTY(BlueprintReadWrite)
 	bool LookingEnabled = true;
