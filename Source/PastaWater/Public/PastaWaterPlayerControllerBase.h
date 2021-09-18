@@ -5,8 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
 #include "Inventory/ActorComponents/PlayerInventoryAC.h"
-#include "Movement/ActorComponents/PlayerMovableAC.h"
-
+#include "Inventory/ActorComponents/PlayerInventoryDisplayAC.h"
 #include "PastaWaterPlayerControllerBase.generated.h"
 
 /**
@@ -18,8 +17,10 @@ class PASTAWATER_API APastaWaterPlayerControllerBase : public APlayerController
 	GENERATED_BODY()
 
 public:
-	UPROPERTY(BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Actor Components")
 	UPlayerInventoryAC* PlayerInventoryAC;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Actor Components")
+	UPlayerInventoryDisplayAC* PlayerInventoryDisplayAC;
 	
 	UPROPERTY(BlueprintReadWrite)
 	bool LookingEnabled = true;
@@ -39,8 +40,11 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
-	// Called every frame
+public:
+	static APastaWaterPlayerControllerBase* CastFromActor(AActor* Actor);
+
+	static APastaWaterPlayerControllerBase* CastFromPlayerController(APlayerController* PlayerController);
+	
 	virtual void Tick(float DeltaTime) override;
 
 	void PerformJumpAction();
@@ -55,5 +59,23 @@ public:
 
 	void PerformLookYaw(float AxisValue);
 
-	UPlayerInventoryAC* GetInventoryAC() const;
+	UPlayerInventoryAC* GetInventoryACOrDefault() const;
+
+	/**
+	* Clear out all current pressed keys.
+	*/
+	UFUNCTION(BlueprintCallable, Category="Inputs")
+	void FlushInputs();
+
+	/**
+	* Disallow any more inputs from occurring, i.e. looking, movement, actions.
+	*/
+	UFUNCTION(BlueprintCallable, Category="Inputs")
+	void DisableAllInputs();
+
+	/**
+	* Allow all inputs from occurring, used to reenable after using DisableAllInputs.
+	*/
+	UFUNCTION(BlueprintCallable, Category="Inputs")
+	void EnableAllInputs();
 };
