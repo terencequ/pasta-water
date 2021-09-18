@@ -14,6 +14,9 @@ APastaWaterPlayerControllerBase::APastaWaterPlayerControllerBase()
 
 	PlayerInventoryDisplayAC = CreateDefaultSubobject<UPlayerInventoryDisplayAC>(TEXT("Player Inventory Display"));
 	AddOwnedComponent(PlayerInventoryDisplayAC);
+
+	PlayerInteractorAC = CreateDefaultSubobject<UPlayerInteractorAC>(TEXT("Player Interactor"));
+	AddOwnedComponent(PlayerInventoryDisplayAC);
 }
 
 void APastaWaterPlayerControllerBase::BeginPlay()
@@ -84,9 +87,11 @@ void APastaWaterPlayerControllerBase::PerformJumpAction()
 void APastaWaterPlayerControllerBase::PerformPrimaryAction()
 {
 	if(!PrimaryActionEnabled) { return; }
-	APastaWaterCharacterBase* PastaWaterCharacter = Cast<APastaWaterCharacterBase>(GetCharacter());
-	if(GEngine)
-		GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Yellow, TEXT("Primary action pressed."));    
+	IInteractorInterface::Execute_Interact(PlayerInteractorAC, nullptr);
+
+	UDebugHelpers::ScreenLogInfo("Adding test items to inventory.");
+	const FItem TestItem = *PlayerInventoryAC->ItemDefinitions->FindRow<FItem>("Test", "");
+	IInventoryACInterface::Execute_InsertItemStack(PlayerInventoryAC, FItemStack(TestItem, 3));
 }
 
 void APastaWaterPlayerControllerBase::PerformMoveRightLeft(const float AxisValue)

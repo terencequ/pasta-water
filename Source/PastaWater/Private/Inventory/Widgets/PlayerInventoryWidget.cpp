@@ -65,7 +65,8 @@ bool UPlayerInventoryWidget::UpdateInventorySlots()
 		UItemStackSlotWidget* ItemStackSlot = Cast<UItemStackSlotWidget>(PlayerItemsGridPanel->GetChildAt(Index));
 		ItemStackSlot->UpdateItemDetails();
 	}
-	
+
+	UDebugHelpers::ScreenLogInfo("Player Inventory UI updated.");
 	return true;
 }
 
