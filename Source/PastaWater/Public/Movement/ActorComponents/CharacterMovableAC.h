@@ -6,19 +6,20 @@
 #include "Components/ActorComponent.h"
 #include "Interfaces/MovableACInterface.h"
 
-#include "PlayerMovableAC.generated.h"
+#include "CharacterMovableAC.generated.h"
 
 
 UCLASS(Blueprintable)
-class PASTAWATER_API UPlayerMovableAC : public UActorComponent, public IMovableACInterface
+class PASTAWATER_API UCharacterMovableAC : public UActorComponent, public IMovableACInterface
 {
 	GENERATED_BODY()
 
 public:
-	UPROPERTY(BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float MouseSensitivity = 1;
+	
 	// Sets default values for this component's properties
-	UPlayerMovableAC();
+	UCharacterMovableAC();
 
 protected:
 	// Called when the game starts

@@ -5,15 +5,31 @@
 #include "Helpers/DebugHelpers.h"
 #include "Inventory/Widgets/ItemStackSlotWidget.h"
 
+bool UPlayerInventoryWidget::Initialise()
+{
+	// Get dependent variables
+	if(!IsValid(GetOwningPlayer()))
+		return false;
+	
+	PlayerController = APastaWaterPlayerControllerBase::CastFromPlayerController(GetOwningPlayer());
+	if(!IsValid(PlayerController))
+		return false;
+	
+	PlayerInventoryAC = PlayerController->GetInventoryACOrDefault();
+	if(!IsValid(PlayerInventoryAC))
+		return false;
+	
+	PlayerItemsGridPanel = GetItemsGridPanel();
+	if(!IsValid(PlayerItemsGridPanel))
+		return false;
+	
+	return true;
+}
+
 bool UPlayerInventoryWidget::CreateInventorySlots()
 {
-	APastaWaterPlayerControllerBase* PlayerController = GetOwningPastaPlayerController();
-	UPlayerInventoryAC* PlayerInventoryAC = PlayerController->GetInventoryAC();
-	UGridPanel* PlayerItemsGridPanel = GetItemsGridPanel();
-	if(!IsValid(PlayerController) || !IsValid(PlayerItemsGridPanel) || !IsValid(PlayerInventoryAC))
-	{
+	if(!IsValid(PlayerController) || !IsValid(PlayerInventoryAC) || !IsValid(PlayerItemsGridPanel))
 		return false;
-	}
 	
 	// Add each item slot in inventory
 	for(int Index = 0; Index < Columns*Rows; Index++)
@@ -39,13 +55,8 @@ bool UPlayerInventoryWidget::CreateInventorySlots()
 
 bool UPlayerInventoryWidget::UpdateInventorySlots()
 {
-	const APastaWaterPlayerControllerBase* PlayerController = GetOwningPastaPlayerController();
-	const UPlayerInventoryAC* PlayerInventoryAC = PlayerController->GetInventoryAC();
-	const UGridPanel* PlayerItemsGridPanel = GetItemsGridPanel();
-	if(!IsValid(PlayerController) || !IsValid(PlayerItemsGridPanel) || !IsValid(PlayerInventoryAC))
-	{
+	if(!IsValid(PlayerController) || !IsValid(PlayerInventoryAC) || !IsValid(PlayerItemsGridPanel))
 		return false;
-	}
 
 	// Call "Update Item Details" on every item stack slot widget
 	TArray<UWidget*> Widgets = PlayerItemsGridPanel->GetAllChildren();
@@ -54,27 +65,9 @@ bool UPlayerInventoryWidget::UpdateInventorySlots()
 		UItemStackSlotWidget* ItemStackSlot = Cast<UItemStackSlotWidget>(PlayerItemsGridPanel->GetChildAt(Index));
 		ItemStackSlot->UpdateItemDetails();
 	}
-	
+
+	UDebugHelpers::ScreenLogInfo("Player Inventory UI updated.");
 	return true;
-}
-
-APastaWaterPlayerControllerBase* UPlayerInventoryWidget::GetOwningPastaPlayerController() const
-{
-	APlayerController* PlayerController = GetOwningPlayer();
-	if(!PlayerController)
-	{
-		UDebugHelpers::ScreenLogError("Inventory UI not owned by a Player Controller!");
-		return nullptr;
-	}
-	
-	APastaWaterPlayerControllerBase* PastaWaterPlayerController = Cast<APastaWaterPlayerControllerBase>(PlayerController);
-	if(!PastaWaterPlayerController)
-	{
-		UDebugHelpers::ScreenLogInfo("Inventory UI needs to be owned by a Pasta Water Player Controller.");
-		return nullptr;
-	}
-
-	return PastaWaterPlayerController;
 }
 
 UGridPanel* UPlayerInventoryWidget::GetItemsGridPanel() const

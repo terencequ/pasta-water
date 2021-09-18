@@ -1,11 +1,11 @@
-﻿#include "Movement/ActorComponents/PlayerMovableAC.h"
+﻿#include "Movement/ActorComponents/CharacterMovableAC.h"
 
 #include "GameFramework/Character.h"
 #include "Kismet/KismetMathLibrary.h"
 
 
 // Sets default values for this component's properties
-UPlayerMovableAC::UPlayerMovableAC()
+UCharacterMovableAC::UCharacterMovableAC()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
@@ -16,7 +16,7 @@ UPlayerMovableAC::UPlayerMovableAC()
 
 
 // Called when the game starts
-void UPlayerMovableAC::BeginPlay()
+void UCharacterMovableAC::BeginPlay()
 {
 	Super::BeginPlay();
 
@@ -26,14 +26,14 @@ void UPlayerMovableAC::BeginPlay()
 
 
 // Called every frame
-void UPlayerMovableAC::TickComponent(float DeltaTime, ELevelTick TickType,
+void UCharacterMovableAC::TickComponent(float DeltaTime, ELevelTick TickType,
                                      FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 	// ...
 }
 
-void UPlayerMovableAC::PerformJumpAction_Implementation()
+void UCharacterMovableAC::PerformJumpAction_Implementation()
 {
 	ACharacter* Character = Cast<ACharacter>(GetOwner());
 	if(!Character){	return; }
@@ -41,7 +41,7 @@ void UPlayerMovableAC::PerformJumpAction_Implementation()
 	Character->Jump();
 }
 
-void UPlayerMovableAC::PerformMoveForwardBackward_Implementation(const float AxisValue)
+void UCharacterMovableAC::PerformMoveForwardBackward_Implementation(const float AxisValue)
 {
 	ACharacter* Character = Cast<ACharacter>(GetOwner());
 	if(!Character){	return; }
@@ -53,7 +53,7 @@ void UPlayerMovableAC::PerformMoveForwardBackward_Implementation(const float Axi
 	Character->AddMovementInput(ForwardVector, AxisValue, true); // Move towards forward vector
 }
 
-void UPlayerMovableAC::PerformMoveRightLeft_Implementation(const float AxisValue)
+void UCharacterMovableAC::PerformMoveRightLeft_Implementation(const float AxisValue)
 {
 	ACharacter* Character = Cast<ACharacter>(GetOwner());
 	if(!Character){	return; }
@@ -65,7 +65,7 @@ void UPlayerMovableAC::PerformMoveRightLeft_Implementation(const float AxisValue
 	Character->AddMovementInput(RightVector, AxisValue, true); // Move towards right vector
 }
 
-void UPlayerMovableAC::PerformLookPitch_Implementation(const float AxisValue)
+void UCharacterMovableAC::PerformLookPitch_Implementation(const float AxisValue)
 {
 	ACharacter* Character = Cast<ACharacter>(GetOwner());
 	if(!Character){	return; }
@@ -75,7 +75,7 @@ void UPlayerMovableAC::PerformLookPitch_Implementation(const float AxisValue)
 	Controller->AddPitchInput(AxisValue * MouseSensitivity);
 }
 
-void UPlayerMovableAC::PerformLookYaw_Implementation(const float AxisValue)
+void UCharacterMovableAC::PerformLookYaw_Implementation(const float AxisValue)
 {
 	ACharacter* Character = Cast<ACharacter>(GetOwner());
 	if(!Character){	return; }
