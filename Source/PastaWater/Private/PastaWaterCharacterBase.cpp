@@ -7,8 +7,8 @@ APastaWaterCharacterBase::APastaWaterCharacterBase()
 	PrimaryActorTick.bCanEverTick = true;
 
 	// Actor component registration
-	PlayerMovableAC = CreateDefaultSubobject<UPlayerMovableAC>(TEXT("Player Movement"));
-	AddOwnedComponent(PlayerMovableAC);
+	CharacterMovableAC = CreateDefaultSubobject<UCharacterMovableAC>(TEXT("Character Movement"));
+	AddOwnedComponent(CharacterMovableAC);
 }
 
 // Called when the game starts or when spawned
@@ -28,6 +28,5 @@ void APastaWaterCharacterBase::Tick(float DeltaTime)
 void APastaWaterCharacterBase::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
 }
 

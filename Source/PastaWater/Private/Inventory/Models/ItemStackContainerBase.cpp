@@ -1,5 +1,9 @@
 ﻿#include "Inventory/Models/ItemStackContainerBase.h"
 
+#include <string>
+
+#include "Helpers/DebugHelpers.h"
+
 void UItemStackContainerBase::Init(const int Size)
 {
 	this->MaxInventorySize = Size;
@@ -19,7 +23,7 @@ void UItemStackContainerBase::SetItemStackAtIndex_Implementation(const int Index
 {
 	if(this->ItemStacks.IsValidIndex(Index))
 	{
-		const FItemStack NewItemStack = ItemStack.MakeCopy();
+		const FItemStack NewItemStack = ItemStack;
 		this->ItemStacks[Index] = NewItemStack;
 		UpdateItemSlot(Index);
 	}
@@ -33,9 +37,9 @@ int UItemStackContainerBase::GetContainerSize_Implementation() const
 
 void UItemStackContainerBase::SwapItemStacks_Implementation(const int FirstIndex, const int SecondIndex)
 {
-	const FItemStack TempItemStack = this->GetItemStackAtIndex(FirstIndex);
-	this->SetItemStackAtIndex(FirstIndex, this->GetItemStackAtIndex(SecondIndex));
-	this->SetItemStackAtIndex(SecondIndex, TempItemStack);
+	const FItemStack TempItemStack = Execute_GetItemStackAtIndex(this, FirstIndex);
+	Execute_SetItemStackAtIndex(this, FirstIndex, Execute_GetItemStackAtIndex(this, SecondIndex));
+	Execute_SetItemStackAtIndex(this, SecondIndex, TempItemStack);
 }
 
 bool UItemStackContainerBase::CanInsertItemStack_Implementation(const FItemStack ItemStack) const
@@ -73,7 +77,7 @@ bool UItemStackContainerBase::CanInsertItemStack_Implementation(const FItemStack
 FItemStack UItemStackContainerBase::InsertItemStack_Implementation(const FItemStack ItemStack)
 {
 	// Negative/zero quantity check
-	if(ItemStack.Quantity <= 0)
+ 	if(ItemStack.Quantity <= 0)
 	{
 		return FItemStack::Null();
 	}
@@ -85,20 +89,24 @@ FItemStack UItemStackContainerBase::InsertItemStack_Implementation(const FItemSt
 		FItemStack CurrentItemStack = ItemStacks[i];
 		if(CurrentItemStack.IsNull())
 		{
-			CurrentItemStack.Item = ItemStack.Item;
+			CurrentItemStack = FItemStack(ItemStack.Item, CurrentItemStack.Quantity);
 		} 
 		if(CurrentItemStack.Item.Id == ItemStack.Item.Id)
 		{
 			// Try to insert into slot, scrape off the overflow and set TempItemStack quantity to overflow
-			CurrentItemStack.Quantity += QuantityToAdd;
+			CurrentItemStack = FItemStack(CurrentItemStack.Item, CurrentItemStack.Quantity + QuantityToAdd);
 			QuantityToAdd = CurrentItemStack.Quantity - CurrentItemStack.Item.MaxStackQuantity;
 			if(QuantityToAdd <= 0)
 			{
+				ItemStacks[i] = CurrentItemStack;
 				UpdateItemSlot(i);
 				return FItemStack::Null();
+			} else
+			{
+				CurrentItemStack = FItemStack(CurrentItemStack.Item, CurrentItemStack.Quantity - QuantityToAdd); // Scrape off overflow
+				ItemStacks[i] = CurrentItemStack;
+				UpdateItemSlot(i);
 			}
-			CurrentItemStack.Quantity -= QuantityToAdd; // Scrape off overflow
-			UpdateItemSlot(i);
 		}
 	}
 
@@ -109,8 +117,8 @@ FItemStack UItemStackContainerBase::InsertItemStack_Implementation(const FItemSt
 	}
 
 	// Create stack containing overflow quantity
-	FItemStack OverflowItemStack = ItemStack.MakeCopy(); 
-	OverflowItemStack.Quantity = QuantityToAdd;
+	FItemStack OverflowItemStack = FItemStack(ItemStack.Item, QuantityToAdd);
+	UDebugHelpers::ScreenLogInfo("An overload of "+OverflowItemStack.Item.Name+" (id: "+OverflowItemStack.Item.Id+") has been made of quantity "+FString::FromInt(OverflowItemStack.Quantity)+"");
 	return OverflowItemStack;
 }
 
@@ -175,7 +183,7 @@ FItemStack UItemStackContainerBase::RemoveItemStack_Implementation(const FItemSt
 	}
 
 	// Create stack containing overflow quantity
-	FItemStack OverflowItemStack = ItemStack.MakeCopy(); 
+	FItemStack OverflowItemStack = ItemStack; 
 	OverflowItemStack.Quantity = QuantityToRemove;
 	return OverflowItemStack;
 }
@@ -198,7 +206,7 @@ TArray<FItemStack> UItemStackContainerBase::RemoveAllItemStacks_Implementation()
 void UItemStackContainerBase::UpdateItemSlot(const int Index)
 {
 	// If item has a quantity of zero, slot should now be nullptr.
-	const FItemStack ItemStack = this->GetItemStackAtIndex(Index);
+	const FItemStack ItemStack = Execute_GetItemStackAtIndex(this, Index);
 	if(ItemStack.Quantity == 0)
 	{
 		ItemStacks[Index] = FItemStack::Null();

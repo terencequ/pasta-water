@@ -4,12 +4,12 @@
 
 #include "CoreMinimal.h"
 #include "ItemStackSlotWidget.h"
-#include "PastaWaterPlayerControllerBase.h"
 #include "Blueprint/UserWidget.h"
 #include "Components/GridPanel.h"
-#include "Inventory/Models/Interfaces/ItemStackContainerInterface.h"
+#include "Inventory/ActorComponents/PlayerInventoryAC.h"
 #include "PlayerInventoryWidget.generated.h"
 
+class APastaWaterPlayerControllerBase;
 /**
  * Widget which displays a player's inventory and hotbar.
  */
@@ -23,12 +23,27 @@ private:
 	int Rows = 5;
 	
 public:
+	UPROPERTY(BlueprintReadWrite)
+	APastaWaterPlayerControllerBase* PlayerController; 
+
+	UPROPERTY(BlueprintReadWrite)
+	UPlayerInventoryAC* PlayerInventoryAC;
+
+	UPROPERTY(BlueprintReadWrite)
+	UGridPanel* PlayerItemsGridPanel;
+	
 	// Panel which contains items
 	UPROPERTY(BlueprintReadWrite, meta=(BindWidget))
 	UGridPanel* ItemsGridPanel;
 
-	UPROPERTY(BlueprintReadWrite)
+	/**
+	 * Populate this in the editor. Determines the class of the Item Stack Slot.
+	 */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TSubclassOf<UItemStackSlotWidget> ItemStackSlotClass;
+
+	UFUNCTION(BlueprintCallable)
+	bool Initialise();
 	
 	UFUNCTION(BlueprintCallable)
 	bool CreateInventorySlots();
@@ -37,9 +52,6 @@ public:
 	bool UpdateInventorySlots();
 
 private:
-	// Get owning Pasta Player Controller with null and cast checks
-	APastaWaterPlayerControllerBase* GetOwningPastaPlayerController() const;
-
 	// Get Items Grid Panel with null check
 	UGridPanel* GetItemsGridPanel() const;
 };

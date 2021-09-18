@@ -38,15 +38,6 @@ struct PASTAWATER_API FItemStack
 	}
 
 	/**
-	 * @brief Makes a copy of this item stack
-	 * @return Copy of this ItemStack
-	 */
-	FItemStack MakeCopy() const
-	{
-		return FItemStack(this->Item, this->Quantity);
-	}
-
-	/**
 	 * @brief Check if this item stack is considered a null stack.
 	 * @return True if this is a null stack (empty quantity). False otherwise.
 	 */
