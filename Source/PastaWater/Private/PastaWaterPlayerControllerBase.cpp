@@ -1,6 +1,3 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "PastaWaterPlayerControllerBase.h"
 
 #include "PastaWaterCharacterBase.h"
@@ -35,7 +32,7 @@ void APastaWaterPlayerControllerBase::Tick(float DeltaTime)
 void APastaWaterPlayerControllerBase::PerformJumpAction()
 {
 	if(!JumpActionEnabled) { return; }
-	APastaWaterCharacterBase* PastaWaterCharacter = Cast<APastaWaterCharacterBase>(GetCharacter());
+	const APastaWaterCharacterBase* PastaWaterCharacter = Cast<APastaWaterCharacterBase>(GetCharacter());
 	UPlayerMovableAC::Execute_PerformJumpAction(PastaWaterCharacter->PlayerMovableAC);
 }
 
@@ -50,28 +47,28 @@ void APastaWaterPlayerControllerBase::PerformPrimaryAction()
 void APastaWaterPlayerControllerBase::PerformMoveRightLeft(const float AxisValue)
 {
 	if(!MovementEnabled) { return; }
-	APastaWaterCharacterBase* PastaWaterCharacter = Cast<APastaWaterCharacterBase>(GetCharacter());
+	const APastaWaterCharacterBase* PastaWaterCharacter = Cast<APastaWaterCharacterBase>(GetCharacter());
 	UPlayerMovableAC::Execute_PerformMoveRightLeft(PastaWaterCharacter->PlayerMovableAC, AxisValue);
 }
 
 void APastaWaterPlayerControllerBase::PerformMoveForwardBackward(const float AxisValue)
 {
 	if(!MovementEnabled) { return; }
-	APastaWaterCharacterBase* PastaWaterCharacter = Cast<APastaWaterCharacterBase>(GetCharacter());
+	const APastaWaterCharacterBase* PastaWaterCharacter = Cast<APastaWaterCharacterBase>(GetCharacter());
 	UPlayerMovableAC::Execute_PerformMoveForwardBackward(PastaWaterCharacter->PlayerMovableAC, AxisValue);
 }
 
 void APastaWaterPlayerControllerBase::PerformLookPitch(const float AxisValue)
 {
 	if(!LookingEnabled) { return; }
-	APastaWaterCharacterBase* PastaWaterCharacter = Cast<APastaWaterCharacterBase>(GetCharacter());
+	const APastaWaterCharacterBase* PastaWaterCharacter = Cast<APastaWaterCharacterBase>(GetCharacter());
 	UPlayerMovableAC::Execute_PerformLookPitch(PastaWaterCharacter->PlayerMovableAC, AxisValue);
 }
 
 void APastaWaterPlayerControllerBase::PerformLookYaw(const float AxisValue)
 {
 	if(!LookingEnabled) { return; }
-	APastaWaterCharacterBase* PastaWaterCharacter = Cast<APastaWaterCharacterBase>(GetCharacter());
+	const APastaWaterCharacterBase* PastaWaterCharacter = Cast<APastaWaterCharacterBase>(GetCharacter());
 	UPlayerMovableAC::Execute_PerformLookYaw(PastaWaterCharacter->PlayerMovableAC, AxisValue);
 }
 

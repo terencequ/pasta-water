@@ -51,7 +51,7 @@ public:
 	virtual FItemStack GetItemStackAtIndex_Implementation(const int Index) const override;
 	
 	UFUNCTION(BlueprintCallable, Category="Player Inventory Single Slot")
-	virtual void SetItemStackAtIndex_Implementation(const int Index, const FItemStack ItemStack)  ;
+	virtual void SetItemStackAtIndex_Implementation(const int Index, const FItemStack ItemStack) override;
 	
 	UFUNCTION(BlueprintCallable, Category="Player Inventory Properties")
 	virtual int GetContainerSize_Implementation() const override;
