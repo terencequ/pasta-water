@@ -66,20 +66,20 @@ public:
 	UPlayerInventoryAC* GetInventoryACOrDefault() const;
 
 	/**
-	* Clear out all current pressed keys.
-	*/
+	 * Clear out all current pressed keys.
+	 */
 	UFUNCTION(BlueprintCallable, Category="Inputs")
 	void FlushInputs();
 
 	/**
-	* Disallow any more inputs from occurring, i.e. looking, movement, actions.
-	*/
+	 * Disallow any more inputs from occurring, i.e. looking, movement, actions.
+	 */
 	UFUNCTION(BlueprintCallable, Category="Inputs")
 	void DisableAllInputs();
 
 	/**
-	* Allow all inputs from occurring, used to reenable after using DisableAllInputs.
-	*/
+	 * Allow all inputs from occurring, used to reenable after using DisableAllInputs.
+	 */
 	UFUNCTION(BlueprintCallable, Category="Inputs")
 	void EnableAllInputs();
 };
