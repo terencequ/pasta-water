@@ -1,7 +1,5 @@
 ﻿#include "Interact/ActorComponents/InteractorACBase.h"
-
 #include "Helpers/DebugHelpers.h"
-
 
 // Sets default values for this component's properties
 UInteractorACBase::UInteractorACBase()
@@ -9,13 +7,11 @@ UInteractorACBase::UInteractorACBase()
 	PrimaryComponentTick.bCanEverTick = true;
 }
 
-
 // Called when the game starts
 void UInteractorACBase::BeginPlay()
 {
 	Super::BeginPlay();
 }
-
 
 // Called every frame
 void UInteractorACBase::TickComponent(float DeltaTime, ELevelTick TickType,
