@@ -20,23 +20,30 @@ void UPlayerInventoryDisplayAC::BeginPlay()
 	if(!IsValid(PlayerController))
 		return;
 	PlayerInventoryAC = PlayerController->GetInventoryACOrDefault();
-	
-	// Setup widget
-	PlayerInventoryWidget = CreateWidget<UPlayerInventoryWidget>(PlayerController, PlayerInventoryWidgetClass, "Player Inventory");
-	if(IsValid(PlayerInventoryWidget))
-	{
-		PlayerInventoryWidget->Initialise();
-		PlayerInventoryWidget->CreateInventorySlots();
-		PlayerInventoryWidget->UpdateInventorySlots();
-		PlayerInventoryWidget->SetVisibility(ESlateVisibility::Hidden);
-		PlayerInventoryWidget->AddToViewport();
-	}
 }
 
 void UPlayerInventoryDisplayAC::TickComponent(float DeltaTime, ELevelTick TickType,
                                               FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+}
+
+void UPlayerInventoryDisplayAC::InitialiseInventory()
+{
+	// Setup widget
+	PlayerInventoryWidget = CreateWidget<UPlayerInventoryWidget>(PlayerController, PlayerInventoryWidgetClass, "Player Inventory");
+	if(IsValid(PlayerInventoryWidget))
+	{
+		UDebugHelpers::ScreenLogInfo("Initialised Player Inventory Widget.");
+		PlayerInventoryWidget->Initialise();
+		PlayerInventoryWidget->CreateInventorySlots();
+		PlayerInventoryWidget->UpdateInventorySlots();
+		PlayerInventoryWidget->SetVisibility(ESlateVisibility::Hidden);
+		PlayerInventoryWidget->AddToViewport();
+	} else
+	{
+		UDebugHelpers::ScreenLogError("Could not initialise Player Inventory Widget.");
+	}
 }
 
 void UPlayerInventoryDisplayAC::ToggleInventory()

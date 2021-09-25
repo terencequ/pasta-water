@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "PastaWaterCharacterBase.h"
 #include "GameFramework/PlayerController.h"
 #include "Interact/ActorComponents/PlayerInteractorAC.h"
 #include "Inventory/ActorComponents/PlayerInventoryAC.h"
@@ -18,6 +19,9 @@ class PASTAWATER_API APastaWaterPlayerControllerBase : public APlayerController
 	GENERATED_BODY()
 
 public:
+	UPROPERTY(BlueprintReadWrite, Category="Inventory Actor Components")
+	APastaWaterCharacterBase* PastaWaterCharacter;
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Inventory Actor Components")
 	UPlayerInventoryAC* PlayerInventoryAC;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Inventory Actor Components")
@@ -54,6 +58,8 @@ public:
 	void PerformJumpAction();
 
 	void PerformPrimaryAction();
+	
+	void PerformToggleInventoryAction();
 
 	void PerformMoveRightLeft(float AxisValue);
 	
