@@ -22,6 +22,6 @@ class PASTAWATER_API IInteractorInterface
 	GENERATED_BODY()
 	
 public:
-	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category="Interact")
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category="Interaction Action")
 	void Interact(const TScriptInterface<IInteractableInterface>& Interactable);
 };

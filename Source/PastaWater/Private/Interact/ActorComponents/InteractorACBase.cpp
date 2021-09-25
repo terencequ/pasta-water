@@ -1,4 +1,5 @@
 ﻿#include "Interact/ActorComponents/InteractorACBase.h"
+#include "PastaWaterPlayerControllerBase.h"
 #include "Helpers/DebugHelpers.h"
 
 // Sets default values for this component's properties
@@ -22,6 +23,5 @@ void UInteractorACBase::TickComponent(float DeltaTime, ELevelTick TickType,
 
 void UInteractorACBase::Interact_Implementation(const TScriptInterface<IInteractableInterface>& Interactable)
 {
-	UDebugHelpers::ScreenLogInfo(GetName()+"interacted with something.");
+	UDebugHelpers::ScreenLogInfo(GetName()+" interacted with something.");
 }
-

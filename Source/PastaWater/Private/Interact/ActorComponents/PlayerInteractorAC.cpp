@@ -1,26 +1,22 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "Interact/ActorComponents/PlayerInteractorAC.h"
 
-// Sets default values for this component's properties
+/**
+ * Trace channel for interaction
+ */
+#define COLLISION_INTERACT ECC_EngineTraceChannel1
+
 UPlayerInteractorAC::UPlayerInteractorAC()
 {
-	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
-	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
-
-	// ...
+	
+	// Setup dependent variables.
+	PlayerController = Cast<APlayerController>(GetOwner());
 }
 
 
-// Called when the game starts
 void UPlayerInteractorAC::BeginPlay()
 {
 	Super::BeginPlay();
-
-	// ...
-	
 }
 
 
@@ -29,7 +25,13 @@ void UPlayerInteractorAC::TickComponent(float DeltaTime, ELevelTick TickType, FA
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	// ...
+	// Raycast to see if interactable is there
+	FHitResult HitResult;
+	bool Success = GetWorld()->LineTraceSingleByChannel(HitResult, GetStartVector(), GetForwardVector(), COLLISION_INTERACT);
+	if(Success)
+	{
+		
+	}
 }
 
 void UPlayerInteractorAC::Interact_Implementation(const TScriptInterface<IInteractableInterface>& Interactable)
@@ -37,3 +39,12 @@ void UPlayerInteractorAC::Interact_Implementation(const TScriptInterface<IIntera
 	Super::Interact_Implementation(Interactable);
 }
 
+FVector UPlayerInteractorAC::GetStartVector()
+{
+	return PlayerController->GetPawn()->GetActorLocation();
+}
+
+FVector UPlayerInteractorAC::GetForwardVector()
+{
+	return PlayerController->GetPawn()->GetActorForwardVector();
+}
