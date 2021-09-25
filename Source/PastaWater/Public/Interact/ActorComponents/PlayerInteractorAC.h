@@ -4,16 +4,17 @@
 
 #include "CoreMinimal.h"
 #include "InteractorACBase.h"
-#include "Components/ActorComponent.h"
 #include "PlayerInteractorAC.generated.h"
-
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class PASTAWATER_API UPlayerInteractorAC : public UInteractorACBase
 {
 	GENERATED_BODY()
 
-public:	
+public:
+	UPROPERTY(BlueprintReadWrite)
+	APlayerController* PlayerController;
+	
 	// Sets default values for this component's properties
 	UPlayerInteractorAC();
 
@@ -26,4 +27,6 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	virtual void Interact_Implementation(const TScriptInterface<IInteractableInterface>& Interactable) override;
+	FVector GetStartVector();
+	FVector GetForwardVector();
 };
