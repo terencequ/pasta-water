@@ -4,19 +4,19 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "Movement/ActorComponents/CharacterMovableAC.h"
+#include "Movement/ActorComponents/Interfaces/MovableInterface.h"
 
 #include "PastaWaterCharacterBase.generated.h"
 
 UCLASS()
-class PASTAWATER_API APastaWaterCharacterBase : public ACharacter
+class PASTAWATER_API APastaWaterCharacterBase : public ACharacter, public IMovableInterface
 {
 	GENERATED_BODY()
 
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Actor Components")
-	UCharacterMovableAC* CharacterMovableAC;
-	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float MouseSensitivity = 1.0f;
+
 	// Sets default values for this character's properties
 	APastaWaterCharacterBase();
 
@@ -31,4 +31,13 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	virtual void PerformJumpAction_Implementation() override;
+
+	virtual void PerformMoveForwardBackward_Implementation(const float AxisValue) override;
+	
+	virtual void PerformMoveRightLeft_Implementation(const float AxisValue) override;
+
+	virtual void PerformLookPitch_Implementation(const float AxisValue) override;
+	
+	virtual void PerformLookYaw_Implementation(const float AxisValue) override;
 };

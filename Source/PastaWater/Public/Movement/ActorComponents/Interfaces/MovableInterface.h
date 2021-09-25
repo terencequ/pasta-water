@@ -2,10 +2,10 @@
 
 #include "CoreMinimal.h"
 #include "UObject/Interface.h"
-#include "MovableACInterface.generated.h"
+#include "MovableInterface.generated.h"
 
 UINTERFACE()
-class UMovableACInterface : public UInterface
+class UMovableInterface : public UInterface
 {
 	GENERATED_BODY()
 };
@@ -13,7 +13,7 @@ class UMovableACInterface : public UInterface
 /**
  * Interface for a movable object.
  */
-class PASTAWATER_API IMovableACInterface
+class PASTAWATER_API IMovableInterface
 {
 	GENERATED_BODY()
 

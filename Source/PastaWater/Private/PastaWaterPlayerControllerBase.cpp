@@ -22,10 +22,14 @@ APastaWaterPlayerControllerBase::APastaWaterPlayerControllerBase()
 void APastaWaterPlayerControllerBase::BeginPlay()
 {
 	Super::BeginPlay();
+
+	// Setup dependent variables
+	PastaWaterCharacter = Cast<APastaWaterCharacterBase>(GetCharacter());
 	
 	// Input binds
 	if(InputComponent)
 	{
+		InputComponent->BindAction("ToggleInventory", IE_Pressed, this, &APastaWaterPlayerControllerBase::PerformToggleInventoryAction);
 		InputComponent->BindAction("Jump", IE_Pressed, this, &APastaWaterPlayerControllerBase::PerformJumpAction);
 		InputComponent->BindAction("Primary", IE_Pressed, this, &APastaWaterPlayerControllerBase::PerformPrimaryAction);
 		InputComponent->BindAxis("MoveForwardBackward", this, &APastaWaterPlayerControllerBase::PerformMoveForwardBackward);
@@ -33,6 +37,8 @@ void APastaWaterPlayerControllerBase::BeginPlay()
 		InputComponent->BindAxis("LookPitch", this, &APastaWaterPlayerControllerBase::PerformLookPitch);
 		InputComponent->BindAxis("LookYaw", this, &APastaWaterPlayerControllerBase::PerformLookYaw);
 	}
+
+	PlayerInventoryDisplayAC->InitialiseInventory();
 }
 
 APastaWaterPlayerControllerBase* APastaWaterPlayerControllerBase::CastFromActor(AActor* Actor)
@@ -79,9 +85,9 @@ void APastaWaterPlayerControllerBase::Tick(float DeltaTime)
 
 void APastaWaterPlayerControllerBase::PerformJumpAction()
 {
-	if(!JumpActionEnabled) { return; }
-	const APastaWaterCharacterBase* PastaWaterCharacter = Cast<APastaWaterCharacterBase>(GetCharacter());
-	UCharacterMovableAC::Execute_PerformJumpAction(PastaWaterCharacter->CharacterMovableAC);
+	if(!JumpActionEnabled) return;
+	if(!IsValid(PastaWaterCharacter)) return;
+	IMovableInterface::Execute_PerformJumpAction(PastaWaterCharacter);
 }
 
 void APastaWaterPlayerControllerBase::PerformPrimaryAction()
@@ -90,32 +96,37 @@ void APastaWaterPlayerControllerBase::PerformPrimaryAction()
 	IInteractorInterface::Execute_Interact(PlayerInteractorAC, nullptr);
 }
 
+void APastaWaterPlayerControllerBase::PerformToggleInventoryAction()
+{
+	PlayerInventoryDisplayAC->ToggleInventory();
+}
+
 void APastaWaterPlayerControllerBase::PerformMoveRightLeft(const float AxisValue)
 {
 	if(!MovementEnabled) { return; }
-	const APastaWaterCharacterBase* PastaWaterCharacter = Cast<APastaWaterCharacterBase>(GetCharacter());
-	UCharacterMovableAC::Execute_PerformMoveRightLeft(PastaWaterCharacter->CharacterMovableAC, AxisValue);
+	if(!IsValid(PastaWaterCharacter)) return;
+	IMovableInterface::Execute_PerformMoveRightLeft(PastaWaterCharacter, AxisValue);
 }
 
 void APastaWaterPlayerControllerBase::PerformMoveForwardBackward(const float AxisValue)
 {
 	if(!MovementEnabled) { return; }
-	const APastaWaterCharacterBase* PastaWaterCharacter = Cast<APastaWaterCharacterBase>(GetCharacter());
-	UCharacterMovableAC::Execute_PerformMoveForwardBackward(PastaWaterCharacter->CharacterMovableAC, AxisValue);
+	if(!IsValid(PastaWaterCharacter)) return;
+	IMovableInterface::Execute_PerformMoveForwardBackward(PastaWaterCharacter, AxisValue);
 }
 
 void APastaWaterPlayerControllerBase::PerformLookPitch(const float AxisValue)
 {
 	if(!LookingEnabled) { return; }
-	const APastaWaterCharacterBase* PastaWaterCharacter = Cast<APastaWaterCharacterBase>(GetCharacter());
-	UCharacterMovableAC::Execute_PerformLookPitch(PastaWaterCharacter->CharacterMovableAC, AxisValue);
+	if(!IsValid(PastaWaterCharacter)) return;
+	IMovableInterface::Execute_PerformLookPitch(PastaWaterCharacter, AxisValue);
 }
 
 void APastaWaterPlayerControllerBase::PerformLookYaw(const float AxisValue)
 {
 	if(!LookingEnabled) { return; }
-	const APastaWaterCharacterBase* PastaWaterCharacter = Cast<APastaWaterCharacterBase>(GetCharacter());
-	UCharacterMovableAC::Execute_PerformLookYaw(PastaWaterCharacter->CharacterMovableAC, AxisValue);
+	if(!IsValid(PastaWaterCharacter)) return;
+	IMovableInterface::Execute_PerformLookYaw(PastaWaterCharacter, AxisValue);
 }
 
 UPlayerInventoryAC* APastaWaterPlayerControllerBase::GetInventoryACOrDefault() const

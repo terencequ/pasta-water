@@ -43,6 +43,11 @@ public:
 	                           FActorComponentTickFunction* ThisTickFunction) override;
 
 	/**
+	 * Initialises Player Inventory UI for use. Must be called before any other functions.
+	 */
+	void InitialiseInventory();
+
+	/**
 	 * Toggles Player Inventory UI.
 	 */
 	UFUNCTION(BlueprintCallable, Category="Toggle")

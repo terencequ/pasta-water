@@ -1,27 +1,21 @@
 #include "PastaWaterCharacterBase.h"
 
-// Sets default values
+#include "Helpers/DebugHelpers.h"
+#include "Kismet/KismetMathLibrary.h"
+
 APastaWaterCharacterBase::APastaWaterCharacterBase()
 {
- 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
-	// Actor component registration
-	CharacterMovableAC = CreateDefaultSubobject<UCharacterMovableAC>(TEXT("Character Movement"));
-	AddOwnedComponent(CharacterMovableAC);
 }
 
-// Called when the game starts or when spawned
 void APastaWaterCharacterBase::BeginPlay()
 {
 	Super::BeginPlay();
 }
 
-// Called every frame
 void APastaWaterCharacterBase::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
 // Called to bind functionality to input
@@ -30,3 +24,37 @@ void APastaWaterCharacterBase::SetupPlayerInputComponent(UInputComponent* Player
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 }
 
+void APastaWaterCharacterBase::PerformJumpAction_Implementation()
+{
+	Jump();
+}
+
+void APastaWaterCharacterBase::PerformMoveForwardBackward_Implementation(const float AxisValue)
+{
+	const FRotator Rotator = FRotator(0, Controller->GetControlRotation().Yaw, 0); // Get yaw
+	const FVector ForwardVector = UKismetMathLibrary::GetForwardVector(Rotator); // Get forward vector based on yaw
+	AddMovementInput(ForwardVector, AxisValue, true); // Move towards forward vector
+}
+
+void APastaWaterCharacterBase::PerformMoveRightLeft_Implementation(const float AxisValue)
+{
+	const FRotator Rotator = FRotator(0, Controller->GetControlRotation().Yaw, 0); // Get yaw
+	const FVector RightVector = UKismetMathLibrary::GetRightVector(Rotator); // Get forward vector based on yaw
+	AddMovementInput(RightVector, AxisValue, true); // Move towards right vector
+}
+
+void APastaWaterCharacterBase::PerformLookPitch_Implementation(const float AxisValue)
+{
+	APlayerController* PlayerController = Cast<APlayerController>(Controller);
+	if(!PlayerController) { return; }
+
+	PlayerController->AddPitchInput(AxisValue * MouseSensitivity);
+}
+
+void APastaWaterCharacterBase::PerformLookYaw_Implementation(const float AxisValue)
+{
+	APlayerController* PlayerController = Cast<APlayerController>(Controller);
+	if(!PlayerController) { return; }
+
+	PlayerController->AddYawInput(AxisValue * MouseSensitivity);
+}
