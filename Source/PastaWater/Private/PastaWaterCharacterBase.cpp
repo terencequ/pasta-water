@@ -1,7 +1,7 @@
 #include "PastaWaterCharacterBase.h"
 #include "Kismet/KismetMathLibrary.h"
 
-APastaWaterCharacterBase::APastaWaterCharacterBase() : ACharacter()
+APastaWaterCharacterBase::APastaWaterCharacterBase()
 {
 	PrimaryActorTick.bCanEverTick = true;
 }
@@ -14,6 +14,21 @@ void APastaWaterCharacterBase::BeginPlay()
 void APastaWaterCharacterBase::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+}
+
+void APastaWaterCharacterBase::OnRep_ReplicatedMovement()
+{
+	Super::OnRep_ReplicatedMovement();
+	
+	if(!GetActorLocation().Equals(GetReplicatedMovement().Location, 1.0f))
+	{
+		SetActorLocation(GetReplicatedMovement().Location, false, nullptr, ETeleportType::TeleportPhysics);
+	}
+
+	if(!GetActorRotation().Equals(GetReplicatedMovement().Rotation, 1.0f))
+	{
+		SetActorRotation(GetReplicatedMovement().Rotation, ETeleportType::TeleportPhysics);
+	}
 }
 
 // Called to bind functionality to input
@@ -31,14 +46,14 @@ void APastaWaterCharacterBase::PerformMoveForwardBackward_Implementation(const f
 {
 	const FRotator Rotator = FRotator(0, Controller->GetControlRotation().Yaw, 0); // Get yaw
 	const FVector ForwardVector = UKismetMathLibrary::GetForwardVector(Rotator); // Get forward vector based on yaw
-	AddMovementInput(ForwardVector, AxisValue, true); // Move towards forward vector
+	AddMovementInput(ForwardVector, AxisValue); // Move towards forward vector
 }
 
 void APastaWaterCharacterBase::PerformMoveRightLeft_Implementation(const float AxisValue)
 {
 	const FRotator Rotator = FRotator(0, Controller->GetControlRotation().Yaw, 0); // Get yaw
 	const FVector RightVector = UKismetMathLibrary::GetRightVector(Rotator); // Get forward vector based on yaw
-	AddMovementInput(RightVector, AxisValue, true); // Move towards right vector
+	AddMovementInput(RightVector, AxisValue); // Move towards right vector
 }
 
 void APastaWaterCharacterBase::PerformLookPitch_Implementation(const float AxisValue)
