@@ -16,21 +16,6 @@ void APastaWaterCharacterBase::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
-void APastaWaterCharacterBase::OnRep_ReplicatedMovement()
-{
-	Super::OnRep_ReplicatedMovement();
-	
-	if(!GetActorLocation().Equals(GetReplicatedMovement().Location, 1.0f))
-	{
-		SetActorLocation(GetReplicatedMovement().Location, false, nullptr, ETeleportType::TeleportPhysics);
-	}
-
-	if(!GetActorRotation().Equals(GetReplicatedMovement().Rotation, 1.0f))
-	{
-		SetActorRotation(GetReplicatedMovement().Rotation, ETeleportType::TeleportPhysics);
-	}
-}
-
 // Called to bind functionality to input
 void APastaWaterCharacterBase::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
