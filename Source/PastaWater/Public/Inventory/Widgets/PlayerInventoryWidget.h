@@ -35,13 +35,19 @@ public:
 	// Panel which contains items
 	UPROPERTY(BlueprintReadWrite, meta=(BindWidget))
 	UGridPanel* ItemsGridPanel;
-
+	
 	/**
 	 * Populate this in the editor. Determines the class of the Item Stack Slot.
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TSubclassOf<UItemStackSlotWidget> ItemStackSlotClass;
 
+	/**
+	 * Static constructor method to create an instance of a UPlayerInventoryWidget.
+	 */
+	UFUNCTION(BlueprintCallable)
+	static UPlayerInventoryWidget* Create(TSubclassOf<UPlayerInventoryWidget> PlayerInventoryWidgetClass, APlayerController* OwningPlayerController);
+	
 	UFUNCTION(BlueprintCallable)
 	bool Initialise();
 	

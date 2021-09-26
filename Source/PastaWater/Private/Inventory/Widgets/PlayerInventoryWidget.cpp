@@ -5,6 +5,33 @@
 #include "Helpers/DebugHelpers.h"
 #include "Inventory/Widgets/ItemStackSlotWidget.h"
 
+UPlayerInventoryWidget* UPlayerInventoryWidget::Create(
+	TSubclassOf<UPlayerInventoryWidget> PlayerInventoryWidgetClass,
+	APlayerController* OwningPlayerController)
+{
+	// Create widget
+	UPlayerInventoryWidget* PlayerInventoryWidget = CreateWidget<UPlayerInventoryWidget>(
+		OwningPlayerController,
+		PlayerInventoryWidgetClass,
+		"Player Inventory");
+
+	// Failure check
+	if(!IsValid(PlayerInventoryWidget))
+	{
+		UDebugHelpers::ScreenLogError("Could not initialise Player Inventory Widget.");
+		return nullptr;
+	}
+
+	// Setup widget and return
+	UDebugHelpers::ScreenLogInfo("Initialised Player Inventory Widget.");
+	PlayerInventoryWidget->Initialise();
+	PlayerInventoryWidget->CreateInventorySlots();
+	PlayerInventoryWidget->UpdateInventorySlots();
+	PlayerInventoryWidget->SetVisibility(ESlateVisibility::Hidden);
+	PlayerInventoryWidget->AddToViewport();
+	return PlayerInventoryWidget;
+}
+
 bool UPlayerInventoryWidget::Initialise()
 {
 	// Get dependent variables

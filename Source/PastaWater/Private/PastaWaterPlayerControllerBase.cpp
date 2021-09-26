@@ -12,11 +12,8 @@ APastaWaterPlayerControllerBase::APastaWaterPlayerControllerBase()
 	PlayerInventoryAC = CreateDefaultSubobject<UPlayerInventoryAC>(TEXT("Player Inventory"));
 	AddOwnedComponent(PlayerInventoryAC);
 
-	PlayerInventoryDisplayAC = CreateDefaultSubobject<UPlayerInventoryDisplayAC>(TEXT("Player Inventory Display"));
-	AddOwnedComponent(PlayerInventoryDisplayAC);
-
 	PlayerInteractorAC = CreateDefaultSubobject<UPlayerInteractorAC>(TEXT("Player Interactor"));
-	AddOwnedComponent(PlayerInventoryDisplayAC);
+	AddOwnedComponent(PlayerInteractorAC);
 }
 
 void APastaWaterPlayerControllerBase::BeginPlay()
@@ -38,7 +35,7 @@ void APastaWaterPlayerControllerBase::BeginPlay()
 		InputComponent->BindAxis("LookYaw", this, &APastaWaterPlayerControllerBase::PerformLookYaw);
 	}
 
-	PlayerInventoryDisplayAC->InitialiseInventory();
+	InitialiseInventory();
 }
 
 APastaWaterPlayerControllerBase* APastaWaterPlayerControllerBase::CastFromActor(AActor* Actor)
@@ -98,7 +95,7 @@ void APastaWaterPlayerControllerBase::PerformPrimaryAction()
 
 void APastaWaterPlayerControllerBase::PerformToggleInventoryAction()
 {
-	PlayerInventoryDisplayAC->ToggleInventory();
+	ToggleInventory();
 }
 
 void APastaWaterPlayerControllerBase::PerformMoveRightLeft(const float AxisValue)
@@ -160,3 +157,71 @@ void APastaWaterPlayerControllerBase::EnableAllInputs()
 	PrimaryActionEnabled = true;
 }
 
+void APastaWaterPlayerControllerBase::InitialiseInventory_Implementation()
+{
+	PlayerInventoryWidget = UPlayerInventoryWidget::Create(PlayerInventoryWidgetClass, this);
+}
+
+void APastaWaterPlayerControllerBase::ToggleInventory_Implementation()
+{
+	if(!IsValid(PlayerInventoryWidget))
+	{
+		UDebugHelpers::ScreenLogError("Player Inventory Widget was not set up properly!");
+		return;
+	}
+	
+	PlayerInventoryWidget->UpdateInventorySlots();
+
+	if(PlayerInventoryWidget->IsVisible())
+	{
+		PlayerInventoryWidget->SetVisibility(ESlateVisibility::Hidden);
+		FlushInputs();
+		SetInputMode(FInputModeGameOnly());
+		EnableAllInputs();
+		SetShowMouseCursor(false);
+		UDebugHelpers::ScreenLogInfo("Player Inventory UI hidden.");
+	} else
+	{
+		PlayerInventoryWidget->SetVisibility(ESlateVisibility::Visible);
+		FlushInputs();
+		DisableAllInputs();
+
+		// Input mode
+		FInputModeGameAndUI InputMode = FInputModeGameAndUI();
+		InputMode.SetWidgetToFocus(PlayerInventoryWidget->TakeWidget());
+		InputMode.SetLockMouseToViewportBehavior(EMouseLockMode::LockInFullscreen);
+		InputMode.SetHideCursorDuringCapture(false);
+		SetInputMode(InputMode);
+		
+		SetShowMouseCursor(true);
+		UDebugHelpers::ScreenLogInfo("Player Inventory UI showed.");
+	}
+}
+
+void APastaWaterPlayerControllerBase::ToggleWidgetFocus(UWidget* Widget)
+{
+	if(Widget->IsVisible())
+	{
+		Widget->SetVisibility(ESlateVisibility::Hidden);
+		FlushInputs();
+		SetInputMode(FInputModeGameOnly());
+		EnableAllInputs();
+		SetShowMouseCursor(false);
+		UDebugHelpers::ScreenLogInfo("Player Inventory UI hidden.");
+	} else
+	{
+		Widget->SetVisibility(ESlateVisibility::Visible);
+		FlushInputs();
+		DisableAllInputs();
+
+		// Input mode
+		FInputModeGameAndUI InputMode = FInputModeGameAndUI();
+		InputMode.SetWidgetToFocus(Widget->TakeWidget());
+		InputMode.SetLockMouseToViewportBehavior(EMouseLockMode::LockInFullscreen);
+		InputMode.SetHideCursorDuringCapture(false);
+		SetInputMode(InputMode);
+		
+		SetShowMouseCursor(true);
+		UDebugHelpers::ScreenLogInfo("Player Inventory UI showed.");
+	}
+}
