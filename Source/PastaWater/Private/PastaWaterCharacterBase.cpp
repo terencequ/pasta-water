@@ -1,11 +1,11 @@
 #include "PastaWaterCharacterBase.h"
-
-#include "Helpers/DebugHelpers.h"
 #include "Kismet/KismetMathLibrary.h"
 
 APastaWaterCharacterBase::APastaWaterCharacterBase()
 {
 	PrimaryActorTick.bCanEverTick = true;
+	bReplicates = true;
+	SetReplicatingMovement(true);
 }
 
 void APastaWaterCharacterBase::BeginPlay()
