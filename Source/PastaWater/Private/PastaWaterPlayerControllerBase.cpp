@@ -35,7 +35,7 @@ void APastaWaterPlayerControllerBase::BeginPlay()
 		InputComponent->BindAxis("LookYaw", this, &APastaWaterPlayerControllerBase::PerformLookYaw);
 	}
 
-	InitialiseInventory();
+	InitialiseInventory_Implementation();
 }
 
 APastaWaterPlayerControllerBase* APastaWaterPlayerControllerBase::CastFromActor(AActor* Actor)
