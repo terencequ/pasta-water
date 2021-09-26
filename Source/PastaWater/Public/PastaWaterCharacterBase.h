@@ -4,10 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "Movement/ActorComponents/Interfaces/MovableInterface.h"
+#include "Movement/Interfaces/MovableInterface.h"
 
 #include "PastaWaterCharacterBase.generated.h"
 
+/**
+ * Base class for pawns that can move around.
+ */
 UCLASS()
 class PASTAWATER_API APastaWaterCharacterBase : public ACharacter, public IMovableInterface
 {

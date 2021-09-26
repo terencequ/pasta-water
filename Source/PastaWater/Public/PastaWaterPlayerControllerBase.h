@@ -7,7 +7,7 @@
 #include "GameFramework/PlayerController.h"
 #include "Interact/ActorComponents/PlayerInteractorAC.h"
 #include "Inventory/ActorComponents/PlayerInventoryAC.h"
-#include "Inventory/ActorComponents/PlayerInventoryDisplayAC.h"
+#include "Inventory/Widgets/PlayerInventoryWidget.h"
 #include "PastaWaterPlayerControllerBase.generated.h"
 
 /**
@@ -24,8 +24,6 @@ public:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Inventory Actor Components")
 	UPlayerInventoryAC* PlayerInventoryAC;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Inventory Actor Components")
-	UPlayerInventoryDisplayAC* PlayerInventoryDisplayAC;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Interaction Actor Components")
 	UPlayerInteractorAC* PlayerInteractorAC;
@@ -39,7 +37,11 @@ public:
 	UPROPERTY(BlueprintReadWrite)
 	bool JumpActionEnabled = true;
 
+	UPROPERTY(BlueprintReadWrite)
+	UPlayerInventoryWidget* PlayerInventoryWidget;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TSubclassOf<UPlayerInventoryWidget> PlayerInventoryWidgetClass;
 public:
 	// Sets default values for this character's properties
 	APastaWaterPlayerControllerBase();
@@ -88,4 +90,14 @@ public:
 	 */
 	UFUNCTION(BlueprintCallable, Category="Inputs")
 	void EnableAllInputs();
+
+	// Inventory GUI
+	UFUNCTION(BlueprintCallable, Client, Unreliable)
+	void InitialiseInventory();
+
+	UFUNCTION(BlueprintCallable, Client, Unreliable)
+	void ToggleInventory();
+
+private:
+	void ToggleWidgetFocus(UWidget* Widget);
 };
