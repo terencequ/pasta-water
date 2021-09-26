@@ -35,7 +35,19 @@ void APastaWaterPlayerControllerBase::BeginPlay()
 		InputComponent->BindAxis("LookYaw", this, &APastaWaterPlayerControllerBase::PerformLookYaw);
 	}
 
-	InitialiseInventory_Implementation();
+	InitialiseInventory();
+}
+
+void APastaWaterPlayerControllerBase::OnPossess(APawn* InPawn)
+{
+	Super::OnPossess(InPawn);
+	UDebugHelpers::ScreenLogInfo("Player controller "+GetName()+" has possessed "+InPawn->GetName());;
+}
+
+void APastaWaterPlayerControllerBase::OnUnPossess()
+{
+	Super::OnUnPossess();
+	UDebugHelpers::ScreenLogInfo("Player controller "+GetName()+" has unpossessed.");
 }
 
 APastaWaterPlayerControllerBase* APastaWaterPlayerControllerBase::CastFromActor(AActor* Actor)

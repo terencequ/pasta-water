@@ -42,13 +42,15 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TSubclassOf<UPlayerInventoryWidget> PlayerInventoryWidgetClass;
-public:
-	// Sets default values for this character's properties
+	
 	APastaWaterPlayerControllerBase();
 
 protected:
-	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	virtual void OnPossess(APawn* InPawn) override;
+
+	virtual void OnUnPossess() override;
 
 public:
 	static APastaWaterPlayerControllerBase* CastFromActor(AActor* Actor);
