@@ -14,6 +14,9 @@ APastaWaterPlayerControllerBase::APastaWaterPlayerControllerBase()
 
 	PlayerInteractorAC = CreateDefaultSubobject<UPlayerInteractorAC>(TEXT("Player Interactor"));
 	AddOwnedComponent(PlayerInteractorAC);
+
+	MinNetUpdateFrequency = 2.0f;
+	NetUpdateFrequency = 10.0f;
 }
 
 void APastaWaterPlayerControllerBase::BeginPlay()
