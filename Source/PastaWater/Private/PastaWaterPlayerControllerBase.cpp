@@ -19,10 +19,13 @@ APastaWaterPlayerControllerBase::APastaWaterPlayerControllerBase()
 void APastaWaterPlayerControllerBase::BeginPlay()
 {
 	Super::BeginPlay();
-
-	// Setup dependent variables
 	PastaWaterCharacter = Cast<APastaWaterCharacterBase>(GetCharacter());
-	
+	InitialiseInventory();
+}
+
+void APastaWaterPlayerControllerBase::SetupInputComponent()
+{
+	Super::SetupInputComponent();
 	// Input binds
 	if(InputComponent)
 	{
@@ -34,8 +37,6 @@ void APastaWaterPlayerControllerBase::BeginPlay()
 		InputComponent->BindAxis("LookPitch", this, &APastaWaterPlayerControllerBase::PerformLookPitch);
 		InputComponent->BindAxis("LookYaw", this, &APastaWaterPlayerControllerBase::PerformLookYaw);
 	}
-
-	InitialiseInventory();
 }
 
 void APastaWaterPlayerControllerBase::OnPossess(APawn* InPawn)
