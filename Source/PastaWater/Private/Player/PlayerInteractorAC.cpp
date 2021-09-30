@@ -30,16 +30,20 @@ void UPlayerInteractorAC::TickComponent(float DeltaTime, ELevelTick TickType, FA
 
 	// Raycast to see if interactable is there
 	if(!IsValid(GetWorld())) return;
+
 	FHitResult HitResult;
 
 	const FVector StartVector = GetStartVector();
-	const FVector EndVector = StartVector + GetForwardVector()*5;
+	const FVector EndVector = StartVector + GetForwardVector()*InteractionRangeCentimeters;
+
+	if(StartVector.IsZero() || EndVector.IsZero()){ return; } // Zero check
+	
 	const bool Success = GetWorld()->LineTraceSingleByChannel(HitResult, StartVector, EndVector, COLLISION_INTERACT);
 	if(Success)
 	{
 		UDebugHelpers::ScreenLogInfo("Can see interactable");
 	}
-	DrawDebugLine(GetWorld(), StartVector, EndVector, Success ? FColor::Green : FColor::Red);
+	DrawDebugLine(GetWorld(), StartVector, EndVector, Success ? FColor::Green : FColor::Red, false, -1.0f);
 }
 
 void UPlayerInteractorAC::Interact_Implementation(const TScriptInterface<IInteractableInterface>& Interactable)
@@ -50,13 +54,14 @@ void UPlayerInteractorAC::Interact_Implementation(const TScriptInterface<IIntera
 FVector UPlayerInteractorAC::GetStartVector()
 {
 	if(!IsValid(PlayerController)) return FVector::ZeroVector;
-	if(!IsValid(PlayerController->GetPawn())) return FVector::ZeroVector;
-	return PlayerController->GetPawn()->GetActorLocation();
+	if(!IsValid(PlayerController->PlayerCameraManager)) return FVector::ZeroVector;
+	return PlayerController->PlayerCameraManager->GetCameraLocation();
 }
 
 FVector UPlayerInteractorAC::GetForwardVector()
 {
 	if(!IsValid(PlayerController)) return FVector::ZeroVector;
-	if(!IsValid(PlayerController->GetPawn())) return FVector::ZeroVector;
-	return PlayerController->GetPawn()->GetActorForwardVector();
+	if(!IsValid(PlayerController->PlayerCameraManager)) return FVector::ZeroVector;
+
+	return PlayerController->PlayerCameraManager->GetActorForwardVector();
 }

@@ -10,6 +10,9 @@ class PASTAWATER_API UPlayerInteractorAC : public UInteractorACBase
 	GENERATED_BODY()
 
 public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int InteractionRangeCentimeters = 500;
+	
 	UPROPERTY(BlueprintReadWrite)
 	APlayerController* PlayerController;
 	

@@ -53,7 +53,7 @@ public:
 		TScriptInterface<IInventoryInterface> OwningPlayerInventoryAC);
 	
 	UFUNCTION(BlueprintCallable)
-	bool Initialise(APastaWaterPlayerControllerBase* OwningPlayerController, TScriptInterface<IInventoryInterface> OwningPlayerInventoryAC);
+	bool Initialise(APastaWaterPlayerControllerBase* OwningPlayerController, TScriptInterface<IInventoryInterface>& OwningPlayerInventoryAC);
 	
 	UFUNCTION(BlueprintCallable)
 	bool CreateInventorySlots();
