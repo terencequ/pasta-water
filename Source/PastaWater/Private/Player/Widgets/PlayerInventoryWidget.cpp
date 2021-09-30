@@ -5,7 +5,8 @@
 
 UPlayerInventoryWidget* UPlayerInventoryWidget::Create(
 	TSubclassOf<UPlayerInventoryWidget> PlayerInventoryWidgetClass,
-	APlayerController* OwningPlayerController)
+	APastaWaterPlayerControllerBase* OwningPlayerController,
+	TScriptInterface<IInventoryInterface> OwningPlayerInventoryAC)
 {
 	// Create widget
 	UPlayerInventoryWidget* PlayerInventoryWidget = CreateWidget<UPlayerInventoryWidget>(
@@ -22,7 +23,7 @@ UPlayerInventoryWidget* UPlayerInventoryWidget::Create(
 
 	// Setup widget and return
 	UDebugHelpers::ScreenLogInfo("Initialised Player Inventory Widget.");
-	PlayerInventoryWidget->Initialise();
+	PlayerInventoryWidget->Initialise(OwningPlayerController, OwningPlayerInventoryAC);
 	PlayerInventoryWidget->CreateInventorySlots();
 	PlayerInventoryWidget->UpdateInventorySlots();
 	PlayerInventoryWidget->SetVisibility(ESlateVisibility::Hidden);
@@ -30,18 +31,18 @@ UPlayerInventoryWidget* UPlayerInventoryWidget::Create(
 	return PlayerInventoryWidget;
 }
 
-bool UPlayerInventoryWidget::Initialise()
+bool UPlayerInventoryWidget::Initialise(APastaWaterPlayerControllerBase* OwningPlayerController, TScriptInterface<IInventoryInterface> OwningPlayerInventoryAC)
 {
 	// Get dependent variables
 	if(!IsValid(GetOwningPlayer()))
 		return false;
 	
-	PlayerController = APastaWaterPlayerControllerBase::CastFromPlayerController(GetOwningPlayer());
+	PlayerController = OwningPlayerController;
 	if(!IsValid(PlayerController))
 		return false;
 	
-	PlayerInventoryAC = PlayerController->GetInventoryACOrDefault();
-	if(!IsValid(PlayerInventoryAC))
+	InventoryAC = OwningPlayerInventoryAC;
+	if(!IsValid(InventoryAC.GetObject()))
 		return false;
 	
 	PlayerItemsGridPanel = GetItemsGridPanel();
@@ -53,7 +54,7 @@ bool UPlayerInventoryWidget::Initialise()
 
 bool UPlayerInventoryWidget::CreateInventorySlots()
 {
-	if(!IsValid(PlayerController) || !IsValid(PlayerInventoryAC) || !IsValid(PlayerItemsGridPanel))
+	if(!IsValid(PlayerController) || !IsValid(InventoryAC.GetObject()) || !IsValid(PlayerItemsGridPanel))
 		return false;
 	
 	// Add each item slot in inventory
@@ -62,7 +63,7 @@ bool UPlayerInventoryWidget::CreateInventorySlots()
 		UItemStackSlotWidget* Widget = CreateWidget<UItemStackSlotWidget>(PlayerController, ItemStackSlotClass, "Item Stack Slot "+Index);
 		if(IsValid(Widget))
 		{
-			Widget->InventoryAC = PlayerInventoryAC;
+			Widget->InventoryAC = InventoryAC;
 			Widget->InventoryACIndex = Index;
 			Widget->SetVisibility(ESlateVisibility::Visible);
 			Widget->AddToViewport();
@@ -80,7 +81,7 @@ bool UPlayerInventoryWidget::CreateInventorySlots()
 
 bool UPlayerInventoryWidget::UpdateInventorySlots()
 {
-	if(!IsValid(PlayerController) || !IsValid(PlayerInventoryAC) || !IsValid(PlayerItemsGridPanel))
+	if(!IsValid(PlayerController) || !IsValid(InventoryAC.GetObject()) || !IsValid(PlayerItemsGridPanel))
 		return false;
 
 	// Call "Update Item Details" on every item stack slot widget

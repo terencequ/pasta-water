@@ -1,5 +1,3 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
 
 #include "CoreMinimal.h"
@@ -9,7 +7,7 @@
 #include "Components/Image.h"
 #include "Components/TextBlock.h"
 #include "Components/VerticalBox.h"
-#include "Core/Inventory/ActorComponents/Interfaces/InventoryACInterface.h"
+#include "Core/Inventory/Interfaces/InventoryInterface.h"
 #include "ItemStackSlotWidget.generated.h"
 
 /**
@@ -25,7 +23,7 @@ class PASTAWATER_API UItemStackSlotWidget : public UUserWidget
 public:
 	// Properties that give information about item stack
 	UPROPERTY(BlueprintReadWrite)
-	TScriptInterface<IInventoryACInterface> InventoryAC;
+	TScriptInterface<IInventoryInterface> InventoryAC;
 	UPROPERTY(BlueprintReadWrite)
 	int InventoryACIndex;
 

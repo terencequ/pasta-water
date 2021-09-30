@@ -1,19 +1,11 @@
 #include "Core/Game/PastaWaterPlayerControllerBase.h"
 #include "Core/Helpers/DebugHelpers.h"
-#include "Core/Interact/Interfaces/InteractorInterface.h"
 #include "Core/Pawns/Interfaces/MovableInterface.h"
 #include "GameFramework/PlayerInput.h"
 
 APastaWaterPlayerControllerBase::APastaWaterPlayerControllerBase()
 {
 	PrimaryActorTick.bCanEverTick = true;
-	
-	// Actor component registration
-	PlayerInventoryAC = CreateDefaultSubobject<UPlayerInventoryAC>(TEXT("Player Inventory"));
-	AddOwnedComponent(PlayerInventoryAC);
-
-	PlayerInteractorAC = CreateDefaultSubobject<UPlayerInteractorAC>(TEXT("Player Interactor"));
-	AddOwnedComponent(PlayerInteractorAC);
 
 	MinNetUpdateFrequency = 2.0f;
 	NetUpdateFrequency = 10.0f;
@@ -23,7 +15,6 @@ void APastaWaterPlayerControllerBase::BeginPlay()
 {
 	Super::BeginPlay();
 	PastaWaterCharacter = Cast<APastaWaterCharacterBase>(GetCharacter());
-	InitialiseInventory();
 }
 
 void APastaWaterPlayerControllerBase::SetupInputComponent()
@@ -32,9 +23,7 @@ void APastaWaterPlayerControllerBase::SetupInputComponent()
 	// Input binds
 	if(InputComponent)
 	{
-		InputComponent->BindAction("ToggleInventory", IE_Pressed, this, &APastaWaterPlayerControllerBase::PerformToggleInventoryAction);
 		InputComponent->BindAction("Jump", IE_Pressed, this, &APastaWaterPlayerControllerBase::PerformJumpAction);
-		InputComponent->BindAction("Primary", IE_Pressed, this, &APastaWaterPlayerControllerBase::PerformPrimaryAction);
 		InputComponent->BindAxis("MoveForwardBackward", this, &APastaWaterPlayerControllerBase::PerformMoveForwardBackward);
 		InputComponent->BindAxis("MoveRightLeft", this, &APastaWaterPlayerControllerBase::PerformMoveRightLeft);
 		InputComponent->BindAxis("LookPitch", this, &APastaWaterPlayerControllerBase::PerformLookPitch);
@@ -104,17 +93,6 @@ void APastaWaterPlayerControllerBase::PerformJumpAction()
 	IMovableInterface::Execute_PerformJumpAction(PastaWaterCharacter);
 }
 
-void APastaWaterPlayerControllerBase::PerformPrimaryAction()
-{
-	if(!PrimaryActionEnabled) { return; }
-	IInteractorInterface::Execute_Interact(PlayerInteractorAC, nullptr);
-}
-
-void APastaWaterPlayerControllerBase::PerformToggleInventoryAction()
-{
-	ToggleInventory();
-}
-
 void APastaWaterPlayerControllerBase::PerformMoveRightLeft(const float AxisValue)
 {
 	if(!MovementEnabled) { return; }
@@ -143,17 +121,6 @@ void APastaWaterPlayerControllerBase::PerformLookYaw(const float AxisValue)
 	IMovableInterface::Execute_PerformLookYaw(PastaWaterCharacter, AxisValue);
 }
 
-// Actor components
-UPlayerInventoryAC* APastaWaterPlayerControllerBase::GetInventoryACOrDefault() const
-{
-	if(!IsValid(PlayerInventoryAC))
-	{
-		UDebugHelpers::ScreenLogError("Player needs to have an Inventory!");
-		return nullptr;
-	}
-	return PlayerInventoryAC;
-}
-
 // Input control
 void APastaWaterPlayerControllerBase::FlushInputs()
 {
@@ -165,7 +132,6 @@ void APastaWaterPlayerControllerBase::DisableAllInputs()
 	LookingEnabled = false;
 	MovementEnabled = false;
 	JumpActionEnabled = false;
-	PrimaryActionEnabled = false;
 }
 
 void APastaWaterPlayerControllerBase::EnableAllInputs()
@@ -173,25 +139,6 @@ void APastaWaterPlayerControllerBase::EnableAllInputs()
 	LookingEnabled = true;
 	MovementEnabled = true;
 	JumpActionEnabled = true;
-	PrimaryActionEnabled = true;
-}
-
-// Inventory
-void APastaWaterPlayerControllerBase::InitialiseInventory_Implementation()
-{
-	PlayerInventoryWidget = UPlayerInventoryWidget::Create(PlayerInventoryWidgetClass, this);
-}
-
-void APastaWaterPlayerControllerBase::ToggleInventory_Implementation()
-{
-	if(!IsValid(PlayerInventoryWidget))
-	{
-		UDebugHelpers::ScreenLogError("Player Inventory Widget was not set up properly!");
-		return;
-	}
-	
-	PlayerInventoryWidget->UpdateInventorySlots();
-	ToggleWidgetFocus(PlayerInventoryWidget);
 }
 
 void APastaWaterPlayerControllerBase::ToggleWidgetFocus(UWidget* Widget)
