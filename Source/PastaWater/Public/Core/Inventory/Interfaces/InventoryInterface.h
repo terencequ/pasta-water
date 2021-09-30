@@ -6,18 +6,18 @@
 
 #include "Core/Inventory/Models/Structs/ItemStack.h"
 #include "UObject/Interface.h"
-#include "InventoryACInterface.generated.h"
+#include "InventoryInterface.generated.h"
 
 UINTERFACE()
-class UInventoryACInterface : public UInterface
+class UInventoryInterface : public UInterface
 {
 	GENERATED_BODY()
 };
 
 /**
- * Interface for an actor component which manages an inventory.
+ * Interface for an entity which manages an inventory.
  */
-class PASTAWATER_API IInventoryACInterface
+class PASTAWATER_API IInventoryInterface
 {
 	GENERATED_BODY()
 

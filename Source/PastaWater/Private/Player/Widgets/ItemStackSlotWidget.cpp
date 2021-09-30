@@ -43,7 +43,7 @@ FItemStack UItemStackSlotWidget::GetItemDetails() const
 		return FItemStack::Null();
 	}
 	
-	FItemStack Stack = IInventoryACInterface::Execute_GetItemStackAtIndex(
+	FItemStack Stack = IInventoryInterface::Execute_GetItemStackAtIndex(
 		InventoryAC.GetObject(),
 		InventoryACIndex);
 	return Stack;

@@ -28,7 +28,7 @@ public:
 	APastaWaterPlayerControllerBase* PlayerController; 
 
 	UPROPERTY(BlueprintReadWrite)
-	UPlayerInventoryAC* PlayerInventoryAC;
+	TScriptInterface<IInventoryInterface> InventoryAC;
 
 	UPROPERTY(BlueprintReadWrite)
 	UGridPanel* PlayerItemsGridPanel;
@@ -47,10 +47,13 @@ public:
 	 * Static constructor method to create an instance of a UPlayerInventoryWidget.
 	 */
 	UFUNCTION(BlueprintCallable)
-	static UPlayerInventoryWidget* Create(TSubclassOf<UPlayerInventoryWidget> PlayerInventoryWidgetClass, APlayerController* OwningPlayerController);
+	static UPlayerInventoryWidget* Create(
+		TSubclassOf<UPlayerInventoryWidget> PlayerInventoryWidgetClass,
+		APastaWaterPlayerControllerBase* OwningPlayerController,
+		TScriptInterface<IInventoryInterface> OwningPlayerInventoryAC);
 	
 	UFUNCTION(BlueprintCallable)
-	bool Initialise();
+	bool Initialise(APastaWaterPlayerControllerBase* OwningPlayerController, TScriptInterface<IInventoryInterface> OwningPlayerInventoryAC);
 	
 	UFUNCTION(BlueprintCallable)
 	bool CreateInventorySlots();
