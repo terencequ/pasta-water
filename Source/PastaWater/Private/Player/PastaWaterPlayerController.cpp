@@ -1,28 +1,24 @@
-﻿// Fill out your copyright notice in the Description page of Project Settings.
-
-
-#include "Player/PastaWaterPlayerController.h"
-
+﻿#include "Player/PastaWaterPlayerController.h"
 #include "Core/Helpers/DebugHelpers.h"
-
-class UPlayerInteractorAC;
 
 APastaWaterPlayerController::APastaWaterPlayerController() : APastaWaterPlayerControllerBase()
 {
-}
-
-void APastaWaterPlayerController::BeginPlay()
-{
-	Super::BeginPlay();
-
 	// Actor component registration
 	PlayerInventoryAC = CreateDefaultSubobject<UPlayerInventoryAC>(TEXT("Player Inventory"));
 	AddOwnedComponent(PlayerInventoryAC);
 
 	PlayerInteractorAC = CreateDefaultSubobject<UPlayerInteractorAC>(TEXT("Player Interactor"));
 	AddOwnedComponent(PlayerInteractorAC);
-	
-	InitialiseInventory();
+}
+
+void APastaWaterPlayerController::BeginPlay()
+{
+	Super::BeginPlay();
+
+	if(IsLocalController())
+	{
+		InitialiseInventory();
+	}
 }
 
 void APastaWaterPlayerController::SetupInputComponent()
@@ -56,6 +52,7 @@ void APastaWaterPlayerController::PerformToggleInventoryAction()
 void APastaWaterPlayerController::PerformPrimaryAction()
 {
 	if(!PrimaryActionEnabled) { return; }
+	if(!IsValid(PlayerInteractorAC)) { return; }
 	IInteractorInterface::Execute_Interact(PlayerInteractorAC, nullptr);
 }
 
@@ -74,6 +71,7 @@ void APastaWaterPlayerController::DisableAllInputs()
 // Inventory
 void APastaWaterPlayerController::InitialiseInventory()
 {
+	if(!IsValid(PlayerInventoryAC)) { return; }
 	PlayerInventoryWidget = UPlayerInventoryWidget::Create(PlayerInventoryWidgetClass, this, PlayerInventoryAC);
 }
 

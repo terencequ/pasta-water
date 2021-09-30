@@ -3,14 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "PastaWaterCharacterBase.h"
-#include "PastaWaterPlayerBase.generated.h"
+#include "Core/Pawns/PastaWaterCharacterBase.h"
+#include "PastaWaterPlayer.generated.h"
 
 /**
  * Base class for the player's specific character.
  */
 UCLASS()
-class PASTAWATER_API APastaWaterPlayerBase : public APastaWaterCharacterBase
+class PASTAWATER_API APastaWaterPlayer : public APastaWaterCharacterBase
 {
 	GENERATED_BODY()
 };
