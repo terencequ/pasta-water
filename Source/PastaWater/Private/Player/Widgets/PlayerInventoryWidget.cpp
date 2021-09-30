@@ -31,7 +31,7 @@ UPlayerInventoryWidget* UPlayerInventoryWidget::Create(
 	return PlayerInventoryWidget;
 }
 
-bool UPlayerInventoryWidget::Initialise(APastaWaterPlayerControllerBase* OwningPlayerController, TScriptInterface<IInventoryInterface> OwningPlayerInventoryAC)
+bool UPlayerInventoryWidget::Initialise(APastaWaterPlayerControllerBase* OwningPlayerController, TScriptInterface<IInventoryInterface>& OwningPlayerInventoryAC)
 {
 	// Get dependent variables
 	if(!IsValid(GetOwningPlayer()))
