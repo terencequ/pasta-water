@@ -129,6 +129,7 @@ void APastaWaterPlayerControllerBase::FlushInputs()
 
 void APastaWaterPlayerControllerBase::DisableAllInputs()
 {
+	FlushInputs();
 	LookingEnabled = false;
 	MovementEnabled = false;
 	JumpActionEnabled = false;
@@ -136,24 +137,34 @@ void APastaWaterPlayerControllerBase::DisableAllInputs()
 
 void APastaWaterPlayerControllerBase::EnableAllInputs()
 {
+	FlushInputs();
 	LookingEnabled = true;
 	MovementEnabled = true;
 	JumpActionEnabled = true;
 }
 
-void APastaWaterPlayerControllerBase::ToggleWidgetFocus(UWidget* Widget)
+void APastaWaterPlayerControllerBase::ToggleWidgetVisibility(UWidget* Widget)
 {
 	if(Widget->IsVisible())
 	{
 		Widget->SetVisibility(ESlateVisibility::Hidden);
-		FlushInputs();
+	} else
+	{
+		Widget->SetVisibility(ESlateVisibility::Visible);
+	}
+}
+
+void APastaWaterPlayerControllerBase::ToggleWidgetVisibilityAndFocus(UWidget* Widget)
+{
+	if(Widget->IsVisible())
+	{
+		Widget->SetVisibility(ESlateVisibility::Hidden);
 		SetInputMode(FInputModeGameOnly());
 		EnableAllInputs();
 		SetShowMouseCursor(false);
 	} else
 	{
 		Widget->SetVisibility(ESlateVisibility::Visible);
-		FlushInputs();
 		DisableAllInputs();
 
 		// Input mode

@@ -5,6 +5,8 @@
 #include "Core/Interact/Interfaces/InteractorInterface.h"
 #include "InteractorACBase.generated.h"
 
+DECLARE_MULTICAST_DELEGATE_OneParam(FUpdateInteractablesDelegate, const TArray<TScriptInterface<IInteractableInterface>>);
+
 /**
  * Base AC for an Interactor.
  */
@@ -23,5 +25,9 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType,
 	                           FActorComponentTickFunction* ThisTickFunction) override;
 
+	virtual TArray<TScriptInterface<IInteractableInterface>> GetValidInteractables_Implementation() const override;
+
 	virtual void Interact_Implementation(const TScriptInterface<IInteractableInterface>& Interactable) override;
+
+	FUpdateInteractablesDelegate UpdateInteractablesDelegate;
 };

@@ -15,6 +15,9 @@ public:
 	
 	UPROPERTY(BlueprintReadWrite)
 	APlayerController* PlayerController;
+
+	UPROPERTY(BlueprintReadWrite)
+	TScriptInterface<IInteractableInterface> CurrentInteractable;
 	
 	// Sets default values for this component's properties
 	UPlayerInteractorAC();
@@ -26,8 +29,14 @@ protected:
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
+	
 	virtual void Interact_Implementation(const TScriptInterface<IInteractableInterface>& Interactable) override;
+	
+	virtual TArray<TScriptInterface<IInteractableInterface>> GetValidInteractables_Implementation() const override;
+	
+	void DrawDebugInteractLine();
+	
 	FVector GetStartVector();
+
 	FVector GetForwardVector();
 };

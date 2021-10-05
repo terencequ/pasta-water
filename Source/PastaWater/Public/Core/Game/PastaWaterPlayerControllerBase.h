@@ -11,7 +11,7 @@
 /**
  * Main player controller for a player in Pasta Water.
  */
-UCLASS()
+UCLASS(NotBlueprintable)
 class PASTAWATER_API APastaWaterPlayerControllerBase : public APlayerController
 {
 	GENERATED_BODY()
@@ -74,11 +74,18 @@ public:
 	 */
 	UFUNCTION(BlueprintCallable, Category="Inputs")
 	virtual void EnableAllInputs();
-	
+
+
 protected:
+	/**
+	 * Toggle a widget's visibility.
+	 */
+	void ToggleWidgetVisibility(UWidget* Widget);
+
 	/**
 	 * Toggle a widget as the main focus of the player.
 	 * When a widget is focused, the player will not be able to look or make movement inputs.
+	 * The widget will be visible when focused, invisible when not.
 	 */
-	void ToggleWidgetFocus(UWidget* Widget);
+	void ToggleWidgetVisibilityAndFocus(UWidget* Widget);
 };

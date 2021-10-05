@@ -2,13 +2,13 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
-#include "PastaWaterGameModeBase.generated.h"
+#include "PastaWaterGameMode.generated.h"
 
 /**
  * Main Game Mode in Pasta Water.
  */
-UCLASS()
-class PASTAWATER_API APastaWaterGameModeBase : public AGameModeBase
+UCLASS(Blueprintable)
+class PASTAWATER_API APastaWaterGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
 	

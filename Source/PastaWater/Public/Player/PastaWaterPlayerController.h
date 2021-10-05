@@ -3,6 +3,7 @@
 #include "CoreMinimal.h"
 #include "PlayerInteractorAC.h"
 #include "Core/Game/PastaWaterPlayerControllerBase.h"
+#include "Widgets/InteractPromptWidget.h"
 #include "PastaWaterPlayerController.generated.h"
 
 /**
@@ -14,43 +15,46 @@ class PASTAWATER_API APastaWaterPlayerController : public APastaWaterPlayerContr
 	GENERATED_BODY()
 
 public:
+	// Inputs
+	UPROPERTY(BlueprintReadWrite, Category="Input Toggle")
+	bool PrimaryActionEnabled = true;
+	
+	// Inventory
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Inventory Actor Components")
 	UPlayerInventoryAC* PlayerInventoryAC;
+	
+	UPROPERTY(BlueprintReadWrite, Category="User Interface - Inventory")
+	UPlayerInventoryWidget* PlayerInventoryWidget;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="User Interface - Inventory")
+	TSubclassOf<UPlayerInventoryWidget> PlayerInventoryWidgetClass;
 
+	// Interaction
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Interaction Actor Components")
 	UPlayerInteractorAC* PlayerInteractorAC;
 	
-	UPROPERTY(BlueprintReadWrite, Category="Input Toggle")
-	bool PrimaryActionEnabled = true;
-
-	UPROPERTY(BlueprintReadWrite, Category="User Interface")
-	UPlayerInventoryWidget* PlayerInventoryWidget;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="User Interface")
-	TSubclassOf<UPlayerInventoryWidget> PlayerInventoryWidgetClass;
-
+	UPROPERTY(BlueprintReadWrite, Category="User Interface - Interaction")
+	UInteractPromptWidget* InteractPromptWidget;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="User Interface - Interaction")
+	TSubclassOf<UInteractPromptWidget> InteractPromptWidgetClass;
+	
 	APastaWaterPlayerController();
 
 	// Lifecycle
 	virtual void BeginPlay() override;
-	
 	virtual void SetupInputComponent() override;
-
 	virtual void OnPossess(APawn* InPawn) override;
-
 	virtual void OnUnPossess() override;
 
 	// Inputs
 	void PerformToggleInventoryAction();
-	
 	void PerformPrimaryAction();
-
 	virtual void EnableAllInputs() override;
-
 	virtual void DisableAllInputs() override;
 	
-	// Inventory
-	void InitialiseInventory();
-	
-	void ToggleInventory();
+	// User Interface - Inventory
+	void InitialiseInventoryUI();
+	void ToggleInventoryUI();
+
+	// User Interface - Interaction
+	void InitialiseInteractPromptUI();
 };
