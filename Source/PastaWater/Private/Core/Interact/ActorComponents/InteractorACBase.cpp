@@ -21,6 +21,13 @@ void UInteractorACBase::TickComponent(float DeltaTime, ELevelTick TickType,
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 }
 
+TArray<TScriptInterface<IInteractableInterface>> UInteractorACBase::GetValidInteractables_Implementation() const
+{
+	TArray<TScriptInterface<IInteractableInterface>> InteractableInterfaces;
+	InteractableInterfaces.Init(TScriptInterface<IInteractableInterface>(nullptr), 0);
+	return InteractableInterfaces;
+}
+
 void UInteractorACBase::Interact_Implementation(const TScriptInterface<IInteractableInterface>& Interactable)
 {
 	UDebugHelpers::ScreenLogInfo(GetName()+" interacted with something.");

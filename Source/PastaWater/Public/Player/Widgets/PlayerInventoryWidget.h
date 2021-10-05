@@ -6,6 +6,7 @@
 #include "ItemStackSlotWidget.h"
 #include "Blueprint/UserWidget.h"
 #include "Components/GridPanel.h"
+#include "Core/Interact/Interfaces/InteractableInterface.h"
 #include "Player/PlayerInventoryAC.h"
 #include "PlayerInventoryWidget.generated.h"
 
@@ -28,7 +29,7 @@ public:
 	APastaWaterPlayerControllerBase* PlayerController; 
 
 	UPROPERTY(BlueprintReadWrite)
-	TScriptInterface<IInventoryInterface> InventoryAC;
+	TScriptInterface<IInventoryInterface> Inventory;
 
 	UPROPERTY(BlueprintReadWrite)
 	UGridPanel* PlayerItemsGridPanel;
@@ -50,10 +51,10 @@ public:
 	static UPlayerInventoryWidget* Create(
 		TSubclassOf<UPlayerInventoryWidget> PlayerInventoryWidgetClass,
 		APastaWaterPlayerControllerBase* OwningPlayerController,
-		TScriptInterface<IInventoryInterface> OwningPlayerInventoryAC);
+		TScriptInterface<IInventoryInterface>& OwningPlayerInventoryAC);
 	
 	UFUNCTION(BlueprintCallable)
-	bool Initialise(APastaWaterPlayerControllerBase* OwningPlayerController, TScriptInterface<IInventoryInterface>& OwningPlayerInventoryAC);
+	bool Setup(TScriptInterface<IInventoryInterface>& OwningPlayerInventory);
 	
 	UFUNCTION(BlueprintCallable)
 	bool CreateInventorySlots();

@@ -17,7 +17,9 @@ void APastaWaterPlayerController::BeginPlay()
 
 	if(IsLocalController())
 	{
-		InitialiseInventory();
+		// UI initialization
+		InitialiseInventoryUI();
+		InitialiseInteractPromptUI();
 	}
 }
 
@@ -46,7 +48,7 @@ void APastaWaterPlayerController::OnUnPossess()
 // Inputs
 void APastaWaterPlayerController::PerformToggleInventoryAction()
 {
-	ToggleInventory();
+	ToggleInventoryUI();
 }
 
 void APastaWaterPlayerController::PerformPrimaryAction()
@@ -54,6 +56,7 @@ void APastaWaterPlayerController::PerformPrimaryAction()
 	if(!PrimaryActionEnabled) { return; }
 	if(!IsValid(PlayerInteractorAC)) { return; }
 	IInteractorInterface::Execute_Interact(PlayerInteractorAC, nullptr);
+	PlayerInteractorAC->DrawDebugInteractLine();
 }
 
 void APastaWaterPlayerController::EnableAllInputs()
@@ -68,14 +71,15 @@ void APastaWaterPlayerController::DisableAllInputs()
 	PrimaryActionEnabled = false;
 }
 
-// Inventory
-void APastaWaterPlayerController::InitialiseInventory()
+// User Interface - Inventory
+void APastaWaterPlayerController::InitialiseInventoryUI()
 {
 	if(!IsValid(PlayerInventoryAC)) { return; }
-	PlayerInventoryWidget = UPlayerInventoryWidget::Create(PlayerInventoryWidgetClass, this, PlayerInventoryAC);
+	TScriptInterface<IInventoryInterface> InventoryInterface = TScriptInterface<IInventoryInterface>(PlayerInventoryAC);
+	PlayerInventoryWidget = UPlayerInventoryWidget::Create(PlayerInventoryWidgetClass, this, InventoryInterface);
 }
 
-void APastaWaterPlayerController::ToggleInventory()
+void APastaWaterPlayerController::ToggleInventoryUI()
 {
 	if(!IsValid(PlayerInventoryWidget))
 	{
@@ -84,5 +88,12 @@ void APastaWaterPlayerController::ToggleInventory()
 	}
 	
 	PlayerInventoryWidget->UpdateInventorySlots();
-	ToggleWidgetFocus(PlayerInventoryWidget);
+	ToggleWidgetVisibilityAndFocus(PlayerInventoryWidget);
+}
+
+// User Interface - Interaction
+void APastaWaterPlayerController::InitialiseInteractPromptUI()
+{
+	if(!IsValid(PlayerInteractorAC)) { return; }
+	InteractPromptWidget = UInteractPromptWidget::Create(InteractPromptWidgetClass, this, PlayerInteractorAC);
 }
