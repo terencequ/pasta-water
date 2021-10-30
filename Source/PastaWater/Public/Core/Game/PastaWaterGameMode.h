@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Engine/DataTable.h"
 #include "GameFramework/GameModeBase.h"
 #include "PastaWaterGameMode.generated.h"
 
@@ -10,6 +11,7 @@
 UCLASS(Blueprintable)
 class PASTAWATER_API APastaWaterGameMode : public AGameModeBase
 {
+
 	GENERATED_BODY()
-	
+
 };

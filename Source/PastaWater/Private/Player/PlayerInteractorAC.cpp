@@ -60,9 +60,9 @@ void UPlayerInteractorAC::TickComponent(float DeltaTime, ELevelTick TickType, FA
 	}
 }
 
-void UPlayerInteractorAC::Interact_Implementation(const TScriptInterface<IInteractableInterface>& Interactable)
+void UPlayerInteractorAC::Interact_Implementation()
 {
-	Super::Interact_Implementation(Interactable);
+	Super::Interact_Implementation();
 }
 
 TArray<TScriptInterface<IInteractableInterface>> UPlayerInteractorAC::GetValidInteractables_Implementation() const

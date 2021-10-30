@@ -30,7 +30,7 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	
-	virtual void Interact_Implementation(const TScriptInterface<IInteractableInterface>& Interactable) override;
+	virtual void Interact_Implementation() override;
 	
 	virtual TArray<TScriptInterface<IInteractableInterface>> GetValidInteractables_Implementation() const override;
 	

@@ -30,8 +30,8 @@ public:
 	TArray<TScriptInterface<IInteractableInterface>> GetValidInteractables() const;
 
 	/**
-	 * Interact. This should be implemented to affect one or more interactables in the Valid Interactables list.
+	 * Interact. This should be implemented to affect all interactables in the Valid Interactables list.
 	 */
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category="Interaction Action")
-	void Interact(const TScriptInterface<IInteractableInterface>& Interactable);
+	void Interact();
 };

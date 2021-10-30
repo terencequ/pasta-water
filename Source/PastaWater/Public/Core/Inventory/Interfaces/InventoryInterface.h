@@ -3,8 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-
-#include "Core/Inventory/Models/Structs/ItemStack.h"
+#include "Core/Inventory/Models/ItemStack.h"
 #include "UObject/Interface.h"
 #include "InventoryInterface.generated.h"
 

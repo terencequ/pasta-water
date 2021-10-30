@@ -55,7 +55,7 @@ void APastaWaterPlayerController::PerformPrimaryAction()
 {
 	if(!PrimaryActionEnabled) { return; }
 	if(!IsValid(PlayerInteractorAC)) { return; }
-	IInteractorInterface::Execute_Interact(PlayerInteractorAC, nullptr);
+	IInteractorInterface::Execute_Interact(PlayerInteractorAC);
 	PlayerInteractorAC->DrawDebugInteractLine();
 }
 

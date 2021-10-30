@@ -23,6 +23,6 @@ void AInteractableABase::Tick(float DeltaTime)
 
 void AInteractableABase::OnInteract_Implementation(const TScriptInterface<IInteractorInterface>& Interactable)
 {
-	UDebugHelpers::ScreenLogInfo(GetName()+"was interacted with by something.");
+	UDebugHelpers::ScreenLogInfo(GetName()+" was interacted with by something.");
 }
 

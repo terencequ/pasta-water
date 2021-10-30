@@ -27,7 +27,7 @@ public:
 
 	virtual TArray<TScriptInterface<IInteractableInterface>> GetValidInteractables_Implementation() const override;
 
-	virtual void Interact_Implementation(const TScriptInterface<IInteractableInterface>& Interactable) override;
+	virtual void Interact_Implementation() override;
 
 	FUpdateInteractablesDelegate UpdateInteractablesDelegate;
 };

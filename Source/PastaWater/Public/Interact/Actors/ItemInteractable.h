@@ -11,7 +11,7 @@ class PASTAWATER_API AItemInteractable : public AInteractableABase
 	
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FString ItemId;
+	int32 ItemId;
 	
 	AItemInteractable();
 
