@@ -1,5 +1,4 @@
 ﻿#include "Player/PlayerInventoryAC.h"
-#include "Core/Inventory/Models/ItemStackContainerBase.h"
 
 UPlayerInventoryAC::UPlayerInventoryAC() : UInventoryACBase()
 {
@@ -9,7 +8,5 @@ UPlayerInventoryAC::UPlayerInventoryAC() : UInventoryACBase()
 void UPlayerInventoryAC::BeginPlay()
 {
 	Super::BeginPlay();
-
-	// Initialize inventory
-	Inventory = UItemStackContainerBase::Make(50);
+	Init(50);
 }

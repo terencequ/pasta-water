@@ -1,6 +1,7 @@
 #include "Player/Widgets/ItemStackSlotWidget.h"
+
+#include "Core/Game/PastaWaterGameState.h"
 #include "Core/Helpers/DebugHelpers.h"
-#include "Core/Inventory/Models/Structs/ItemStack.h"
 
 bool UItemStackSlotWidget::Initialize()
 {
@@ -13,10 +14,14 @@ void UItemStackSlotWidget::UpdateItemDetails()
 	const FItemStack ItemStack = GetItemDetails();
 
 	// Set Item Name text
-	const FString ItemNameString = ItemStack.IsNull() ? "" : ItemStack.Item.Name;
+	const APastaWaterGameState* PastaWaterGameState = APastaWaterGameState::GetGameState(this);
+	if(!IsValid(PastaWaterGameState)){return;}
+	const FItem* Item = PastaWaterGameState->FindItem(ItemStack.ItemId);
+	const FString ItemName = ItemStack.IsNull() ? "" : Item->Name;
+	
 	if(ItemNameText)
 	{
-		ItemNameText->SetText(FText::FromString(ItemNameString));
+		ItemNameText->SetText(FText::FromString(ItemName));
 	} else
 	{
 		UDebugHelpers::ScreenLogError("Item Name Text is not valid!");

@@ -28,7 +28,15 @@ TArray<TScriptInterface<IInteractableInterface>> UInteractorACBase::GetValidInte
 	return InteractableInterfaces;
 }
 
-void UInteractorACBase::Interact_Implementation(const TScriptInterface<IInteractableInterface>& Interactable)
+void UInteractorACBase::Interact_Implementation()
 {
-	UDebugHelpers::ScreenLogInfo(GetName()+" interacted with something.");
+	const TArray<TScriptInterface<IInteractableInterface>> InteractableInterfaces = Execute_GetValidInteractables(this);
+	for(int i = 0; i < InteractableInterfaces.Num(); i++)
+	{
+		const TScriptInterface<IInteractableInterface> InteractableInterface = InteractableInterfaces[i];
+		if(IsValid(InteractableInterface.GetObject()))
+		{
+			IInteractableInterface::Execute_OnInteract(InteractableInterface.GetObject(), this);
+		}
+	}
 }

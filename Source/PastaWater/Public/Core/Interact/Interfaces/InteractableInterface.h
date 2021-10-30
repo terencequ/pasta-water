@@ -23,5 +23,5 @@ class PASTAWATER_API IInteractableInterface
 	
 public:
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category="Interact")
-	void OnInteract(const TScriptInterface<IInteractorInterface>& Interactable);
+	void OnInteract(const TScriptInterface<IInteractorInterface>& Interactor);
 };

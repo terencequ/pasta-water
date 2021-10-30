@@ -4,8 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Core/Inventory/Interfaces/InventoryInterface.h"
-#include "Core/Inventory/Models/Interfaces/ItemStackContainerInterface.h"
-#include "Engine/DataTable.h"
+#include "Core/Inventory/Models/ItemStack.h"
 #include "InventoryACBase.generated.h"
 
 /**
@@ -17,19 +16,10 @@ class PASTAWATER_API UInventoryACBase : public UActorComponent, public IInventor
 	GENERATED_BODY()
 	
 protected:
-	/**
-	* @brief This will keep track of the inventory's contents.
-	*/
-	UPROPERTY()
-	TScriptInterface<IItemStackContainerInterface> Inventory;
+	int MaxInventorySize;
+	TArray<FItemStack> ItemStacks;
 
 public:
-	/**
-	 * @brief Populate this in blueprints, it contains a definition of all valid items
-	 */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Definitions")
-	UDataTable* ItemDefinitions;
-	
 	UInventoryACBase();
 
 protected:
@@ -38,6 +28,8 @@ protected:
 public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType,
 							FActorComponentTickFunction* ThisTickFunction) override;
+	
+	void Init(int Size);
 
 	virtual FItemStack GetItemStackAtIndex_Implementation(const int Index) const override;
 	
@@ -58,4 +50,17 @@ public:
 	virtual TArray<FItemStack> GetAllItemStacks_Implementation() const override;
 	
 	virtual TArray<FItemStack> RemoveAllItemStacks_Implementation() override;
+	
+	/**
+	 * @brief Lookup item in the current GameState.
+	 */
+	FItem* FindItem(const int32 ItemId) const;
+	
+private:
+	/**
+	 * @brief Update the item slot. This should perform any cleanup actions needed,
+	 * i.e. making the slot into a null item if the quantity/durability is 0.
+	 * @param Index Index of slot to update
+	 */
+	void UpdateItemSlot(const int Index);
 };
