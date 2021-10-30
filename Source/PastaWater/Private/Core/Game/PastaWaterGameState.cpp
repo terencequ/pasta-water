@@ -4,13 +4,17 @@
 
 FItem* APastaWaterGameState::FindItem(int32 ItemId) const
 {
-	for (FName ItemIdName : ItemDefinitions->GetRowNames())
+	FString ContextString;
+	TArray<FName> RowNames = ItemDefinitions->GetRowNames();
+	for (const auto& name : RowNames )
 	{
-		if(ItemIdName.GetNumber() == ItemId)
+		FItem* Row = ItemDefinitions->FindRow<FItem>(name, ContextString);
+		if (Row->Id == ItemId && Row)
 		{
-			return ItemDefinitions->FindRow<FItem>(ItemIdName, "");
+			return Row;
 		}
 	}
+
 	return nullptr;
 }
 
