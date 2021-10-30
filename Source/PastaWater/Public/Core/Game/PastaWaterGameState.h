@@ -23,7 +23,13 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Definitions")
 	UDataTable* ItemDefinitions;
 
+	/**
+	 * @brief Find an item in the item definition table by Item Id.
+	 */
 	FItem* FindItem(int32 ItemId) const;
 
+	/**
+	 * @brief Get the GameState with null and casting checks.
+	 */
 	static APastaWaterGameState* GetGameState(const UObject* Object);
 };
