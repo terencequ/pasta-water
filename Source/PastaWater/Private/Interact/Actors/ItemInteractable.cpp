@@ -15,9 +15,15 @@ AItemInteractable::AItemInteractable()
 	PrimaryActorTick.bCanEverTick = true;
 }
 
-void AItemInteractable::OnInteract_Implementation(const TScriptInterface<IInteractorInterface>& InteractorInterface)
+bool AItemInteractable::Validate_OnInteract_Implementation(
+	const TScriptInterface<IInteractorInterface>& InteractorInterface)
 {
-	Super::OnInteract_Implementation(InteractorInterface);
+	return Super::Validate_OnInteract_Implementation(InteractorInterface);
+}
+
+void AItemInteractable::Server_OnInteract_Implementation(const TScriptInterface<IInteractorInterface>& InteractorInterface)
+{
+	Super::Server_OnInteract_Implementation(InteractorInterface);
 	if(!IsValid(InteractorInterface.GetObject())){ return; }
 
 	const UActorComponent* ActorComponent = Cast<UActorComponent>(InteractorInterface.GetObject());
@@ -34,7 +40,21 @@ void AItemInteractable::OnInteract_Implementation(const TScriptInterface<IIntera
 	{
 		UDebugHelpers::ScreenLogError("Item "+FString::FromInt(ItemId)+" cannot be found.");
 	}
-	IInventoryInterface::Execute_InsertItemStack(PlayerControllerBase->PlayerInventoryAC, FItemStack(ItemId, 1));
-	
+	FItemStack ItemStack = FItemStack(ItemId, 1);
+	if(IInventoryInterface::Execute_CanInsertItemStack(PlayerControllerBase->PlayerInventoryAC, ItemStack))
+	{
+		IInventoryInterface::Execute_InsertItemStack(PlayerControllerBase->PlayerInventoryAC, ItemStack);
+		const bool destroySuccess = Destroy();
+		if(!destroySuccess)
+		{
+			UDebugHelpers::ScreenLogError("Did not destroy actor successfully.");
+		}
+	}
+}
+
+void AItemInteractable::NetMulticast_OnInteract_Implementation(
+	const TScriptInterface<IInteractorInterface>& InteractorInterface)
+{
+
 }
 

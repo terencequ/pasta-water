@@ -26,8 +26,19 @@ public:
 	                           FActorComponentTickFunction* ThisTickFunction) override;
 
 	virtual TArray<TScriptInterface<IInteractableInterface>> GetValidInteractables_Implementation() const override;
-
+	
+	UFUNCTION(Client, Reliable)
 	virtual void Interact_Implementation() override;
 
 	FUpdateInteractablesDelegate UpdateInteractablesDelegate;
+
+protected:
+	UFUNCTION()
+	bool Validate_Interact(UObject*  InteractableObject);
+
+	UFUNCTION(Server, Reliable)
+	void Server_Interact(UObject* InteractableInterface);
+
+	UFUNCTION(NetMulticast, Reliable)
+	void NetMulticast_Interact(UObject* InteractableInterface);
 };

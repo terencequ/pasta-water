@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "../../../../../../Plugins/Developer/RiderLink/Source/RD/src/rd_core_cpp/src/main/types/Void.h"
 #include "UObject/Interface.h"
 #include "InteractorInterface.generated.h"
 
@@ -28,7 +29,7 @@ public:
 	 */
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category="Interaction Stats")
 	TArray<TScriptInterface<IInteractableInterface>> GetValidInteractables() const;
-
+	
 	/**
 	 * Interact. This should be implemented to affect all interactables in the Valid Interactables list.
 	 */
