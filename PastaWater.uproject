@@ -17,13 +17,24 @@
   ],
   "Plugins": [
     {
-      "Name": "Bridge",
-      "Enabled": true,
-      "SupportedTargetPlatforms": [
-        "Win64",
-        "Mac",
-        "Linux"
-      ]
+      "Name": "OnlineSubsystem",
+      "Enabled": true
+    },
+    {
+      "Name": "OnlineSubsystemUtils",
+      "Enabled": true
+    },
+    {
+      "Name": "OnlineSubsystemNull",
+      "Enabled": true
+    },
+    {
+      "Name": "OnlineSubsystemSteam",
+      "Enabled": true
+    },
+    {
+      "Name": "OnlineFramework",
+      "Enabled": true
     }
   ]
 }
