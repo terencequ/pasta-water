@@ -47,12 +47,16 @@ public:
 
 	// Inputs
 	void PerformToggleInventoryAction();
+	
 	void PerformPrimaryAction();
+	
 	virtual void EnableAllInputs() override;
+	
 	virtual void DisableAllInputs() override;
 	
 	// User Interface - Inventory
 	void InitialiseInventoryUI();
+	
 	void ToggleInventoryUI();
 
 	// User Interface - Interaction

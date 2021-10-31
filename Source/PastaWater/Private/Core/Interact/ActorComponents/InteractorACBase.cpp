@@ -28,7 +28,7 @@ TArray<TScriptInterface<IInteractableInterface>> UInteractorACBase::GetValidInte
 	return InteractableInterfaces;
 }
 
-void UInteractorACBase::Interact_Implementation()
+void UInteractorACBase::Interact_Implementation_Implementation()
 {
 	const TArray<TScriptInterface<IInteractableInterface>> InteractableInterfaces = Execute_GetValidInteractables(this);
 	for(int i = 0; i < InteractableInterfaces.Num(); i++)
@@ -36,7 +36,39 @@ void UInteractorACBase::Interact_Implementation()
 		const TScriptInterface<IInteractableInterface> InteractableInterface = InteractableInterfaces[i];
 		if(IsValid(InteractableInterface.GetObject()))
 		{
-			IInteractableInterface::Execute_OnInteract(InteractableInterface.GetObject(), this);
+			Server_Interact(InteractableInterface.GetObject());
 		}
 	}
+}
+
+bool UInteractorACBase::Validate_Interact(UObject* InteractableObject)
+{
+	IInteractableInterface* InteractableInterface = Cast<IInteractableInterface>(InteractableObject);
+	if(!InteractableInterface){ return false; }
+	
+	bool valid = IInteractableInterface::Execute_Validate_OnInteract(InteractableObject, this);
+	if(!valid)
+	{
+		return false;
+	}
+
+	return true;
+}
+
+void UInteractorACBase::Server_Interact_Implementation(UObject* InteractableObject)
+{
+	IInteractableInterface* InteractableInterface = Cast<IInteractableInterface>(InteractableObject);
+	if(!InteractableInterface){ return; }
+	if(!Validate_Interact(InteractableObject)){ return; }
+	if(!IsValid(InteractableObject)){ return; }
+
+	IInteractableInterface::Execute_Server_OnInteract(InteractableObject, this);
+	NetMulticast_Interact(InteractableObject);
+}
+
+void UInteractorACBase::NetMulticast_Interact_Implementation(UObject* InteractableObject)
+{
+	IInteractableInterface* InteractableInterface = Cast<IInteractableInterface>(InteractableObject);
+	if(!InteractableInterface){ return; }
+	IInteractableInterface::Execute_NetMulticast_OnInteract(InteractableObject, this);
 }

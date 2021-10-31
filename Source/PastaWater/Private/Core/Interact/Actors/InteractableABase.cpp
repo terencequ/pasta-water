@@ -21,8 +21,21 @@ void AInteractableABase::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
-void AInteractableABase::OnInteract_Implementation(const TScriptInterface<IInteractorInterface>& Interactable)
+bool AInteractableABase::Validate_OnInteract_Implementation(
+	const TScriptInterface<IInteractorInterface>& InteractorInterface)
 {
-	UDebugHelpers::ScreenLogInfo(GetName()+" was interacted with by something.");
+	return true;
+}
+
+void AInteractableABase::Server_OnInteract_Implementation(
+	const TScriptInterface<IInteractorInterface>& InteractorInterface)
+{
+	
+}
+
+void AInteractableABase::NetMulticast_OnInteract_Implementation(
+	const TScriptInterface<IInteractorInterface>& InteractorInterface)
+{
+	
 }
 

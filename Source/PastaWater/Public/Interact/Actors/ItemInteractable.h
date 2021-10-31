@@ -15,5 +15,9 @@ public:
 	
 	AItemInteractable();
 
-	virtual void OnInteract_Implementation(const TScriptInterface<IInteractorInterface>& Interactable) override;
+	virtual bool Validate_OnInteract_Implementation(const TScriptInterface<IInteractorInterface>& Interactable) override;
+	
+	virtual void Server_OnInteract_Implementation(const TScriptInterface<IInteractorInterface>& Interactable) override;
+
+	virtual void NetMulticast_OnInteract_Implementation(const TScriptInterface<IInteractorInterface>& Interactable) override;
 };

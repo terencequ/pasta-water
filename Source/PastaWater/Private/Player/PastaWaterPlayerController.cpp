@@ -53,10 +53,10 @@ void APastaWaterPlayerController::PerformToggleInventoryAction()
 
 void APastaWaterPlayerController::PerformPrimaryAction()
 {
+	UDebugHelpers::ScreenLogInfo("Interacting");
 	if(!PrimaryActionEnabled) { return; }
-	if(!IsValid(PlayerInteractorAC)) { return; }
-	IInteractorInterface::Execute_Interact(PlayerInteractorAC);
 	PlayerInteractorAC->DrawDebugInteractLine();
+	IInteractorInterface::Execute_Interact(PlayerInteractorAC);
 }
 
 void APastaWaterPlayerController::EnableAllInputs()
