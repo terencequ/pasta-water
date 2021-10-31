@@ -63,12 +63,4 @@ void UInteractorACBase::Server_Interact_Implementation(UObject* InteractableObje
 	if(!IsValid(InteractableObject)){ return; }
 
 	IInteractableInterface::Execute_OnInteract(InteractableObject, this);
-	NetMulticast_Interact(InteractableObject);
-}
-
-void UInteractorACBase::NetMulticast_Interact_Implementation(UObject* InteractableObject)
-{
-	IInteractableInterface* InteractableInterface = Cast<IInteractableInterface>(InteractableObject);
-	if(!InteractableInterface){ return; }
-	IInteractableInterface::Execute_OnInteract(InteractableObject, this);
 }

@@ -38,7 +38,4 @@ protected:
 
 	UFUNCTION(Server, Reliable)
 	void Server_Interact(UObject* InteractableInterface);
-
-	UFUNCTION(NetMulticast, Reliable)
-	void NetMulticast_Interact(UObject* InteractableInterface);
 };
