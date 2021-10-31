@@ -27,15 +27,7 @@ bool AInteractableABase::Validate_OnInteract_Implementation(
 	return true;
 }
 
-void AInteractableABase::Server_OnInteract_Implementation(
-	const TScriptInterface<IInteractorInterface>& InteractorInterface)
+void AInteractableABase::OnInteract_Implementation(const TScriptInterface<IInteractorInterface>& InteractorInterface)
 {
-	
+	IInteractableInterface::OnInteract_Implementation(InteractorInterface);
 }
-
-void AInteractableABase::NetMulticast_OnInteract_Implementation(
-	const TScriptInterface<IInteractorInterface>& InteractorInterface)
-{
-	
-}
-
