@@ -3,6 +3,9 @@
 
 APastaWaterPlayerController::APastaWaterPlayerController() : APastaWaterPlayerControllerBase()
 {
+	SetReplicates(true);
+	bOnlyRelevantToOwner = true;
+	
 	// Actor component registration
 	PlayerInventoryAC = CreateDefaultSubobject<UPlayerInventoryAC>(TEXT("Player Inventory"));
 	AddOwnedComponent(PlayerInventoryAC);

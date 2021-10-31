@@ -26,9 +26,5 @@ public:
 	bool Validate_OnInteract(const TScriptInterface<IInteractorInterface>& Interactor);
 	
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category="Interact")
-	void Server_OnInteract(const TScriptInterface<IInteractorInterface>& Interactor);
-
-	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category="Interact")
-	void NetMulticast_OnInteract(const TScriptInterface<IInteractorInterface>& Interactor);
-
+	void OnInteract(const TScriptInterface<IInteractorInterface>& Interactor);
 };

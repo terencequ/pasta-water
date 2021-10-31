@@ -16,7 +16,10 @@ class PASTAWATER_API UInventoryACBase : public UActorComponent, public IInventor
 	GENERATED_BODY()
 	
 protected:
+	UPROPERTY(ReplicatedUsing=OnRep_MaxInventorySize)
 	int MaxInventorySize;
+
+	UPROPERTY(ReplicatedUsing=OnRep_ItemStacks)
 	TArray<FItemStack> ItemStacks;
 
 public:
@@ -25,12 +28,21 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType,
 							FActorComponentTickFunction* ThisTickFunction) override;
 	
 	void Init(int Size);
 
+	// Networking
+	UFUNCTION()
+	void OnRep_MaxInventorySize();
+
+	UFUNCTION()
+	void OnRep_ItemStacks();
+
+	// Functionality
 	virtual FItemStack GetItemStackAtIndex_Implementation(const int Index) const override;
 	
 	virtual void SetItemStackAtIndex_Implementation(const int Index, const FItemStack ItemStack) override;

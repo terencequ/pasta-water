@@ -62,7 +62,7 @@ void UInteractorACBase::Server_Interact_Implementation(UObject* InteractableObje
 	if(!Validate_Interact(InteractableObject)){ return; }
 	if(!IsValid(InteractableObject)){ return; }
 
-	IInteractableInterface::Execute_Server_OnInteract(InteractableObject, this);
+	IInteractableInterface::Execute_OnInteract(InteractableObject, this);
 	NetMulticast_Interact(InteractableObject);
 }
 
@@ -70,5 +70,5 @@ void UInteractorACBase::NetMulticast_Interact_Implementation(UObject* Interactab
 {
 	IInteractableInterface* InteractableInterface = Cast<IInteractableInterface>(InteractableObject);
 	if(!InteractableInterface){ return; }
-	IInteractableInterface::Execute_NetMulticast_OnInteract(InteractableObject, this);
+	IInteractableInterface::Execute_OnInteract(InteractableObject, this);
 }

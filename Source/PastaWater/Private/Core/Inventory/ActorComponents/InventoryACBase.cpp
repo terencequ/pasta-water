@@ -5,9 +5,11 @@
 
 #include "Core/Game/PastaWaterGameState.h"
 #include "Core/Helpers/DebugHelpers.h"
+#include "Net/UnrealNetwork.h"
 
 UInventoryACBase::UInventoryACBase()
 {
+	SetIsReplicated(true);
 }
 
 void UInventoryACBase::BeginPlay()
@@ -15,8 +17,15 @@ void UInventoryACBase::BeginPlay()
 	Super::BeginPlay();
 }
 
+void UInventoryACBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+	DOREPLIFETIME(UInventoryACBase, MaxInventorySize);
+	DOREPLIFETIME(UInventoryACBase, ItemStacks);
+}
+
 void UInventoryACBase::TickComponent(float DeltaTime, ELevelTick TickType,
-                                                   FActorComponentTickFunction* ThisTickFunction)
+                                     FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 }
@@ -25,6 +34,14 @@ void UInventoryACBase::Init(const int Size)
 {
 	this->MaxInventorySize = Size;
 	this->ItemStacks.Init(FItemStack::Null(), Size);
+}
+
+void UInventoryACBase::OnRep_MaxInventorySize()
+{
+}
+
+void UInventoryACBase::OnRep_ItemStacks()
+{
 }
 
 FItemStack UInventoryACBase::GetItemStackAtIndex_Implementation(const int Index) const
@@ -111,6 +128,8 @@ FItemStack UInventoryACBase::InsertItemStack_Implementation(const FItemStack Ite
 		return FItemStack::Null();
 	}
 
+	UDebugHelpers::ScreenLogInfo("Inserting "+Item->Name+" (id: "+FString::FromInt(ItemStack.ItemId)+") of quantity "+FString::FromInt(ItemStack.Quantity));
+	
 	// Loop item stack insertion
 	int QuantityToAdd = ItemStack.Quantity;
 	for(int i = 0; i < MaxInventorySize; i++)
@@ -147,7 +166,7 @@ FItemStack UInventoryACBase::InsertItemStack_Implementation(const FItemStack Ite
 
 	// Create stack containing overflow quantity
 	const FItemStack OverflowItemStack = FItemStack(ItemStack.ItemId, QuantityToAdd);
-	UDebugHelpers::ScreenLogInfo("An overload of "+Item->Name+" (id: "+FString::FromInt(OverflowItemStack.ItemId)+") has been made of quantity "+FString::FromInt(OverflowItemStack.Quantity)+"");
+	UDebugHelpers::ScreenLogInfo("An overload of "+Item->Name+" (id: "+FString::FromInt(OverflowItemStack.ItemId)+") has been made of quantity "+FString::FromInt(OverflowItemStack.Quantity));
 	return OverflowItemStack;
 }
 

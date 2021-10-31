@@ -21,9 +21,9 @@ bool AItemInteractable::Validate_OnInteract_Implementation(
 	return Super::Validate_OnInteract_Implementation(InteractorInterface);
 }
 
-void AItemInteractable::Server_OnInteract_Implementation(const TScriptInterface<IInteractorInterface>& InteractorInterface)
+void AItemInteractable::OnInteract_Implementation(const TScriptInterface<IInteractorInterface>& InteractorInterface)
 {
-	Super::Server_OnInteract_Implementation(InteractorInterface);
+	Super::OnInteract_Implementation(InteractorInterface);
 	if(!IsValid(InteractorInterface.GetObject())){ return; }
 
 	const UActorComponent* ActorComponent = Cast<UActorComponent>(InteractorInterface.GetObject());
@@ -51,10 +51,3 @@ void AItemInteractable::Server_OnInteract_Implementation(const TScriptInterface<
 		}
 	}
 }
-
-void AItemInteractable::NetMulticast_OnInteract_Implementation(
-	const TScriptInterface<IInteractorInterface>& InteractorInterface)
-{
-
-}
-
