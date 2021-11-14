@@ -37,9 +37,15 @@ public:
 	UPROPERTY(BlueprintReadWrite, meta=(BindWidget))
 	UImage* BackgroundImage;
 
-	// Item panel
+	// Item image panel
 	UPROPERTY(BlueprintReadWrite, meta=(BindWidget))
-	UVerticalBox* ItemPanel;
+	UBorder* ItemImagePanel;
+	UPROPERTY(BlueprintReadWrite, meta=(BindWidget))
+	UImage* ItemImage;
+	
+	// Item details panel
+	UPROPERTY(BlueprintReadWrite, meta=(BindWidget))
+	UVerticalBox* ItemDetailsPanel;
 	UPROPERTY(BlueprintReadWrite, meta=(BindWidget))
 	UTextBlock* ItemNameText;
 	UPROPERTY(BlueprintReadWrite, meta=(BindWidget))

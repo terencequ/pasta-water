@@ -2,8 +2,6 @@
 
 UPlayerInventoryAC::UPlayerInventoryAC() : UInventoryACBase()
 {
-	PrimaryComponentTick.bCanEverTick = true;
-	SetIsReplicated(true);
 }
 
 void UPlayerInventoryAC::BeginPlay()
