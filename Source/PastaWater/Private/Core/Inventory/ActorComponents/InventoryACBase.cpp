@@ -9,7 +9,8 @@
 
 UInventoryACBase::UInventoryACBase()
 {
-	SetIsReplicated(true);
+	PrimaryComponentTick.bCanEverTick = true;
+	SetIsReplicatedByDefault(true);
 }
 
 void UInventoryACBase::BeginPlay()
