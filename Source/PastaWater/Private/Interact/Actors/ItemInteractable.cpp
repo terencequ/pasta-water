@@ -38,7 +38,7 @@ void AItemInteractable::OnInteract_Implementation(const TScriptInterface<IIntera
 	const FItem* Item = PastaWaterGameState->FindItem(ItemId);
 	if(Item == nullptr)
 	{
-		UDebugHelpers::ScreenLogError("Item "+FString::FromInt(ItemId)+" cannot be found.");
+		UDebugHelpers::ScreenLogError("Item "+ItemId+" cannot be found.");
 	}
 	FItemStack ItemStack = FItemStack(ItemId, 1);
 	if(IInventoryInterface::Execute_CanInsertItemStack(PlayerControllerBase->PlayerInventoryAC, ItemStack))

@@ -129,7 +129,7 @@ FItemStack UInventoryACBase::InsertItemStack_Implementation(const FItemStack Ite
 		return FItemStack::Null();
 	}
 
-	UDebugHelpers::ScreenLogInfo("Inserting "+Item->Name+" (id: "+FString::FromInt(ItemStack.ItemId)+") of quantity "+FString::FromInt(ItemStack.Quantity));
+	UDebugHelpers::ScreenLogInfo("Inserting "+Item->Name+" (id: "+ItemStack.ItemId+") of quantity "+FString::FromInt(ItemStack.Quantity));
 	
 	// Loop item stack insertion
 	int QuantityToAdd = ItemStack.Quantity;
@@ -167,7 +167,7 @@ FItemStack UInventoryACBase::InsertItemStack_Implementation(const FItemStack Ite
 
 	// Create stack containing overflow quantity
 	const FItemStack OverflowItemStack = FItemStack(ItemStack.ItemId, QuantityToAdd);
-	UDebugHelpers::ScreenLogInfo("An overload of "+Item->Name+" (id: "+FString::FromInt(OverflowItemStack.ItemId)+") has been made of quantity "+FString::FromInt(OverflowItemStack.Quantity));
+	UDebugHelpers::ScreenLogInfo("An overload of "+Item->Name+" (id: "+OverflowItemStack.ItemId+") has been made of quantity "+FString::FromInt(OverflowItemStack.Quantity));
 	return OverflowItemStack;
 }
 
@@ -263,7 +263,7 @@ void UInventoryACBase::UpdateItemSlot(const int Index)
 	}
 }
 
-FItem* UInventoryACBase::FindItem(const int32 ItemId) const
+FItem* UInventoryACBase::FindItem(const FString ItemId) const
 {
 	const APastaWaterGameState* PastaWaterGameState = APastaWaterGameState::GetGameState(this);
 	if(!IsValid(PastaWaterGameState)){return nullptr;}

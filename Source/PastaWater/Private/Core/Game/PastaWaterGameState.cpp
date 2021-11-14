@@ -2,7 +2,7 @@
 
 #include "Core/Helpers/DebugHelpers.h"
 
-FItem* APastaWaterGameState::FindItem(int32 ItemId) const
+FItem* APastaWaterGameState::FindItem(FString ItemId) const
 {
 	FString ContextString;
 	TArray<FName> RowNames = ItemDefinitions->GetRowNames();

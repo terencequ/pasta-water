@@ -26,7 +26,7 @@ public:
 	/**
 	 * @brief Find an item in the item definition table by Item Id.
 	 */
-	FItem* FindItem(int32 ItemId) const;
+	FItem* FindItem(FString ItemId) const;
 
 	/**
 	 * @brief Get the GameState with null and casting checks.

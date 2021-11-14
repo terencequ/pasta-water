@@ -21,7 +21,7 @@ struct PASTAWATER_API FItemStack
 	 * Used to look up a data table.
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Variables")
-	int32 ItemId;
+	FString ItemId;
 
 	/**
 	 * Amount available in this item stack.
@@ -35,7 +35,7 @@ struct PASTAWATER_API FItemStack
 		this->Quantity = 0;
 	}
 	
-	FItemStack(const int32 ItemId, const int Quantity)
+	FItemStack(const FString ItemId, const int Quantity)
 	{
 		this->ItemId = ItemId;
 		this->Quantity = Quantity;
@@ -47,7 +47,7 @@ struct PASTAWATER_API FItemStack
 	 */
 	bool IsNull() const
 	{
-		return ItemId == 0 || Quantity == 0;
+		return ItemId == "null" || Quantity == 0;
 	}
 
 	/**
@@ -56,6 +56,6 @@ struct PASTAWATER_API FItemStack
 	 */
 	static FItemStack Null()
 	{
-		return FItemStack(0, 0);
+		return FItemStack("null", 0);
 	}
 };
