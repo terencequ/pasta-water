@@ -37,7 +37,26 @@ void UItemStackSlotWidget::UpdateItemDetails()
 		UDebugHelpers::ScreenLogError("Item Name Text is not valid!");
 	}
 
-	// TODO: Item icon
+	// Set Item icon
+	UTexture2D* ItemTexture = nullptr;
+	if(!ItemStack.IsNull())
+	{
+		const FString ItemPath = FString("/Game/PastaWater/Assets/Textures/Items/") + FString(ItemName);
+		ItemTexture = LoadObject<UTexture2D>(nullptr, *ItemPath, nullptr, LOAD_None, nullptr);
+	}
+
+	if(ItemImage)
+	{
+		if(IsValid(ItemTexture))
+		{
+			ItemImage->SetOpacity(1.0f);
+			ItemImage->SetBrushFromTexture(ItemTexture, true);
+		} else
+		{
+			ItemImage->SetOpacity(0.0f);
+			ItemImage->SetBrushFromTexture(nullptr, false);
+		}
+	}
 }
 
 FItemStack UItemStackSlotWidget::GetItemDetails() const
