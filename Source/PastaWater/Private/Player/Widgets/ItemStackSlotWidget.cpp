@@ -41,7 +41,7 @@ void UItemStackSlotWidget::UpdateItemDetails()
 	UTexture2D* ItemTexture = nullptr;
 	if(!ItemStack.IsNull())
 	{
-		const FString ItemPath = FString("/Game/PastaWater/Assets/Textures/Items/") + FString(ItemName);
+		const FString ItemPath = FString("/Game/PastaWater/Assets/Textures/Items/") + ItemStack.ItemId;
 		ItemTexture = LoadObject<UTexture2D>(nullptr, *ItemPath, nullptr, LOAD_None, nullptr);
 	}
 

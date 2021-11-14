@@ -15,7 +15,7 @@ struct PASTAWATER_API FItem : public FTableRowBase
 	GENERATED_BODY()
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Variables")
-	int32 Id;
+	FString Id;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Variables")
 	FString Name;
@@ -25,12 +25,12 @@ struct PASTAWATER_API FItem : public FTableRowBase
 
 	FItem()
 	{
-		this->Id = 0;
-		this->Name = "null",
+		this->Id = "null";
+		this->Name = "Null",
 		this->MaxStackQuantity = 0;
 	}
 	
-	FItem(const int32 Id, const FString Name, const int MaxStackQuantity) 
+	FItem(const FString Id, const FString Name, const int MaxStackQuantity) 
 	{
 		this->Id = Id;
 		this->Name = Name;
