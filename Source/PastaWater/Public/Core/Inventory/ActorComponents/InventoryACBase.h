@@ -66,7 +66,7 @@ public:
 	/**
 	 * @brief Lookup item in the current GameState.
 	 */
-	FItem* FindItem(const int32 ItemId) const;
+	FItem* FindItem(const FString ItemId) const;
 	
 private:
 	/**
