@@ -6,7 +6,7 @@
 UPlayerInventoryWidget* UPlayerInventoryWidget::Create(
 	TSubclassOf<UPlayerInventoryWidget> PlayerInventoryWidgetClass,
 	APastaWaterPlayerControllerBase* OwningPlayerController,
-	TScriptInterface<IInventoryInterface>& OwningPlayerInventoryAC)
+	UPlayerInventoryAC* OwningPlayerInventoryAC)
 {
 	// Create widget
 	UPlayerInventoryWidget* PlayerInventoryWidget = CreateWidget<UPlayerInventoryWidget>(
@@ -25,33 +25,33 @@ UPlayerInventoryWidget* UPlayerInventoryWidget::Create(
 	UDebugHelpers::ScreenLogInfo("Initialised Player Inventory Widget.");
 	PlayerInventoryWidget->Setup(OwningPlayerInventoryAC);
 	PlayerInventoryWidget->CreateInventorySlots();
-	PlayerInventoryWidget->UpdateInventorySlots();
 	PlayerInventoryWidget->SetVisibility(ESlateVisibility::Hidden);
 	PlayerInventoryWidget->AddToViewport();
 	return PlayerInventoryWidget;
 }
 
-bool UPlayerInventoryWidget::Setup(TScriptInterface<IInventoryInterface>& OwningPlayerInventory)
+bool UPlayerInventoryWidget::Setup(UPlayerInventoryAC* OwningPlayerInventoryAC)
 {
 	// Get dependent variables
 	PlayerController = Cast<APastaWaterPlayerControllerBase>(GetOwningPlayer());
 	if(!IsValid(PlayerController))
 		return false;
 	
-	Inventory = OwningPlayerInventory;
-	if(!IsValid(Inventory.GetObject()))
+	InventoryAC = OwningPlayerInventoryAC;
+	if(!IsValid(InventoryAC))
 		return false;
 	
 	PlayerItemsGridPanel = GetItemsGridPanel();
 	if(!IsValid(PlayerItemsGridPanel))
 		return false;
-	
+
+	InventoryAC->UpdateInventoryDelegate.AddUObject(this, &UPlayerInventoryWidget::OnUpdateInventorySlots);
 	return true;
 }
 
 bool UPlayerInventoryWidget::CreateInventorySlots()
 {
-	if(!IsValid(PlayerController) || !IsValid(Inventory.GetObject()) || !IsValid(PlayerItemsGridPanel))
+	if(!IsValid(PlayerController) || !IsValid(InventoryAC) || !IsValid(PlayerItemsGridPanel))
 		return false;
 	
 	// Add each item slot in inventory
@@ -60,7 +60,7 @@ bool UPlayerInventoryWidget::CreateInventorySlots()
 		UItemStackSlotWidget* Widget = CreateWidget<UItemStackSlotWidget>(PlayerController, ItemStackSlotClass, "Item Stack Slot "+Index);
 		if(IsValid(Widget))
 		{
-			Widget->InventoryAC = Inventory;
+			Widget->InventoryAC = InventoryAC;
 			Widget->InventoryACIndex = Index;
 			Widget->SetVisibility(ESlateVisibility::Visible);
 			Widget->AddToViewport();
@@ -73,12 +73,13 @@ bool UPlayerInventoryWidget::CreateInventorySlots()
 		}
 	}
 
+	OnUpdateInventorySlots(IInventoryInterface::Execute_GetAllItemStacks(InventoryAC));
 	return true;
 }
 
 bool UPlayerInventoryWidget::UpdateInventorySlots()
 {
-	if(!IsValid(PlayerController) || !IsValid(Inventory.GetObject()) || !IsValid(PlayerItemsGridPanel))
+	if(!IsValid(PlayerController) || !IsValid(InventoryAC) || !IsValid(PlayerItemsGridPanel))
 		return false;
 
 	// Call "Update Item Details" on every item stack slot widget
@@ -91,6 +92,11 @@ bool UPlayerInventoryWidget::UpdateInventorySlots()
 
 	UDebugHelpers::ScreenLogInfo("Player Inventory UI updated.");
 	return true;
+}
+
+void UPlayerInventoryWidget::OnUpdateInventorySlots(const TArray<FItemStack> ItemStacks)
+{
+	UpdateInventorySlots();
 }
 
 UGridPanel* UPlayerInventoryWidget::GetItemsGridPanel() const

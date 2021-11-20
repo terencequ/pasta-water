@@ -7,13 +7,13 @@
 #include "Core/Game/PastaWaterPlayerControllerBase.h"
 #include "Core/Interact/Interfaces/InteractorInterface.h"
 #include "Player/PlayerInteractorAC.h"
-#include "InteractPromptWidget.generated.h"
+#include "PlayerInteractPromptWidget.generated.h"
 
 /**
  * Widget that displays a prompt for user interaction.
  */
 UCLASS()
-class PASTAWATER_API UInteractPromptWidget : public UUserWidget
+class PASTAWATER_API UPlayerInteractPromptWidget : public UUserWidget
 {
 	GENERATED_BODY()
 
@@ -22,16 +22,16 @@ public:
 	APastaWaterPlayerControllerBase* PlayerController;
 	
 	UPROPERTY(BlueprintReadWrite)
-	UInteractorACBase* Interactor;
+	UInteractorACBase* InteractorAC;
 
 	UFUNCTION(BlueprintCallable)
-	static UInteractPromptWidget* Create(
-		TSubclassOf<UInteractPromptWidget> UInteractPromptWidgetClass,
+	static UPlayerInteractPromptWidget* Create(
+		TSubclassOf<UPlayerInteractPromptWidget> UInteractPromptWidgetClass,
 		APlayerController* OwningPlayerController,
 		UPlayerInteractorAC* InteractorInterface);
 
 	UFUNCTION(BlueprintCallable)
-	bool Setup(UPlayerInteractorAC* OwningPlayerInteractor);
+	bool Setup(UPlayerInteractorAC* OwningPlayerInteractorAC);
 
 	/**
 	 * Delegate callback method, for when interactables list gets updated.

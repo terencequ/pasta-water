@@ -3,7 +3,7 @@
 #include "CoreMinimal.h"
 #include "PlayerInteractorAC.h"
 #include "Core/Game/PastaWaterPlayerControllerBase.h"
-#include "Widgets/InteractPromptWidget.h"
+#include "Widgets/PlayerInteractPromptWidget.h"
 #include "PastaWaterPlayerController.generated.h"
 
 /**
@@ -33,9 +33,9 @@ public:
 	UPlayerInteractorAC* PlayerInteractorAC;
 	
 	UPROPERTY(BlueprintReadWrite, Category="User Interface - Interaction")
-	UInteractPromptWidget* InteractPromptWidget;
+	UPlayerInteractPromptWidget* InteractPromptWidget;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="User Interface - Interaction")
-	TSubclassOf<UInteractPromptWidget> InteractPromptWidgetClass;
+	TSubclassOf<UPlayerInteractPromptWidget> InteractPromptWidgetClass;
 	
 	APastaWaterPlayerController();
 
