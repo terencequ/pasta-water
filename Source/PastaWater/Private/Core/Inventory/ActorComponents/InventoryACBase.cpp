@@ -43,6 +43,7 @@ void UInventoryACBase::OnRep_MaxInventorySize()
 
 void UInventoryACBase::OnRep_ItemStacks()
 {
+	UpdateInventoryDelegate.Broadcast(ItemStacks);
 }
 
 FItemStack UInventoryACBase::GetItemStackAtIndex_Implementation(const int Index) const
@@ -56,13 +57,14 @@ FItemStack UInventoryACBase::GetItemStackAtIndex_Implementation(const int Index)
 
 void UInventoryACBase::SetItemStackAtIndex_Implementation(const int Index, const FItemStack ItemStack)
 {
-	if(this->ItemStacks.IsValidIndex(Index))
+	if(!this->ItemStacks.IsValidIndex(Index))
 	{
-		const FItemStack NewItemStack = ItemStack;
-		this->ItemStacks[Index] = NewItemStack;
-		UpdateItemSlot(Index);
+		return;
 	}
-	// Else, do nothing.
+	
+	const FItemStack NewItemStack = ItemStack;
+	this->ItemStacks[Index] = NewItemStack;
+	UpdateItemSlot(Index);
 }
 
 int UInventoryACBase::GetContainerSize_Implementation() const
@@ -248,7 +250,8 @@ TArray<FItemStack> UInventoryACBase::RemoveAllItemStacks_Implementation()
 	TArray<FItemStack> ItemStacksCopy = ItemStacks;
 	for(int i = 0; i < MaxInventorySize; i++) // Set all stacks to null
 	{
-		ItemStacks[i] = FItemStack::Null(); 
+		ItemStacks[i] = FItemStack::Null();
+		UpdateItemSlot(i);
 	}
 	return ItemStacksCopy;
 }
@@ -261,6 +264,7 @@ void UInventoryACBase::UpdateItemSlot(const int Index)
 	{
 		ItemStacks[Index] = FItemStack::Null();
 	}
+	UpdateInventoryDelegate.Broadcast(ItemStacks);
 }
 
 FItem* UInventoryACBase::FindItem(const FString ItemId) const

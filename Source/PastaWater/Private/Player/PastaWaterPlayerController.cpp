@@ -78,8 +78,7 @@ void APastaWaterPlayerController::DisableAllInputs()
 void APastaWaterPlayerController::InitialiseInventoryUI()
 {
 	if(!IsValid(PlayerInventoryAC)) { return; }
-	TScriptInterface<IInventoryInterface> InventoryInterface = TScriptInterface<IInventoryInterface>(PlayerInventoryAC);
-	PlayerInventoryWidget = UPlayerInventoryWidget::Create(PlayerInventoryWidgetClass, this, InventoryInterface);
+	PlayerInventoryWidget = UPlayerInventoryWidget::Create(PlayerInventoryWidgetClass, this, PlayerInventoryAC);
 }
 
 void APastaWaterPlayerController::ToggleInventoryUI()
@@ -90,7 +89,6 @@ void APastaWaterPlayerController::ToggleInventoryUI()
 		return;
 	}
 	
-	PlayerInventoryWidget->UpdateInventorySlots();
 	ToggleWidgetVisibilityAndFocus(PlayerInventoryWidget);
 }
 
@@ -98,5 +96,5 @@ void APastaWaterPlayerController::ToggleInventoryUI()
 void APastaWaterPlayerController::InitialiseInteractPromptUI()
 {
 	if(!IsValid(PlayerInteractorAC)) { return; }
-	InteractPromptWidget = UInteractPromptWidget::Create(InteractPromptWidgetClass, this, PlayerInteractorAC);
+	InteractPromptWidget = UPlayerInteractPromptWidget::Create(InteractPromptWidgetClass, this, PlayerInteractorAC);
 }

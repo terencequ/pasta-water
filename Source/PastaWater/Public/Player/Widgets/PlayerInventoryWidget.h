@@ -29,7 +29,7 @@ public:
 	APastaWaterPlayerControllerBase* PlayerController; 
 
 	UPROPERTY(BlueprintReadWrite)
-	TScriptInterface<IInventoryInterface> Inventory;
+	UPlayerInventoryAC* InventoryAC;
 
 	UPROPERTY(BlueprintReadWrite)
 	UGridPanel* PlayerItemsGridPanel;
@@ -51,16 +51,22 @@ public:
 	static UPlayerInventoryWidget* Create(
 		TSubclassOf<UPlayerInventoryWidget> PlayerInventoryWidgetClass,
 		APastaWaterPlayerControllerBase* OwningPlayerController,
-		TScriptInterface<IInventoryInterface>& OwningPlayerInventoryAC);
+		UPlayerInventoryAC* OwningPlayerInventoryAC);
 	
 	UFUNCTION(BlueprintCallable)
-	bool Setup(TScriptInterface<IInventoryInterface>& OwningPlayerInventory);
+	bool Setup(UPlayerInventoryAC* OwningPlayerInventoryAC);
 	
 	UFUNCTION(BlueprintCallable)
 	bool CreateInventorySlots();
 
 	UFUNCTION(BlueprintCallable)
 	bool UpdateInventorySlots();
+
+	/**
+	 * Callback for FUpdateInventoryDelegate from Inventory
+	 */
+	UFUNCTION(BlueprintCallable)
+	void OnUpdateInventorySlots(const TArray<FItemStack> ItemStacks);
 
 private:
 	// Get Items Grid Panel with null check

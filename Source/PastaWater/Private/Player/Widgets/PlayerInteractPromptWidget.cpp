@@ -1,16 +1,16 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "Player/Widgets/InteractPromptWidget.h"
+#include "Player/Widgets/PlayerInteractPromptWidget.h"
 
 #include "Core/Helpers/DebugHelpers.h"
 #include "Core/Interact/Interfaces/InteractableInterface.h"
 
-UInteractPromptWidget* UInteractPromptWidget::Create(TSubclassOf<UInteractPromptWidget> UInteractPromptWidgetClass,
+UPlayerInteractPromptWidget* UPlayerInteractPromptWidget::Create(TSubclassOf<UPlayerInteractPromptWidget> UInteractPromptWidgetClass,
                                                      APlayerController* OwningPlayerController, UPlayerInteractorAC* OwningPlayerInteractor)
 {
 	// Create widget
-	UInteractPromptWidget* InteractPromptWidget = CreateWidget<UInteractPromptWidget>(
+	UPlayerInteractPromptWidget* InteractPromptWidget = CreateWidget<UPlayerInteractPromptWidget>(
 		OwningPlayerController,
 		UInteractPromptWidgetClass,
 		"Interact Prompt");
@@ -31,22 +31,22 @@ UInteractPromptWidget* UInteractPromptWidget::Create(TSubclassOf<UInteractPrompt
 	return InteractPromptWidget;
 }
 
-bool UInteractPromptWidget::Setup(UPlayerInteractorAC* OwningPlayerInteractor)
+bool UPlayerInteractPromptWidget::Setup(UPlayerInteractorAC* OwningPlayerInteractorAC)
 {
 	// Get dependent variables
 	PlayerController = Cast<APastaWaterPlayerControllerBase>(GetOwningPlayer());
 	if(!IsValid(PlayerController))
 		return false;
 	
-	Interactor = OwningPlayerInteractor;
-	if(!IsValid(Interactor))
+	InteractorAC = OwningPlayerInteractorAC;
+	if(!IsValid(InteractorAC))
 		return false;
 
-	Interactor->UpdateInteractablesDelegate.AddUObject(this, &UInteractPromptWidget::OnUpdateInteractables);
+	InteractorAC->UpdateInteractablesDelegate.AddUObject(this, &UPlayerInteractPromptWidget::OnUpdateInteractables);
 	return true;
 }
 
-void UInteractPromptWidget::OnUpdateInteractables(TArray<TScriptInterface<IInteractableInterface>> Interactables)
+void UPlayerInteractPromptWidget::OnUpdateInteractables(TArray<TScriptInterface<IInteractableInterface>> Interactables)
 {
 	if(IsValid(Interactables[0].GetObject()))
 	{

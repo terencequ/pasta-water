@@ -7,6 +7,8 @@
 #include "Core/Inventory/Models/ItemStack.h"
 #include "InventoryACBase.generated.h"
 
+DECLARE_MULTICAST_DELEGATE_OneParam(FUpdateInventoryDelegate, const TArray<FItemStack>);
+
 /**
  * Base Actor Component for an Inventory.
  */
@@ -23,6 +25,8 @@ protected:
 	TArray<FItemStack> ItemStacks;
 
 public:
+	FUpdateInventoryDelegate UpdateInventoryDelegate;
+	
 	UInventoryACBase();
 
 protected:
