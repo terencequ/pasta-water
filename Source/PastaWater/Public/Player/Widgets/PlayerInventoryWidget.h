@@ -18,6 +18,11 @@ class PASTAWATER_API UPlayerInventoryWidget : public UInventoryWidget
 {
 	GENERATED_BODY()
 
+protected:
+	int StartIndex = 10;
+	int Columns = 10;
+	int Rows = 5;
+
 public:
 	/**
 	 * Static constructor method to create an instance of a UPlayerInventoryWidget.

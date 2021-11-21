@@ -1,5 +1,4 @@
 ﻿#include "Player/Widgets/PlayerInventoryWidget.h"
-#include "Components/GridSlot.h"
 #include "Core/Game/PastaWaterPlayerControllerBase.h"
 #include "Core/Helpers/DebugHelpers.h"
 
