@@ -3,6 +3,7 @@
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 #include "Components/Border.h"
+#include "Components/Button.h"
 #include "Components/CanvasPanel.h"
 #include "Components/Image.h"
 #include "Components/TextBlock.h"
@@ -50,10 +51,16 @@ public:
 	UTextBlock* ItemNameText;
 	UPROPERTY(BlueprintReadWrite, meta=(BindWidget))
 	UTextBlock* ItemQuantityText;
+	
+	// Item button
+	UPROPERTY(BlueprintReadWrite, meta=(BindWidget))
+	UButton* ItemButton;
 
 	UFUNCTION(BlueprintCallable)
 	void UpdateItemDetails();
 
+	UFUNCTION(BlueprintCallable)
+	void OnClick();
 private:
 	FItemStack GetItemDetails() const;
 };

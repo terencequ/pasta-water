@@ -9,7 +9,7 @@
 /**
  * Implementation of a basic player.
  */
-UCLASS()
+UCLASS(Blueprintable)
 class PASTAWATER_API APastaWaterPlayerController : public APastaWaterPlayerControllerBase
 {
 	GENERATED_BODY()

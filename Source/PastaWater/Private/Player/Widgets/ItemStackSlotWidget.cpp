@@ -6,6 +6,7 @@
 bool UItemStackSlotWidget::Initialize()
 {
 	const bool Success = Super::Initialize();
+	ItemButton->OnClicked.AddDynamic(this, &UItemStackSlotWidget::OnClick); 
 	return Success;
 }
 
@@ -57,6 +58,12 @@ void UItemStackSlotWidget::UpdateItemDetails()
 			ItemImage->SetBrushFromTexture(nullptr, false);
 		}
 	}
+}
+
+void UItemStackSlotWidget::OnClick()
+{
+	const FItemStack CurrentItemStack = GetItemDetails();
+	UDebugHelpers::ScreenLogInfo("Clicked item stack slot widget ("+CurrentItemStack.ItemId+", "+FString::FromInt(CurrentItemStack.Quantity)+")");
 }
 
 FItemStack UItemStackSlotWidget::GetItemDetails() const
