@@ -21,8 +21,8 @@ protected:
 	UPROPERTY(ReplicatedUsing=OnRep_MaxInventorySize)
 	int MaxInventorySize;
 
-	UPROPERTY(ReplicatedUsing=OnRep_ItemStacks)
-	TArray<FItemStack> ItemStacks;
+	UPROPERTY(ReplicatedUsing=OnRep_InventoryItemStacks)
+	TArray<FItemStack> InventoryItemStacks;
 
 public:
 	FUpdateInventoryDelegate UpdateInventoryDelegate;
@@ -36,15 +36,13 @@ protected:
 public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType,
 							FActorComponentTickFunction* ThisTickFunction) override;
-	
-	void Init(int Size);
 
 	// Networking
 	UFUNCTION()
 	void OnRep_MaxInventorySize();
 
 	UFUNCTION()
-	void OnRep_ItemStacks();
+	void OnRep_InventoryItemStacks();
 
 	// Functionality
 	virtual FItemStack GetItemStackAtIndex_Implementation(const int Index) const override;
@@ -72,11 +70,6 @@ public:
 	 */
 	FItem* FindItem(const FString ItemId) const;
 	
-private:
-	/**
-	 * @brief Update the item slot. This should perform any cleanup actions needed,
-	 * i.e. making the slot into a null item if the quantity/durability is 0.
-	 * @param Index Index of slot to update
-	 */
-	void UpdateItemSlot(const int Index);
+protected:
+	void Init(int InventorySize);
 };
