@@ -4,6 +4,7 @@
 #include "PlayerInteractorAC.h"
 #include "Core/Game/PastaWaterPlayerControllerBase.h"
 #include "Widgets/PlayerInteractPromptWidget.h"
+#include "Widgets/PlayerInventoryWidget.h"
 #include "PastaWaterPlayerController.generated.h"
 
 /**

@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Core/Inventory/Interfaces/InventoryInterface.h"
+#include "Core/Inventory/Models/Item.h"
 #include "Core/Inventory/Models/ItemStack.h"
 #include "InventoryACBase.generated.h"
 

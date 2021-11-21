@@ -3,9 +3,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Components/Widget.h"
 #include "Core/Pawns/PastaWaterCharacterBase.h"
 #include "GameFramework/PlayerController.h"
-#include "Player/Widgets/PlayerInventoryWidget.h"
 #include "PastaWaterPlayerControllerBase.generated.h"
 
 /**
