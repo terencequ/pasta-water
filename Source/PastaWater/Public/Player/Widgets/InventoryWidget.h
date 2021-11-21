@@ -17,6 +17,8 @@ class PASTAWATER_API UInventoryWidget : public UUserWidget
 	GENERATED_BODY()
 
 protected:
+	// Index to start with for connecting inventory slots to InventoryAC.
+	int StartIndex = 0;
 	int Columns = 10;
 	int Rows = 5;
 	
@@ -25,7 +27,7 @@ public:
 	APastaWaterPlayerControllerBase* PlayerController; 
 
 	UPROPERTY(BlueprintReadWrite)
-	UPlayerInventoryAC* InventoryAC;
+	UInventoryACBase* InventoryAC;
 
 	// Panel for item slots
 	UPROPERTY(BlueprintReadWrite, meta=(BindWidget))
@@ -38,7 +40,7 @@ public:
 	TSubclassOf<UItemStackSlotWidget> ItemStackSlotClass;
 	
 	UFUNCTION(BlueprintCallable)
-	bool Setup(UPlayerInventoryAC* OwningPlayerInventoryAC);
+	bool Setup(UInventoryACBase* OwningInventoryAC);
 	
 	UFUNCTION(BlueprintCallable)
 	bool CreateInventorySlots();
