@@ -3,14 +3,14 @@
 #include "Components/GridSlot.h"
 #include "Core/Helpers/DebugHelpers.h"
 
-bool UInventoryWidget::Setup(UPlayerInventoryAC* OwningPlayerInventoryAC)
+bool UInventoryWidget::Setup(UInventoryACBase* OwningInventoryAC)
 {
 	// Get dependent variables
 	PlayerController = Cast<APastaWaterPlayerControllerBase>(GetOwningPlayer());
 	if(!IsValid(PlayerController))
 		return false;
 	
-	InventoryAC = OwningPlayerInventoryAC;
+	InventoryAC = OwningInventoryAC;
 	if(!IsValid(InventoryAC))
 		return false;
 
@@ -24,7 +24,7 @@ bool UInventoryWidget::CreateInventorySlots()
 		return false;
 	
 	// Add each item slot in inventory
-	for(int Index = 0; Index < Columns*Rows; Index++)
+	for(int Index = StartIndex; Index < Columns*Rows+StartIndex; Index++)
 	{
 		UItemStackSlotWidget* Widget = CreateWidget<UItemStackSlotWidget>(PlayerController, ItemStackSlotClass, "Item Stack Slot "+Index);
 		if(IsValid(Widget))
