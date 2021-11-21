@@ -13,13 +13,14 @@ UCLASS()
 class PASTAWATER_API UPlayerHotbarWidget : public UInventoryWidget
 {
 	GENERATED_BODY()
-	
-protected:
-	int StartIndex = 0;
-	int Columns = 10;
-	int Rows = 1;
 
 public:
+	UFUNCTION(BlueprintCallable)
+	virtual bool CreateInventorySlots(const FString WidgetId) override;
+
+	UFUNCTION(BlueprintCallable)
+	virtual bool UpdateInventorySlots() override;
+	
 	static UPlayerHotbarWidget* Create(TSubclassOf<UPlayerHotbarWidget> PlayerInventoryWidgetClass,
 	                            APastaWaterPlayerControllerBase* OwningPlayerController,
 	                            UPlayerInventoryAC* OwningPlayerInventoryAC);
