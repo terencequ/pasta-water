@@ -5,6 +5,16 @@
 
 #include "Core/Helpers/DebugHelpers.h"
 
+bool UPlayerHotbarWidget::CreateInventorySlots(const FString WidgetId)
+{
+	return Super::CreateInventorySlots(WidgetId);
+}
+
+bool UPlayerHotbarWidget::UpdateInventorySlots()
+{
+	return Super::UpdateInventorySlots();
+}
+
 UPlayerHotbarWidget* UPlayerHotbarWidget::Create(
 	TSubclassOf<UPlayerHotbarWidget> PlayerInventoryWidgetClass,
 	APastaWaterPlayerControllerBase* OwningPlayerController,
@@ -26,8 +36,8 @@ UPlayerHotbarWidget* UPlayerHotbarWidget::Create(
 	// Setup widget and return
 	UDebugHelpers::ScreenLogInfo("Initialised Player Hotbar Widget.");
 	PlayerHotbarWidget->Setup(OwningPlayerInventoryAC);
-	PlayerHotbarWidget->CreateInventorySlots();
-	PlayerHotbarWidget->SetVisibility(ESlateVisibility::Hidden);
+	PlayerHotbarWidget->CreateInventorySlots("Hotbar");
+	PlayerHotbarWidget->SetVisibility(ESlateVisibility::Visible);
 	PlayerHotbarWidget->AddToViewport();
 	return PlayerHotbarWidget;
 }

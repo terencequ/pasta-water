@@ -3,6 +3,7 @@
 #include "CoreMinimal.h"
 #include "PlayerInteractorAC.h"
 #include "Core/Game/PastaWaterPlayerControllerBase.h"
+#include "Widgets/PlayerHotbarWidget.h"
 #include "Widgets/PlayerInteractPromptWidget.h"
 #include "Widgets/PlayerInventoryWidget.h"
 #include "PastaWaterPlayerController.generated.h"
@@ -29,6 +30,11 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="User Interface - Inventory")
 	TSubclassOf<UPlayerInventoryWidget> PlayerInventoryWidgetClass;
 
+	UPROPERTY(BlueprintReadWrite, Category="User Interface - Inventory")
+	UPlayerHotbarWidget* PlayerHotbarWidget;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="User Interface - Inventory")
+	TSubclassOf<UPlayerHotbarWidget> PlayerHotbarWidgetClass;
+	
 	// Interaction
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Interaction Actor Components")
 	UPlayerInteractorAC* PlayerInteractorAC;

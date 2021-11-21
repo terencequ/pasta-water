@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "InventoryWidget.h"
 #include "ItemStackSlotWidget.h"
+#include "PlayerHotbarWidget.h"
 #include "Player/PlayerInventoryAC.h"
 #include "PlayerInventoryWidget.generated.h"
 
@@ -18,12 +19,17 @@ class PASTAWATER_API UPlayerInventoryWidget : public UInventoryWidget
 {
 	GENERATED_BODY()
 
-protected:
-	int StartIndex = 10;
-	int Columns = 10;
-	int Rows = 5;
-
 public:
+	// Panel for hotbar item slots
+	UPROPERTY(BlueprintReadWrite, meta=(BindWidget))
+	UGridPanel* HotbarItemsGridPanel;
+	
+	UFUNCTION(BlueprintCallable)
+	virtual bool CreateInventorySlots(const FString WidgetId) override;
+	
+	UFUNCTION(BlueprintCallable)
+	virtual bool UpdateInventorySlots() override;
+	
 	/**
 	 * Static constructor method to create an instance of a UPlayerInventoryWidget.
 	 */

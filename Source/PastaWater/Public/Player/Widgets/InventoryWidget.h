@@ -16,10 +16,15 @@ class PASTAWATER_API UInventoryWidget : public UUserWidget
 {
 	GENERATED_BODY()
 
-protected:
+public:
 	// Index to start with for connecting inventory slots to InventoryAC.
+	UPROPERTY(EditAnywhere)
 	int StartIndex = 0;
+	
+	UPROPERTY(EditAnywhere)
 	int Columns = 10;
+	
+	UPROPERTY(EditAnywhere)
 	int Rows = 5;
 	
 public:
@@ -42,11 +47,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	bool Setup(UInventoryACBase* OwningInventoryAC);
 	
-	UFUNCTION(BlueprintCallable)
-	bool CreateInventorySlots();
-
-	UFUNCTION(BlueprintCallable)
-	bool UpdateInventorySlots();
+	virtual bool CreateInventorySlots(const FString WidgetId);
+	
+	virtual bool UpdateInventorySlots();
 
 	/**
 	 * Callback for FUpdateInventoryDelegate from Inventory

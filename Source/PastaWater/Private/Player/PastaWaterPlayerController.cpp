@@ -78,6 +78,7 @@ void APastaWaterPlayerController::DisableAllInputs()
 void APastaWaterPlayerController::InitialiseInventoryUI()
 {
 	if(!IsValid(PlayerInventoryAC)) { return; }
+	PlayerHotbarWidget = UPlayerHotbarWidget::Create(PlayerHotbarWidgetClass, this, PlayerInventoryAC);
 	PlayerInventoryWidget = UPlayerInventoryWidget::Create(PlayerInventoryWidgetClass, this, PlayerInventoryAC);
 }
 
