@@ -15,6 +15,7 @@ class PASTAWATER_API UPlayerHotbarWidget : public UInventoryWidget
 	GENERATED_BODY()
 	
 protected:
+	int StartIndex = 0;
 	int Columns = 10;
 	int Rows = 1;
 
