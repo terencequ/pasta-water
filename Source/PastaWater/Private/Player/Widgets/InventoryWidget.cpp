@@ -1,5 +1,4 @@
 #include "Player/Widgets/InventoryWidget.h"
-
 #include "Components/GridSlot.h"
 #include "Core/Helpers/DebugHelpers.h"
 
@@ -15,6 +14,23 @@ bool UInventoryWidget::Setup(UInventoryACBase* OwningInventoryAC)
 		return false;
 
 	InventoryAC->UpdateInventoryDelegate.AddUObject(this, &UInventoryWidget::OnUpdateInventorySlots);
+	return true;
+}
+
+bool UInventoryWidget::OpenInventory()
+{
+	return true;
+}
+
+bool UInventoryWidget::CloseInventory()
+{
+	if(!IsValid(PlayerController) || !IsValid(InventoryAC))
+		return false;
+
+	// Move the mouse item stack back into the inventory
+	const FItemStack MouseItemStack = IInventoryInterface::Execute_GetItemStackAtIndex(InventoryAC, -1);
+	IInventoryInterface::Execute_InsertItemStack(InventoryAC, MouseItemStack);
+	IInventoryInterface::Execute_SetItemStackAtIndex(InventoryAC, -1, FItemStack::Null());
 	return true;
 }
 
@@ -42,8 +58,6 @@ bool UInventoryWidget::CreateInventorySlots(const FString WidgetId)
 			GridSlot->SetPadding(FMargin(8));
 		}
 	}
-
-	OnUpdateInventorySlots(IInventoryInterface::Execute_GetAllItemStacks(InventoryAC));
 	return true;
 }
 
@@ -61,6 +75,11 @@ bool UInventoryWidget::UpdateInventorySlots()
 	}
 	
 	return true;
+}
+
+void UInventoryWidget::OnCloseInventory()
+{
+	CloseInventory();
 }
 
 void UInventoryWidget::OnUpdateInventorySlots(const TArray<FItemStack> ItemStacks)

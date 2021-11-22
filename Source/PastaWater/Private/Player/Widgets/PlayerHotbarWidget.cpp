@@ -37,6 +37,7 @@ UPlayerHotbarWidget* UPlayerHotbarWidget::Create(
 	UDebugHelpers::ScreenLogInfo("Initialised Player Hotbar Widget.");
 	PlayerHotbarWidget->Setup(OwningPlayerInventoryAC);
 	PlayerHotbarWidget->CreateInventorySlots("Hotbar");
+	PlayerHotbarWidget->UpdateInventorySlots();
 	PlayerHotbarWidget->SetVisibility(ESlateVisibility::Visible);
 	PlayerHotbarWidget->AddToViewport();
 	return PlayerHotbarWidget;

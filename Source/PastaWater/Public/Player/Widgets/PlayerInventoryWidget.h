@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "InventoryWidget.h"
 #include "ItemStackSlotWidget.h"
-#include "PlayerHotbarWidget.h"
+#include "Components/SizeBox.h"
 #include "Player/PlayerInventoryAC.h"
 #include "PlayerInventoryWidget.generated.h"
 
@@ -20,9 +20,18 @@ class PASTAWATER_API UPlayerInventoryWidget : public UInventoryWidget
 	GENERATED_BODY()
 
 public:
+	virtual FReply NativeOnMouseMove(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
+	
+	// Main panel
+	UPROPERTY(BlueprintReadWrite, meta=(BindWidget))
+	UCanvasPanel* MainPanel;
+	
 	// Panel for hotbar item slots
 	UPROPERTY(BlueprintReadWrite, meta=(BindWidget))
 	UGridPanel* HotbarItemsGridPanel;
+
+	UPROPERTY(BlueprintReadWrite, meta=(BindWidget))
+	USizeBox* MouseSlotBox;
 	
 	UFUNCTION(BlueprintCallable)
 	virtual bool CreateInventorySlots(const FString WidgetId) override;

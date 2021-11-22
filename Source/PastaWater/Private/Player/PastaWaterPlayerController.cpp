@@ -21,8 +21,8 @@ void APastaWaterPlayerController::BeginPlay()
 	if(IsLocalController())
 	{
 		// UI initialization
-		InitialiseInventoryUI();
 		InitialiseInteractPromptUI();
+		InitialiseInventoryUI();
 	}
 }
 
@@ -91,6 +91,12 @@ void APastaWaterPlayerController::ToggleInventoryUI()
 	}
 	
 	ToggleWidgetVisibilityAndFocus(PlayerInventoryWidget);
+	
+	// Callback for closing inventory
+	if(PlayerInventoryWidget->GetVisibility() == ESlateVisibility::Hidden)
+	{
+		PlayerInventoryWidget->OnCloseInventory();
+	}
 }
 
 // User Interface - Interaction

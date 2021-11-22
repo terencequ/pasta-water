@@ -44,13 +44,29 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TSubclassOf<UItemStackSlotWidget> ItemStackSlotClass;
 	
+	/**
+	 * Populate this in the editor. Determines the class of the Item Stack Slot.
+	 */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TSubclassOf<UItemStackSlotWidget> MouseItemStackSlotClass;
+	
 	UFUNCTION(BlueprintCallable)
 	bool Setup(UInventoryACBase* OwningInventoryAC);
+
+	virtual bool OpenInventory();
+	
+	virtual bool CloseInventory();
 	
 	virtual bool CreateInventorySlots(const FString WidgetId);
 	
 	virtual bool UpdateInventorySlots();
 
+	/**
+	 * Callback for closing inventory.
+	 */
+	UFUNCTION(BlueprintCallable)
+	void OnCloseInventory();
+	
 	/**
 	 * Callback for FUpdateInventoryDelegate from Inventory
 	 */
