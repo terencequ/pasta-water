@@ -62,8 +62,12 @@ void UItemStackSlotWidget::UpdateItemDetails()
 
 void UItemStackSlotWidget::OnClick()
 {
-	const FItemStack CurrentItemStack = GetItemDetails();
-	UDebugHelpers::ScreenLogInfo("Clicked item stack slot widget ("+CurrentItemStack.ItemId+", "+FString::FromInt(CurrentItemStack.Quantity)+")");
+	UDebugHelpers::ScreenLogInfo("Clicked on inventory index "+FString::FromInt(InventoryACIndex));
+	IInventoryInterface::Execute_SwapItemStacks(InventoryAC.GetObject(), -1, InventoryACIndex);
+}
+
+void UItemStackSlotWidget::OnRightClick()
+{
 }
 
 FItemStack UItemStackSlotWidget::GetItemDetails() const

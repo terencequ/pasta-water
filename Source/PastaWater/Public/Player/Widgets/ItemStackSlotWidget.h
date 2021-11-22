@@ -32,12 +32,6 @@ public:
 	UPROPERTY(BlueprintReadWrite, meta=(BindWidget))
 	UCanvasPanel* MainPanel;
 
-	// Background panel
-	UPROPERTY(BlueprintReadWrite, meta=(BindWidget))
-	UBorder* BackgroundPanel;
-	UPROPERTY(BlueprintReadWrite, meta=(BindWidget))
-	UImage* BackgroundImage;
-
 	// Item image panel
 	UPROPERTY(BlueprintReadWrite, meta=(BindWidget))
 	UBorder* ItemImagePanel;
@@ -61,6 +55,9 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void OnClick();
+
+	UFUNCTION(BlueprintCallable)
+	void OnRightClick();
 private:
 	FItemStack GetItemDetails() const;
 };

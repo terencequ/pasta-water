@@ -1,8 +1,27 @@
 ﻿#include "Player/Widgets/PlayerInventoryWidget.h"
 
+#include "Components/CanvasPanelSlot.h"
 #include "Components/GridSlot.h"
 #include "Core/Game/PastaWaterPlayerControllerBase.h"
 #include "Core/Helpers/DebugHelpers.h"
+
+FReply UPlayerInventoryWidget::NativeOnMouseMove(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
+{
+	Super::NativeOnMouseMove(InGeometry, InMouseEvent);
+	if(GetVisibility() == ESlateVisibility::Visible)
+	{
+		UCanvasPanelSlot* CanvasPanelSlot = Cast<UCanvasPanelSlot>(MouseSlotBox->Slot);
+		if(IsValid(CanvasPanelSlot))
+		{
+			FVector2D NewPosition = InGeometry.AbsoluteToLocal(InMouseEvent.GetScreenSpacePosition());
+			CanvasPanelSlot->SetPosition(FVector2D(NewPosition.X, NewPosition.Y));
+		} else
+		{
+			UDebugHelpers::ScreenLogError("Cannot find Canvas Panel Slot from Mouse Slot Widget");
+		}
+	}
+	return FReply::Handled();
+}
 
 bool UPlayerInventoryWidget::CreateInventorySlots(const FString WidgetId)
 {
@@ -29,8 +48,21 @@ bool UPlayerInventoryWidget::CreateInventorySlots(const FString WidgetId)
 			GridSlot->SetPadding(FMargin(8));
 		}
 	}
-	
-	OnUpdateInventorySlots(IInventoryInterface::Execute_GetAllItemStacks(InventoryAC));
+
+	// Setup mouse slot
+	const FString MouseItemSlotWidgetId = WidgetId+FString(" Mouse Item Slot");
+	UItemStackSlotWidget* MouseItemSlot = CreateWidget<UItemStackSlotWidget>(PlayerController, MouseItemStackSlotClass, FName(*MouseItemSlotWidgetId));
+	if(IsValid(MouseItemSlot))
+	{
+		MouseItemSlot->InventoryAC = InventoryAC;
+		MouseItemSlot->InventoryACIndex = -1;
+		MouseItemSlot->SetVisibility(ESlateVisibility::HitTestInvisible);
+		MouseItemSlot->AddToViewport();
+	} else
+	{
+		UDebugHelpers::ScreenLogError("Mouse item slot did not create properly!");
+	}
+	MouseSlotBox->AddChild(MouseItemSlot);
 	return true;
 }
 
@@ -49,6 +81,8 @@ bool UPlayerInventoryWidget::UpdateInventorySlots()
 		ItemStackSlot->UpdateItemDetails();
 	}
 
+	UItemStackSlotWidget* MouseItemStackSlot = Cast<UItemStackSlotWidget>(MouseSlotBox->GetChildAt(0));
+	MouseItemStackSlot->UpdateItemDetails();
 	return true;
 }
 
@@ -74,6 +108,7 @@ UPlayerInventoryWidget* UPlayerInventoryWidget::Create(
 	UDebugHelpers::ScreenLogInfo("Initialised Player Inventory Widget.");
 	PlayerInventoryWidget->Setup(OwningPlayerInventoryAC);
 	PlayerInventoryWidget->CreateInventorySlots("Inventory");
+	PlayerInventoryWidget->UpdateInventorySlots();
 	PlayerInventoryWidget->SetVisibility(ESlateVisibility::Hidden);
 	PlayerInventoryWidget->AddToViewport();
 	return PlayerInventoryWidget;
