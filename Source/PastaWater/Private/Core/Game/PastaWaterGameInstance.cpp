@@ -1,19 +1,23 @@
 #include "Core/Game/PastaWaterGameInstance.h"
 #include "OnlineSessionSettings.h"
+#include "Online/OnlineSessionNames.h"
 #include "OnlineSubsystem.h"
+#include "OnlineSubsystemUtils.h"
 
 UPastaWaterGameInstance::UPastaWaterGameInstance(const FObjectInitializer& ObjectInitializer)
 {
 	/** Bind function for CREATING a Session */
-    OnCreateSessionCompleteDelegate = FOnCreateSessionCompleteDelegate::CreateUObject(this, &UPastaWaterGameInstance::OnCreateSessionComplete);
-    OnStartSessionCompleteDelegate = FOnStartSessionCompleteDelegate::CreateUObject(this, &UPastaWaterGameInstance::OnStartOnlineGameComplete);
+	OnCreateSessionCompleteDelegate = FOnCreateSessionCompleteDelegate::CreateUObject(
+		this, &UPastaWaterGameInstance::OnCreateSessionComplete);
+	OnStartSessionCompleteDelegate = FOnStartSessionCompleteDelegate::CreateUObject(
+		this, &UPastaWaterGameInstance::OnStartOnlineGameComplete);
 }
 
 bool UPastaWaterGameInstance::HostSession(TSharedPtr<const FUniqueNetId> UserId, FName SessionName, bool bIsLAN,
-	bool bIsPresence, int32 MaxNumPlayers)
+                                          bool bIsPresence, int32 MaxNumPlayers)
 {
 	// Get the Online Subsystem to work with
-	IOnlineSubsystem* const OnlineSub = IOnlineSubsystem::Get();
+	IOnlineSubsystem* const OnlineSub = Online::GetSubsystem(GetWorld());
 
 	if (OnlineSub)
 	{
@@ -43,7 +47,8 @@ bool UPastaWaterGameInstance::HostSession(TSharedPtr<const FUniqueNetId> UserId,
 			SessionSettings->Set(SETTING_MAPNAME, FString("TestMap"), EOnlineDataAdvertisementType::ViaOnlineService);
 
 			// Set the delegate to the Handle of the SessionInterface
-			OnCreateSessionCompleteDelegateHandle = Sessions->AddOnCreateSessionCompleteDelegate_Handle(OnCreateSessionCompleteDelegate);
+			OnCreateSessionCompleteDelegateHandle = Sessions->AddOnCreateSessionCompleteDelegate_Handle(
+				OnCreateSessionCompleteDelegate);
 
 			// Our delegate should get called when this is complete (doesn't need to be successful!)
 			return Sessions->CreateSession(*UserId, SessionName, *SessionSettings);

@@ -8,7 +8,7 @@ public class PastaWaterEditorTarget : TargetRules
 	public PastaWaterEditorTarget( TargetInfo Target) : base(Target)
 	{
 		Type = TargetType.Editor;
-		DefaultBuildSettings = BuildSettingsVersion.V2;
+		DefaultBuildSettings = BuildSettingsVersion.V5;
 		ExtraModuleNames.AddRange( new string[] { "PastaWater" } );
 	}
 }
