@@ -1,0 +1,34 @@
+{
+	"version": 1,
+	"changelists": [
+		{
+			"guid": "00000000000000000000000000000000",
+			"description": "Default Uncontrolled Changelist",
+			"files": [
+				"C:/Users/there/Documents/Personal Stuff/pasta-water/Content/PastaWater/Levels/MainLevel.umap",
+				"C:/Users/there/Documents/Personal Stuff/pasta-water/Content/PastaWater/Levels/TestMap.umap",
+				"C:/Users/there/Documents/Personal Stuff/pasta-water/Content/PastaWater/Levels/MainMenuLevel.umap",
+				"C:/Users/there/Documents/Personal Stuff/pasta-water/Content/PastaWater/Levels/GameLevel_BuiltData.uasset",
+				"C:/Users/there/Documents/Personal Stuff/pasta-water/Content/PastaWater/Levels/GameLevel.umap",
+				"C:/Users/there/Documents/Personal Stuff/pasta-water/Content/PastaWater/MainMenu/WBP_MainMenuScreen.uasset",
+				"C:/Users/there/Documents/Personal Stuff/pasta-water/Content/PastaWater/MainMenu/BP_MainMenuGameMode.uasset",
+				"C:/Users/there/Documents/Personal Stuff/pasta-water/Content/PastaWater/MainMenu/BP_PastaWaterMainMenuGameMode.uasset",
+				"C:/Users/there/Documents/Personal Stuff/pasta-water/Content/PastaWater/MainMenu/BP_PastaWaterMainMenuHud.uasset",
+				"C:/Users/there/Documents/Personal Stuff/pasta-water/Content/PastaWater/MainMenu/BP_PastaWaterMainMenuPlayerController.uasset",
+				"C:/Users/there/Documents/Personal Stuff/pasta-water/Content/PastaWater/Player/Widgets/WBP_PlayerEscapeMenuWidget.uasset",
+				"C:/Users/there/Documents/Personal Stuff/pasta-water/Content/PastaWater/Player/Widgets/WBP_PlayerInventory.uasset",
+				"C:/Users/there/Documents/Personal Stuff/pasta-water/Content/PastaWater/Player/BP_PastaWaterPlayer.uasset",
+				"C:/Users/there/Documents/Personal Stuff/pasta-water/Content/PastaWater/Player/BP_PastaWaterPlayerController.uasset",
+				"C:/Users/there/Documents/Personal Stuff/pasta-water/Content/PastaWater/Player/Widgets/WBP_PlayerHotbar.uasset",
+				"C:/Users/there/Documents/Personal Stuff/pasta-water/Content/PastaWater/MainMenu/Widgets/WBP_MainMenuScreen.uasset",
+				"C:/Users/there/Documents/Personal Stuff/pasta-water/Content/PastaWater/Player/Widgets/PlayerEscapeMenuWidget.uasset",
+				"C:/Users/there/Documents/Personal Stuff/pasta-water/Content/PastaWater/MainMenu/BP_MainMenuHud.uasset",
+				"C:/Users/there/Documents/Personal Stuff/pasta-water/Content/PastaWater/MainMenu/BP_MainMenuPlayerController.uasset",
+				"C:/Users/there/Documents/Personal Stuff/pasta-water/Content/PastaWater/MainMenu/BP_MainMenuLevel.uasset",
+				"C:/Users/there/Documents/Personal Stuff/pasta-water/Content/PastaWater/Levels/MainLevel_BuiltData.uasset",
+				"C:/Users/there/Documents/Personal Stuff/pasta-water/Content/PastaWater/Levels/TestMap_BuiltData.uasset",
+				"C:/Users/there/Documents/Personal Stuff/pasta-water/Content/PastaWater/MainMenu/MainMenuHud.uasset"
+			]
+		}
+	]
+}

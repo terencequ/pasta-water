@@ -1,6 +1,5 @@
 #include "Player/Widgets/InventoryWidget.h"
 #include "Components/GridSlot.h"
-#include "Core/Helpers/DebugHelpers.h"
 
 bool UInventoryWidget::Setup(UInventoryACBase* OwningInventoryAC)
 {

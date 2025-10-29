@@ -3,6 +3,7 @@
 #include "CoreMinimal.h"
 #include "PlayerInteractorAC.h"
 #include "Core/Game/PastaWaterPlayerControllerBase.h"
+#include "Widgets/PlayerEscapeMenuWidget.h"
 #include "Widgets/PlayerHotbarWidget.h"
 #include "Widgets/PlayerInteractPromptWidget.h"
 #include "Widgets/PlayerInventoryWidget.h"
@@ -20,6 +21,12 @@ public:
 	// Inputs
 	UPROPERTY(BlueprintReadWrite, Category="Input Toggle")
 	bool PrimaryActionEnabled = true;
+
+	// Escape Menu
+	UPROPERTY(BlueprintReadWrite, Category="User Interface - Escape Menu")
+	UPlayerEscapeMenuWidget* PlayerEscapeMenuWidget;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="User Interface - Escape Menu")
+	TSubclassOf<UPlayerEscapeMenuWidget> PlayerEscapeMenuWidgetClass;
 	
 	// Inventory
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Inventory Actor Components")
@@ -48,22 +55,24 @@ public:
 
 	// Lifecycle
 	virtual void BeginPlay() override;
+	
 	virtual void SetupInputComponent() override;
 	virtual void OnPossess(APawn* InPawn) override;
 	virtual void OnUnPossess() override;
 
 	// Inputs
+	void PerformToggleEscapeMenuAction();
 	void PerformToggleInventoryAction();
-	
 	void PerformPrimaryAction();
-	
 	virtual void EnableAllInputs() override;
-	
 	virtual void DisableAllInputs() override;
-	
+
+	// User Interface - Escape Menu
+	void InitialiseEscapeMenuUI();
+	void ToggleEscapeMenuUI();
+
 	// User Interface - Inventory
 	void InitialiseInventoryUI();
-	
 	void ToggleInventoryUI();
 
 	// User Interface - Interaction

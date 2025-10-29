@@ -7,8 +7,8 @@ APastaWaterPlayerControllerBase::APastaWaterPlayerControllerBase()
 {
 	PrimaryActorTick.bCanEverTick = true;
 
-	MinNetUpdateFrequency = 2.0f;
-	NetUpdateFrequency = 10.0f;
+	SetMinNetUpdateFrequency(2.0f);
+	SetNetUpdateFrequency(10.0f);
 }
 
 void APastaWaterPlayerControllerBase::BeginPlay()

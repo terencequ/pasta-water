@@ -20,7 +20,8 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	virtual bool UpdateInventorySlots() override;
-	
+
+	UFUNCTION(BlueprintCallable)
 	static UPlayerHotbarWidget* Create(TSubclassOf<UPlayerHotbarWidget> PlayerInventoryWidgetClass,
 	                            APastaWaterPlayerControllerBase* OwningPlayerController,
 	                            UPlayerInventoryAC* OwningPlayerInventoryAC);
