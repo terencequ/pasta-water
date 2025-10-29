@@ -17,10 +17,10 @@ class PASTAWATER_API UPastaWaterGameInstance : public UGameInstance
 
 public:
 	virtual void Init() override;
-	
+
 	UFUNCTION(BlueprintCallable)
 	FString GetCurrentSessionName();
-	
+
 	UFUNCTION(BlueprintCallable)
 	void HostSession(int32 MaxPlayers);
 
@@ -35,6 +35,9 @@ private:
 	TSharedPtr<FOnlineSessionSearch> SessionSearch;
 	FString CurrentSessionJoinCode;
 
+	void OnInviteAccepted(const bool bWasSuccessful, const int32 ControllerId,
+	                      TSharedPtr<const FUniqueNetId> UserId,
+	                      const FOnlineSessionSearchResult& InviteResult) const;
 	void OnCreateSessionComplete(FName SessionName, bool bWasSuccessful) const;
 	void OnFindSessionsComplete(bool bWasSuccessful);
 	void OnJoinSessionComplete(FName SessionName, EOnJoinSessionCompleteResult::Type Result) const;

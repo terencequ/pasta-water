@@ -4,7 +4,6 @@
 #include "OnlineSubsystemUtils.h"
 #include "Core/Helpers/DebugHelpers.h"
 #include "Kismet/GameplayStatics.h"
-#include "Online/OnlineSessionNames.h"
 
 void UPastaWaterGameInstance::Init()
 {
@@ -13,6 +12,18 @@ void UPastaWaterGameInstance::Init()
     if (Subsystem)
     {
         SessionInterface = Subsystem->GetSessionInterface();
+    }
+
+    // Invite accepted logic
+    if (!Subsystem)
+    {
+        return;
+    }
+    if (!SessionInterface.IsValid()) return;
+    TSharedPtr<IOnlineSession> Session = SessionInterface.Pin();
+    if (Session.IsValid())
+    {
+        Session->AddOnSessionUserInviteAcceptedDelegate_Handle(FOnSessionUserInviteAcceptedDelegate::CreateUObject(this, &UPastaWaterGameInstance::OnInviteAccepted));
     }
 }
 
@@ -34,6 +45,10 @@ void UPastaWaterGameInstance::HostSession(int32 MaxPlayers)
     Settings.NumPublicConnections = MaxPlayers;
     Settings.bShouldAdvertise = true;
     Settings.bUsesPresence = true;
+    Settings.bAllowJoinInProgress = true;
+    Settings.bAllowJoinViaPresence = true; // 🔥 important for friend join
+    Settings.bAllowJoinViaPresenceFriendsOnly = false;
+    Settings.bUseLobbiesIfAvailable = true; // Steam lobbies
 
     // Generate a unique session name and cache it
     FName SessionName = FName(FGuid::NewGuid().ToString());
@@ -44,6 +59,7 @@ void UPastaWaterGameInstance::HostSession(int32 MaxPlayers)
     // Create the session
     Session->CreateSession(0, NAME_GameSession, Settings);
 }
+
 
 void UPastaWaterGameInstance::OnCreateSessionComplete(FName SessionName, bool bWasSuccessful) const
 {
@@ -132,6 +148,22 @@ void UPastaWaterGameInstance::OnJoinSessionComplete(FName SessionName, EOnJoinSe
         {
             PC->ClientTravel(ConnectString, TRAVEL_Absolute);
             UDebugHelpers::ScreenLogInfo("Joined session "+ CurrentSessionJoinCode);
+        }
+    }
+}
+
+void UPastaWaterGameInstance::OnInviteAccepted(const bool bWasSuccessful, const int32 ControllerId,
+    TSharedPtr<const FUniqueNetId> UserId, const FOnlineSessionSearchResult& InviteResult) const
+{
+    if (!SessionInterface.IsValid()) return;
+    TSharedPtr<IOnlineSession> Session = SessionInterface.Pin();
+    
+    if (bWasSuccessful && InviteResult.IsValid())
+    {
+        if (Session.IsValid())
+        {
+            // Join the session
+            Session->JoinSession(ControllerId, NAME_GameSession, InviteResult);
         }
     }
 }
