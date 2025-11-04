@@ -7,10 +7,11 @@
 
 #include "PlayerInventoryAC.generated.h"
 
+DECLARE_MULTICAST_DELEGATE_OneParam(FUpdateHotbarSelectionDelegate, const int CurrentSelectedHotbarIndex);
 
 /**
  * @brief This actor component represents the player's inventory.
- * The player has several equip slots (left hand, right hand) and a main inventory.
+ * The player has a hotbar and a main inventory.
  */
 UCLASS(Blueprintable)
 class PASTAWATER_API UPlayerInventoryAC : public UInventoryACBase
@@ -26,11 +27,15 @@ protected:
 
 	UPROPERTY(ReplicatedUsing=OnRep_MouseItemStack)
 	FItemStack MouseItemStack;
+
+	UPROPERTY(ReplicatedUsing=OnRep_CurrentSelectedHotbarIndex)
+	int CurrentSelectedHotbarIndex;
 	
 public:
+	FUpdateHotbarSelectionDelegate UpdateHotbarSelectionDelegate;
+	
 	// Sets default values for this component's properties
 	UPlayerInventoryAC();
-
 	
 protected:
 	// Called when the game starts
@@ -45,10 +50,13 @@ public:
 	void OnRep_MaxHotbarSize();
 
 	UFUNCTION()
-	void OnRep_HotbarItemStacks();
+	void OnRep_HotbarItemStacks() const;
 
 	UFUNCTION()
-	void OnRep_MouseItemStack();
+	void OnRep_MouseItemStack() const;
+
+	UFUNCTION()
+	void OnRep_CurrentSelectedHotbarIndex() const;
 	
 	// Functionality
 	virtual FItemStack GetItemStackAtIndex_Implementation(const int Index) const override;
@@ -56,4 +64,12 @@ public:
 	virtual void SetItemStackAtIndex_Implementation(const int Index, const FItemStack ItemStack) override;
 
 	virtual int GetContainerSize_Implementation() const override;
+	
+	void SelectNextHotbarIndex();
+	
+	void SelectPreviousHotbarIndex();
+
+	FItemStack GetItemStackAtSelectedHotbarIndex() const;
+
+	int GetCurrentSelectedHotbarIndex() const;
 };

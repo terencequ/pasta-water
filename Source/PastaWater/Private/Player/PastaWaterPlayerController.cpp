@@ -37,6 +37,8 @@ void APastaWaterPlayerController::SetupInputComponent()
 		InputComponent->BindAction("ToggleEscapeMenu", IE_Pressed, this, &APastaWaterPlayerController::PerformToggleEscapeMenuAction);
 		InputComponent->BindAction("ToggleInventory", IE_Pressed, this, &APastaWaterPlayerController::PerformToggleInventoryAction);
 		InputComponent->BindAction("Primary", IE_Pressed, this, &APastaWaterPlayerController::PerformPrimaryAction);
+		InputComponent->BindAction("HotbarPrevious", IE_Pressed, this, &APastaWaterPlayerController::PerformHotbarPreviousAction);
+		InputComponent->BindAction("HotbarNext", IE_Pressed, this, &APastaWaterPlayerController::PerformHotbarNextAction);
 	}
 }
 
@@ -70,6 +72,19 @@ void APastaWaterPlayerController::PerformPrimaryAction()
 	PlayerInteractorAC->DrawDebugInteractLine();
 	IInteractorInterface::Execute_Interact(PlayerInteractorAC);
 }
+
+void APastaWaterPlayerController::PerformHotbarPreviousAction()
+{
+	UDebugHelpers::ScreenLogInfo("Selecting previous hotbar item.");
+	PlayerInventoryAC->SelectNextHotbarIndex();
+}
+
+void APastaWaterPlayerController::PerformHotbarNextAction()
+{
+	UDebugHelpers::ScreenLogInfo("Selecting next hotbar item.");
+	PlayerInventoryAC->SelectPreviousHotbarIndex();
+}
+
 
 void APastaWaterPlayerController::EnableAllInputs()
 {

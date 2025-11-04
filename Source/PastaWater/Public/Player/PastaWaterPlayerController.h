@@ -55,7 +55,7 @@ public:
 
 	// Lifecycle
 	virtual void BeginPlay() override;
-	
+
 	virtual void SetupInputComponent() override;
 	virtual void OnPossess(APawn* InPawn) override;
 	virtual void OnUnPossess() override;
@@ -64,6 +64,8 @@ public:
 	void PerformToggleEscapeMenuAction();
 	void PerformToggleInventoryAction();
 	void PerformPrimaryAction();
+	void PerformHotbarPreviousAction();
+	void PerformHotbarNextAction();
 	virtual void EnableAllInputs() override;
 	virtual void DisableAllInputs() override;
 

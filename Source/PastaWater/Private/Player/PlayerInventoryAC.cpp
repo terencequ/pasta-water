@@ -18,6 +18,7 @@ void UPlayerInventoryAC::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& O
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 	DOREPLIFETIME(UPlayerInventoryAC, HotbarItemStacks);
 	DOREPLIFETIME(UPlayerInventoryAC, MouseItemStack);
+	DOREPLIFETIME(UPlayerInventoryAC, CurrentSelectedHotbarIndex);
 }
 
 void UPlayerInventoryAC::Init(int HotbarSize, int InventorySize)
@@ -31,14 +32,18 @@ void UPlayerInventoryAC::OnRep_MaxHotbarSize()
 {
 }
 
-void UPlayerInventoryAC::OnRep_HotbarItemStacks()
+void UPlayerInventoryAC::OnRep_HotbarItemStacks() const
 {
 	UpdateInventoryDelegate.Broadcast(Execute_GetAllItemStacks(this));
 }
 
-void UPlayerInventoryAC::OnRep_MouseItemStack()
+void UPlayerInventoryAC::OnRep_MouseItemStack() const
 {
 	UpdateInventoryDelegate.Broadcast(Execute_GetAllItemStacks(this));
+}
+
+void UPlayerInventoryAC::OnRep_CurrentSelectedHotbarIndex() const
+{
 }
 
 FItemStack UPlayerInventoryAC::GetItemStackAtIndex_Implementation(const int Index) const
@@ -116,4 +121,26 @@ void UPlayerInventoryAC::SetItemStackAtIndex_Implementation(const int Index, con
 int UPlayerInventoryAC::GetContainerSize_Implementation() const
 {
 	return MaxInventorySize + MaxHotbarSize; // Inventory + Hotbar
+}
+
+void UPlayerInventoryAC::SelectNextHotbarIndex()
+{
+	CurrentSelectedHotbarIndex = (CurrentSelectedHotbarIndex - 1 + MaxHotbarSize) % MaxHotbarSize;
+	UpdateHotbarSelectionDelegate.Broadcast(CurrentSelectedHotbarIndex);
+}
+
+void UPlayerInventoryAC::SelectPreviousHotbarIndex()
+{
+	CurrentSelectedHotbarIndex = (CurrentSelectedHotbarIndex + 1) % MaxHotbarSize;
+	UpdateHotbarSelectionDelegate.Broadcast(CurrentSelectedHotbarIndex);
+}
+
+FItemStack UPlayerInventoryAC::GetItemStackAtSelectedHotbarIndex() const
+{
+	return HotbarItemStacks[CurrentSelectedHotbarIndex];
+}
+
+int UPlayerInventoryAC::GetCurrentSelectedHotbarIndex() const
+{
+	return CurrentSelectedHotbarIndex;
 }
