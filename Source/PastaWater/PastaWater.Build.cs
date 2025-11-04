@@ -8,9 +8,25 @@ public class PastaWater : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 	
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "OnlineSubsystem", "OnlineSubsystem", "UMG" });
-		PrivateDependencyModuleNames.AddRange(new string[] { "Slate", "SlateCore", "OnlineSubsystem", "OnlineSubsystemUtils", "OnlineSubsystemNull", "OnlineSubsystemSteam", "MLAdapter" });
+		PublicDependencyModuleNames.AddRange(new []
+		{
+			"Core",
+			"CoreUObject",
+			"Engine",
+			"InputCore",
+			"Slate",
+			"SlateCore",
+			"UMG",
+			"OnlineSubsystem",
+			"OnlineSubsystemUtils"
+		});
 
+		PrivateDependencyModuleNames.AddRange(new []
+		{
+			"ApplicationCore",    // For Clipboard / FGenericPlatformApplicationMisc
+			"OnlineSubsystemSteam",
+		});
+		
 		MinFilesUsingPrecompiledHeaderOverride = 1;
 		bUseUnity = true;
 	}

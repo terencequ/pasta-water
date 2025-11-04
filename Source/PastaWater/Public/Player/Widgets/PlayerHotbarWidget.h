@@ -15,12 +15,21 @@ class PASTAWATER_API UPlayerHotbarWidget : public UInventoryWidget
 	GENERATED_BODY()
 
 public:
+	virtual void NativeConstruct() override;
+	
+	UPROPERTY(BlueprintReadWrite, meta=(BindWidget))
+	UImage* HotbarHighlighter;
+	
 	UFUNCTION(BlueprintCallable)
 	virtual bool CreateInventorySlots(const FString WidgetId) override;
 
 	UFUNCTION(BlueprintCallable)
 	virtual bool UpdateInventorySlots() override;
+
+	UFUNCTION(BlueprintCallable)
+	void OnUpdateHotbarSelection(int CurrentSelectedHotbarIndex);
 	
+	UFUNCTION(BlueprintCallable)
 	static UPlayerHotbarWidget* Create(TSubclassOf<UPlayerHotbarWidget> PlayerInventoryWidgetClass,
 	                            APastaWaterPlayerControllerBase* OwningPlayerController,
 	                            UPlayerInventoryAC* OwningPlayerInventoryAC);

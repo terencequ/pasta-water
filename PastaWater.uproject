@@ -33,6 +33,10 @@
 			"Enabled": true
 		},
 		{
+			"Name": "OnlineServices",
+			"Enabled": true
+		},
+		{
 			"Name": "OnlineFramework",
 			"Enabled": true
 		}
