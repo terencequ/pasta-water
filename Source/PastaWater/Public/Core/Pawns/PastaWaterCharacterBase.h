@@ -17,7 +17,7 @@ class PASTAWATER_API APastaWaterCharacterBase : public ACharacter, public IMovab
 	GENERATED_BODY()
 
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Input")
 	float MouseSensitivity = 1.0f;
 
 	// Sets default values for this character's properties
@@ -31,10 +31,12 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	
-	virtual void PerformJumpAction_Implementation() override;
+	// IMovableInterface implementation
+	virtual void PerformJump_Implementation() override;
 	
 	virtual void PerformMoveForwardBackward_Implementation(const float AxisValue) override;
 	

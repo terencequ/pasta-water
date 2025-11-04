@@ -3,7 +3,7 @@
 
 APastaWaterPlayerController::APastaWaterPlayerController() : APastaWaterPlayerControllerBase()
 {
-	SetReplicates(true);
+	bReplicates = true;
 	bOnlyRelevantToOwner = true;
 	
 	// Actor component registration
@@ -21,6 +21,7 @@ void APastaWaterPlayerController::BeginPlay()
 	if(IsLocalController())
 	{
 		// UI initialization
+		InitialiseCrosshairUI();
 		InitialiseEscapeMenuUI();
 		InitialiseInteractPromptUI();
 		InitialiseInventoryUI();
@@ -30,15 +31,15 @@ void APastaWaterPlayerController::BeginPlay()
 void APastaWaterPlayerController::SetupInputComponent()
 {
 	Super::SetupInputComponent();
-	
+
 	// Input binds
-	if(InputComponent)
+	if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(InputComponent))
 	{
-		InputComponent->BindAction("ToggleEscapeMenu", IE_Pressed, this, &APastaWaterPlayerController::PerformToggleEscapeMenuAction);
-		InputComponent->BindAction("ToggleInventory", IE_Pressed, this, &APastaWaterPlayerController::PerformToggleInventoryAction);
-		InputComponent->BindAction("Primary", IE_Pressed, this, &APastaWaterPlayerController::PerformPrimaryAction);
-		InputComponent->BindAction("HotbarPrevious", IE_Pressed, this, &APastaWaterPlayerController::PerformHotbarPreviousAction);
-		InputComponent->BindAction("HotbarNext", IE_Pressed, this, &APastaWaterPlayerController::PerformHotbarNextAction);
+		EnhancedInputComponent->BindAction(ToggleEscapeMenuInputAction, ETriggerEvent::Started, this, &APastaWaterPlayerController::PerformToggleEscapeMenuAction);
+		EnhancedInputComponent->BindAction(ToggleInventoryInputAction, ETriggerEvent::Started, this, &APastaWaterPlayerController::PerformToggleInventoryAction);
+		EnhancedInputComponent->BindAction(PrimaryInputAction, ETriggerEvent::Started, this, &APastaWaterPlayerController::PerformPrimaryAction);
+		EnhancedInputComponent->BindAction(HotbarPreviousInputAction, ETriggerEvent::Triggered, this, &APastaWaterPlayerController::PerformHotbarPreviousAction);
+		EnhancedInputComponent->BindAction(HotbarNextInputAction, ETriggerEvent::Triggered, this, &APastaWaterPlayerController::PerformHotbarNextAction);
 	}
 }
 
@@ -51,8 +52,6 @@ void APastaWaterPlayerController::OnUnPossess()
 {
 	Super::OnUnPossess();
 }
-
-
 
 // Inputs
 void APastaWaterPlayerController::PerformToggleEscapeMenuAction()
@@ -142,6 +141,16 @@ void APastaWaterPlayerController::ToggleInventoryUI()
 	if(PlayerInventoryWidget->GetVisibility() == ESlateVisibility::Hidden)
 	{
 		PlayerInventoryWidget->OnCloseInventory();
+	}
+}
+
+// User Interface - Crosshair
+void APastaWaterPlayerController::InitialiseCrosshairUI()
+{
+	PlayerCrosshairWidget = UUserWidget::CreateWidgetInstance(*this, PlayerCrosshairWidgetClass, TEXT("Player Crosshair"));
+	if(IsValid(PlayerCrosshairWidget))
+	{
+		PlayerCrosshairWidget->AddToViewport();
 	}
 }
 

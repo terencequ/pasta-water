@@ -22,7 +22,7 @@ void APastaWaterCharacterBase::SetupPlayerInputComponent(UInputComponent* Player
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 }
 
-void APastaWaterCharacterBase::PerformJumpAction_Implementation()
+void APastaWaterCharacterBase::PerformJump_Implementation()
 {
 	Jump();
 }
