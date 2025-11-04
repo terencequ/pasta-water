@@ -18,7 +18,8 @@ public class PastaWater : ModuleRules
 			"SlateCore",
 			"UMG",
 			"OnlineSubsystem",
-			"OnlineSubsystemUtils"
+			"OnlineSubsystemUtils",
+			"EnhancedInput"
 		});
 
 		PrivateDependencyModuleNames.AddRange(new []

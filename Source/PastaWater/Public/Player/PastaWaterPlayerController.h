@@ -19,9 +19,30 @@ class PASTAWATER_API APastaWaterPlayerController : public APastaWaterPlayerContr
 
 public:
 	// Inputs
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Input Actions")
+	UInputAction* PrimaryInputAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Input Actions")
+	UInputAction* ToggleInventoryInputAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Input Actions")
+	UInputAction* ToggleEscapeMenuInputAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Input Actions")
+	UInputAction* HotbarPreviousInputAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Input Actions")
+	UInputAction* HotbarNextInputAction;
+	
 	UPROPERTY(BlueprintReadWrite, Category="Input Toggle")
 	bool PrimaryActionEnabled = true;
 
+	// Crosshair
+	UPROPERTY(BlueprintReadWrite, Category="User Interface - Crosshair")
+	UUserWidget* PlayerCrosshairWidget;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="User Interface - Crosshair")
+	TSubclassOf<UUserWidget> PlayerCrosshairWidgetClass;
+	
 	// Escape Menu
 	UPROPERTY(BlueprintReadWrite, Category="User Interface - Escape Menu")
 	UPlayerEscapeMenuWidget* PlayerEscapeMenuWidget;
@@ -68,6 +89,9 @@ public:
 	void PerformHotbarNextAction();
 	virtual void EnableAllInputs() override;
 	virtual void DisableAllInputs() override;
+	
+	// User Interface - Crosshair
+	void InitialiseCrosshairUI();
 
 	// User Interface - Escape Menu
 	void InitialiseEscapeMenuUI();

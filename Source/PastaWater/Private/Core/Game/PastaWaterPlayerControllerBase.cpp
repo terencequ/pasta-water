@@ -15,19 +15,25 @@ void APastaWaterPlayerControllerBase::BeginPlay()
 {
 	Super::BeginPlay();
 	PastaWaterCharacter = Cast<APastaWaterCharacterBase>(GetCharacter());
+	if (ULocalPlayer* LocalPlayer = Cast<ULocalPlayer>(Player))
+	{
+		if (UEnhancedInputLocalPlayerSubsystem* InputSystem = LocalPlayer->GetSubsystem<UEnhancedInputLocalPlayerSubsystem>())
+		{
+			InputSystem->AddMappingContext(DefaultMappingContext, 0);
+		}
+	}
 }
 
 void APastaWaterPlayerControllerBase::SetupInputComponent()
 {
 	Super::SetupInputComponent();
-	// Input binds
-	if(InputComponent)
+
+	// Cast to Enhanced Input Component
+	if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(InputComponent))
 	{
-		InputComponent->BindAction("Jump", IE_Pressed, this, &APastaWaterPlayerControllerBase::PerformJumpAction);
-		InputComponent->BindAxis("MoveForwardBackward", this, &APastaWaterPlayerControllerBase::PerformMoveForwardBackward);
-		InputComponent->BindAxis("MoveRightLeft", this, &APastaWaterPlayerControllerBase::PerformMoveRightLeft);
-		InputComponent->BindAxis("LookPitch", this, &APastaWaterPlayerControllerBase::PerformLookPitch);
-		InputComponent->BindAxis("LookYaw", this, &APastaWaterPlayerControllerBase::PerformLookYaw);
+		EnhancedInputComponent->BindAction(MoveInputAction, ETriggerEvent::Triggered, this, &APastaWaterPlayerControllerBase::PerformMove);
+		EnhancedInputComponent->BindAction(LookInputAction, ETriggerEvent::Triggered, this, &APastaWaterPlayerControllerBase::PerformLook);
+		EnhancedInputComponent->BindAction(JumpInputAction, ETriggerEvent::Started, this, &APastaWaterPlayerControllerBase::PerformJump);
 	}
 }
 
@@ -86,39 +92,29 @@ void APastaWaterPlayerControllerBase::Tick(float DeltaTime)
 }
 
 // Input bindings
-void APastaWaterPlayerControllerBase::PerformJumpAction()
+void APastaWaterPlayerControllerBase::PerformJump(const FInputActionValue& Value)
 {
 	if(!JumpActionEnabled) return;
 	if(!IsValid(PastaWaterCharacter)) return;
-	IMovableInterface::Execute_PerformJumpAction(PastaWaterCharacter);
+	IMovableInterface::Execute_PerformJump(PastaWaterCharacter);
 }
 
-void APastaWaterPlayerControllerBase::PerformMoveRightLeft(const float AxisValue)
+void APastaWaterPlayerControllerBase::PerformMove(const FInputActionValue& Value)
 {
 	if(!MovementEnabled) { return; }
 	if(!IsValid(PastaWaterCharacter)) return;
-	IMovableInterface::Execute_PerformMoveRightLeft(PastaWaterCharacter, AxisValue);
+	FVector2D MoveValue = Value.Get<FVector2D>();
+	IMovableInterface::Execute_PerformMoveRightLeft(PastaWaterCharacter, MoveValue.X);
+	IMovableInterface::Execute_PerformMoveForwardBackward(PastaWaterCharacter, MoveValue.Y);
 }
 
-void APastaWaterPlayerControllerBase::PerformMoveForwardBackward(const float AxisValue)
-{
-	if(!MovementEnabled) { return; }
-	if(!IsValid(PastaWaterCharacter)) return;
-	IMovableInterface::Execute_PerformMoveForwardBackward(PastaWaterCharacter, AxisValue);
-}
-
-void APastaWaterPlayerControllerBase::PerformLookPitch(const float AxisValue)
+void APastaWaterPlayerControllerBase::PerformLook(const FInputActionValue& Value)
 {
 	if(!LookingEnabled) { return; }
 	if(!IsValid(PastaWaterCharacter)) return;
-	IMovableInterface::Execute_PerformLookPitch(PastaWaterCharacter, AxisValue);
-}
-
-void APastaWaterPlayerControllerBase::PerformLookYaw(const float AxisValue)
-{
-	if(!LookingEnabled) { return; }
-	if(!IsValid(PastaWaterCharacter)) return;
-	IMovableInterface::Execute_PerformLookYaw(PastaWaterCharacter, AxisValue);
+	FVector2D LookValue = Value.Get<FVector2D>();
+	IMovableInterface::Execute_PerformLookYaw(PastaWaterCharacter, LookValue.X);
+	IMovableInterface::Execute_PerformLookPitch(PastaWaterCharacter, LookValue.Y * -1);
 }
 
 // Input control

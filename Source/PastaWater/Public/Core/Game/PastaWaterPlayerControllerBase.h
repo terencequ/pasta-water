@@ -6,7 +6,11 @@
 #include "Components/Widget.h"
 #include "Core/Pawns/PastaWaterCharacterBase.h"
 #include "GameFramework/PlayerController.h"
+#include "EnhancedInputComponent.h"
+#include "EnhancedInputSubsystems.h"
+#include "InputMappingContext.h"
 #include "PastaWaterPlayerControllerBase.generated.h"
+
 
 /**
  * Main player controller for a player in Pasta Water.
@@ -19,6 +23,19 @@ class PASTAWATER_API APastaWaterPlayerControllerBase : public APlayerController
 public:
 	UPROPERTY(BlueprintReadWrite, Category="Inventory Actor Components")
 	APastaWaterCharacterBase* PastaWaterCharacter;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Input")
+	UInputMappingContext* DefaultMappingContext;
+
+	// Inputs
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Input Actions")
+	UInputAction* MoveInputAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Input Actions")
+	UInputAction* LookInputAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Input Actions")
+	UInputAction* JumpInputAction;
 	
 	UPROPERTY(BlueprintReadWrite, Category="Input Toggle")
 	bool LookingEnabled = true;
@@ -46,15 +63,11 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	// Input bindings
-	void PerformJumpAction();
-
-	void PerformMoveRightLeft(float AxisValue);
+	void PerformJump(const FInputActionValue& Value);
 	
-	void PerformMoveForwardBackward(float AxisValue);
+	void PerformMove(const FInputActionValue& Value);
 
-	void PerformLookPitch(float AxisValue);
-
-	void PerformLookYaw(float AxisValue);
+	void PerformLook(const FInputActionValue& Value);
 
 	// Input control
 	/**

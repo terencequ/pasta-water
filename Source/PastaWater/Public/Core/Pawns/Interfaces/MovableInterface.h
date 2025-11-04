@@ -19,7 +19,7 @@ class PASTAWATER_API IMovableInterface
 
 public:
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category="Actions")
-	void PerformJumpAction();
+	void PerformJump();
 
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category="Movement")
 	void PerformMoveForwardBackward(const float AxisValue);
